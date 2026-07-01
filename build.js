@@ -139,7 +139,7 @@ const svcCard = s => `<a class="svc-card" href="/services/${s.id}/" style="borde
     </a>`;
 const cityReviews = c => { const m = REVIEWS.filter(r=>r.town.indexOf(c.name)===0); const rest = REVIEWS.filter(r=>r.town.indexOf(c.name)!==0); return m.concat(rest).slice(0,3); };
 
-const page = ({title, desc, active, body, cta = true, schema}) => {
+const page = ({title, desc, active, body, cta = true, schema, noindex = false}) => {
   const ld = (schema || [localBusinessSchema()]).map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n');
   return (`<!DOCTYPE html>
 <html lang="en"><head>
@@ -147,14 +147,27 @@ const page = ({title, desc, active, body, cta = true, schema}) => {
 <title>${title}</title>
 <meta name="description" content="${desc}">
 <link rel="icon" href="/images/favicon.png">
+<link rel="apple-touch-icon" href="/images/favicon.png">
+<link rel="canonical" href="__CANONICAL__">
+<meta name="theme-color" content="#141416">${noindex ? '\n<meta name="robots" content="noindex">' : ''}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DMAK'S HVAC LLC">
+<meta property="og:title" content="${title}">
+<meta property="og:description" content="${desc}">
+<meta property="og:url" content="__CANONICAL__">
+<meta property="og:image" content="${SITE}/images/DSC07682-scaled.jpeg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=Archivo:wght@500;600;700;800;900&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 ${ld}
 </head><body>
+<a class="skip-link" href="#main">Skip to content</a>
 ${header(active)}
+<main id="main">
 ${body}
 ${cta ? ctaBand() : ''}
+</main>
 ${footer()}
 <script src="/app.js"></script>
 </body></html>`).replace(/\s*—\s*/g, ', ');
@@ -360,7 +373,7 @@ const contact = () => page({ active:'contact', cta:false,
       <div class="cd">dan@dmakshvac.com<br>812 Sherman Ave, Edwardsville, IL 62025</div>
       <div class="hours"><div class="k">HOURS</div>Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p<br><b>24/7 emergency service available</b></div>
     </div>
-    <form class="form-card" name="quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/contact/?sent=1">
+    <form class="form-card" name="quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks/">
       <input type="hidden" name="form-name" value="quote">
       <p style="display:none"><label>Skip if human: <input name="bot-field"></label></p>
       <div class="k">Free quote in 60 seconds</div>
@@ -403,17 +416,38 @@ const cityPage = c => page({ active:'area', cta:true,
 </div></section>
 <section class="band-cream" style="padding:0 0 56px"><div class="wrap"><div class="map"><iframe loading="lazy" title="${c.name} service area map" src="https://www.google.com/maps?q=${encodeURIComponent(c.name+', '+c.st)}&z=12&output=embed"></iframe></div></div></section>` });
 
+const thanksPage = () => page({ active:'', cta:false, noindex:true,
+  title:"Thanks, we got your request | DMAK'S HVAC",
+  desc:"Thanks for reaching out to DMAK'S HVAC. A real person will get back to you soon, usually within the hour.",
+  body:`
+<section class="band band-dark" style="padding:90px 0;text-align:center"><div class="wrap">
+  <span class="eyebrow">Request received</span>
+  <h1 class="page-h1">Thanks, we've got it.</h1>
+  <p class="lead" style="margin:16px auto 26px;max-width:480px">A real person will get back to you soon, usually within the hour. If it's urgent, call us and we'll pick up.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/">Back home</a></div>
+</div></section>` });
+
+const notFoundPage = () => page({ active:'', cta:true, noindex:true,
+  title:"Page not found | DMAK'S HVAC",
+  desc:"That page moved or never existed. Head back home or contact DMAK'S HVAC.",
+  body:`
+<section class="band band-dark" style="padding:90px 0;text-align:center"><div class="wrap">
+  <span class="eyebrow">404</span>
+  <h1 class="page-h1">Page not found</h1>
+  <p class="lead" style="margin:16px auto 26px;max-width:460px">That page moved or never existed. Let's get you back on track.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><a class="btn btn-red" href="/">Back home</a><a class="btn btn-outline" href="/contact/">Contact us</a></div>
+</div></section>` });
+
 // ---------- write ----------
 const write = (rel, html) => {
   const dir = path.join(ROOT, rel);
   fs.mkdirSync(dir, { recursive: true });
-  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  const url = rel === '.' ? SITE + '/' : SITE + '/' + rel + '/';
+  fs.writeFileSync(path.join(dir, 'index.html'), html.replace(/__CANONICAL__/g, url));
   return rel + '/index.html';
 };
 const out = [];
-out.push(write('.', home()).replace('./', '') || 'index.html');
-fs.writeFileSync(path.join(ROOT, 'index.html'), home()); // ensure root index
-out.push('index.html');
+out.push(write('.', home()));
 out.push(write('services', servicesOverview()));
 SERVICES.forEach(s => out.push(write('services/' + s.id, serviceDetail(s))));
 out.push(write('about', about()));
@@ -421,4 +455,13 @@ out.push(write('service-area', area()));
 AREAS.forEach(c => out.push(write('service-area/' + c.slug, cityPage(c))));
 out.push(write('reviews', reviews()));
 out.push(write('contact', contact()));
-console.log('Generated pages:\n' + [...new Set(out)].sort().map(p => '  ' + p).join('\n'));
+out.push(write('thanks', thanksPage()));
+
+const URLS = ['/', '/services/', '/about/', '/service-area/', '/reviews/', '/contact/']
+  .concat(SERVICES.map(s => '/services/' + s.id + '/'))
+  .concat(AREAS.map(c => '/service-area/' + c.slug + '/'));
+fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
+fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${URLS.map(u => `  <url><loc>${SITE}${u}</loc></url>`).join('\n')}\n</urlset>\n`);
+fs.writeFileSync(path.join(ROOT, '404.html'), notFoundPage().replace(/__CANONICAL__/g, SITE + '/404'));
+console.log('Generated pages:\n' + [...new Set(out)].sort().map(p => '  ' + p).join('\n') + '\n  + robots.txt, sitemap.xml, 404.html');
