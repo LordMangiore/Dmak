@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = __dirname;
-const PHONE = '(618) 278-8219', TEL = 'tel:+16182788219';
+const PHONE = '(314) 420-9851', TEL = 'tel:+13144209851';
 const RED = '#CE3F26', BLUE = '#2E76AE', ORANGE = '#E0823F';
 const amp = s => String(s).replace(/&(?![a-z]+;)/gi, '&amp;');
 const img = p => '/images/' + p.replace(/^uploads\//, '');
@@ -110,7 +110,7 @@ const reviewCard = (r, town) => `<div class="review"><div class="stars">★★�
 const SITE = 'https://www.dmakshvac.com';
 const localBusinessSchema = () => ({
   "@context":"https://schema.org","@type":"HVACBusiness","@id":SITE+"/#business",
-  "name":"DMAK'S HVAC LLC","telephone":"+16182788219","email":"dan@dmakshvac.com",
+  "name":"DMAK'S HVAC LLC","telephone":"+13144209851","email":"dan@dmakshvac.com",
   "url":SITE+"/","image":SITE+"/images/logo.png","priceRange":"$$",
   "address":{"@type":"PostalAddress","streetAddress":"812 Sherman Ave","addressLocality":"Edwardsville","addressRegion":"IL","postalCode":"62025","addressCountry":"US"},
   "geo":{"@type":"GeoCoordinates","latitude":38.8114,"longitude":-89.9532},
@@ -125,7 +125,7 @@ const localBusinessSchema = () => ({
 const serviceSchema = svc => ({
   "@context":"https://schema.org","@type":"Service","serviceType":svc.name.replace(/&/g,'and'),
   "name":svc.name.replace(/&/g,'and'),"description":svc.tagline,
-  "provider":{"@type":"HVACBusiness","name":"DMAK'S HVAC LLC","telephone":"+16182788219","url":SITE+"/"},
+  "provider":{"@type":"HVACBusiness","name":"DMAK'S HVAC LLC","telephone":"+13144209851","url":SITE+"/"},
   "areaServed":AREAS.map(a=>a.name+", "+a.st),"url":SITE+"/services/"+svc.id+"/"
 });
 const breadcrumbSchema = items => ({
@@ -193,7 +193,7 @@ const solver = () => `<div class="solver">
 
 const home = () => page({ active:'', cta:true,
   title:"DMAK'S HVAC — Heating & Cooling in Edwardsville, IL | Same-Day Repairs",
-  desc:"Family-owned, fully licensed HVAC in Edwardsville IL & the Metro East. Same-day heating & cooling repairs, honest pricing, 4.9★ on Google. Call (618) 278-8219.",
+  desc:"Family-owned, fully licensed HVAC in Edwardsville IL & the Metro East. Same-day heating & cooling repairs, honest pricing, 4.9★ on Google. Call (314) 420-9851.",
   body:`
 <section class="band band-dark pos hero" style="padding:60px 0 64px">
   <span class="blob blob-red"></span><span class="blob blob-blue"></span>
@@ -246,7 +246,7 @@ function BLUE_L(){ return '#6FB1DE'; }
 
 const servicesOverview = () => page({ active:'services', cta:true,
   title:"HVAC Services in Edwardsville & the Metro East | DMAK'S HVAC",
-  desc:"Heating, cooling, humidifiers, system installs, and maintenance from a family-owned Metro East HVAC team. Honest pricing, same-day repairs. (618) 278-8219.",
+  desc:"Heating, cooling, humidifiers, system installs, and maintenance from a family-owned Metro East HVAC team. Honest pricing, same-day repairs. (314) 420-9851.",
   body:`
 <section class="band band-dark pos" style="padding:60px 0"><span class="blob blob-red" style="right:-80px;top:-70px;width:360px;height:360px"></span>
   <div class="wrap"><span class="eyebrow">WHAT WE DO</span>
@@ -360,8 +360,8 @@ const reviews = () => page({ active:'reviews', cta:true,
 </div></section>` });
 
 const contact = () => page({ active:'contact', cta:false,
-  title:"Contact DMAK'S HVAC — Free Quote | (618) 278-8219",
-  desc:"Call (618) 278-8219 or request a free quote from DMAK'S HVAC. A real person gets back to you — usually within the hour. Serving Edwardsville & the Metro East.",
+  title:"Contact DMAK'S HVAC — Free Quote | (314) 420-9851",
+  desc:"Call (314) 420-9851 or request a free quote from DMAK'S HVAC. A real person gets back to you — usually within the hour. Serving Edwardsville & the Metro East.",
   body:`
 <section class="band-red" style="padding:60px 0"><div class="wrap">
   <div class="contact-grid">
@@ -392,7 +392,7 @@ const contact = () => page({ active:'contact', cta:false,
 
 const cityPage = c => page({ active:'area', cta:true,
   title:`HVAC in ${c.name}, ${c.st} — Heating & Cooling | DMAK'S HVAC`,
-  desc:`Fast, honest HVAC in ${c.name}, ${c.st}. Furnace & AC repair, installs, humidifiers, and tune-ups from family-owned DMAK'S HVAC. Call (618) 278-8219.`,
+  desc:`Fast, honest HVAC in ${c.name}, ${c.st}. Furnace & AC repair, installs, humidifiers, and tune-ups from family-owned DMAK'S HVAC. Call (314) 420-9851.`,
   schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Service Area','/service-area/'],[c.name+', '+c.st,'/service-area/'+c.slug+'/']])],
   body:`
 <section class="band band-dark pos sd-hero" style="padding:56px 0 60px"><div class="wrap">
