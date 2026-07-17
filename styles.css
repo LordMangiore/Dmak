@@ -4,7 +4,7 @@
   --red:#CE3F26; --blue:#2E76AE; --lblue:#6FB1DE; --orange:#E0823F;
   --panel:#1f1f23; --panel2:#27272c; --pbord:#2e2e34; --pbord2:#34343a;
   --md1:#b8b8be; --md2:#c9c9cd; --md3:#9b9ba1;
-  --ml1:#6a655d; --ml2:#4a453e; --ml3:#8a857c;
+  --ml1:#6a655d; --ml2:#4a453e; --ml3:#6f6a62;
   --inb:#e2ddd5; --inb2:#e4e0d8;
   --maxw:1200px;
   --glow:0 12px 30px rgba(206,63,38,.4);
@@ -72,8 +72,11 @@ h1,h2,h3,h4{font-family:'Archivo',sans-serif;margin:0;letter-spacing:-.01em}
 .hero .lead{font:400 18px/1.55 'Mulish';color:var(--md1);max-width:430px;margin:22px 0 0}
 .hero .actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
 .trust{position:relative;display:flex;gap:40px;flex-wrap:wrap;margin-top:44px;padding-top:26px;border-top:1px solid #2a2a30;font:700 14px 'Mulish';color:var(--md2)}
-.trust span{display:flex;align-items:center;gap:8px}
+.trust span,.trust-link{display:flex;align-items:center;gap:8px}
 .trust b{font:900 20px 'Archivo'}
+.trust-link{color:var(--md2)}
+.trust-link:hover{color:#fff}
+.trust-link:hover b{text-decoration:underline}
 
 /* Solver widget */
 .solver{background:var(--panel);border:1px solid var(--pbord);border-radius:20px;padding:26px}
@@ -137,8 +140,10 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
 .review p{font:400 14px/1.55 'Mulish';color:#3a352e;margin:10px 0 0}
 .review .nm{font:800 13px 'Archivo';margin-top:12px}
 .review .tw{font:600 12px 'Mulish';color:var(--ml3);margin-top:2px}
-.rev-score{font:700 14px 'Mulish';color:var(--ml1)}
+.rev-score{display:inline-flex;align-items:center;gap:7px;font:700 14px 'Mulish';color:var(--ml1)}
 .rev-score b{color:var(--orange);font:900 16px 'Archivo'}
+.rev-score:hover{color:var(--ink)}
+.rev-score:hover b{text-decoration:underline}
 
 /* Services overview rows */
 .svc-rows{display:grid;grid-template-columns:1fr 1fr;gap:18px}
@@ -224,21 +229,59 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
 .form-card button{margin-top:3px}
 .form-fine{text-align:center;font:500 12px 'Mulish';color:var(--ml3);margin-top:12px}
 
+/* Schedule form */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:0 11px}
+.field-label{display:block;font:800 11px 'Mulish';letter-spacing:.08em;color:var(--ml3);text-transform:uppercase;margin:2px 0 8px}
+.radio-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:13px}
+.radio-pill{display:flex;align-items:center;gap:8px;border:1px solid var(--inb);border-radius:999px;padding:10px 16px;font:700 13px 'Mulish';color:#3a352e;cursor:pointer;background:var(--cream);transition:.14s}
+.radio-pill:hover{border-color:var(--red)}
+.radio-pill:has(input:checked){border-color:var(--red);box-shadow:inset 0 0 0 1px var(--red)}
+.radio-pill input{accent-color:var(--red);margin:0;width:auto}
+.form-card input[type=date]{-webkit-appearance:none;appearance:none;min-height:49px}
+
+/* Service×city pages */
+.local-note{margin-top:22px;background:#fff;border-left:4px solid var(--red);border-radius:12px;padding:18px 20px;box-shadow:var(--cardsh)}
+.local-note .k{font:800 12px 'Mulish';letter-spacing:.12em}
+.local-note p{font:400 14px/1.6 'Mulish';color:#3a352e;margin:8px 0 0}
+.faqs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.faq{background:#fff;border-radius:14px;padding:20px 22px;box-shadow:var(--cardsh)}
+.faq .q{font:800 15px 'Mulish';color:var(--ink)}
+.faq p{font:400 14px/1.6 'Mulish';color:#3a352e;margin:8px 0 0}
+
+#quote{scroll-margin-top:84px}
+
+/* Privacy / legal prose */
+.prose{max-width:720px}
+.prose h2{font:900 22px 'Archivo';text-transform:uppercase;margin:28px 0 10px}
+.prose h2:first-child{margin-top:0}
+.prose p{font:400 15px/1.7 'Mulish';color:#3a352e;margin:10px 0}
+.prose a{color:var(--red);font-weight:700}
+
+/* Hero secondary link */
+.hero-book{display:inline-block;margin-top:16px;font:700 14px 'Mulish';color:var(--lblue)}
+.hero-book:hover{text-decoration:underline}
+.sv-links{display:flex;justify-content:center;gap:20px;margin-top:12px}
+.sv-links .sv-quote{margin-top:0}
+
 /* CTA band + footer */
 .cta{display:flex;align-items:center;justify-content:space-between;gap:30px;flex-wrap:wrap;padding-top:48px;padding-bottom:48px}
 .cta h2{font:900 34px 'Archivo';text-transform:uppercase;margin:0}
 .cta p{font:400 16px 'Mulish';color:var(--md1);margin:8px 0 0}
 .cta .actions{display:flex;gap:14px;flex-wrap:wrap}
 .cta .btn-red{box-shadow:none}
+.cta-hours{font:600 13px 'Mulish';color:var(--md3);margin-top:8px}
+.cta-hours b{color:#fff}
 .footer{background:var(--ink);color:var(--md3);border-top:1px solid #2a2a30}
 .footer .grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;padding-top:40px;padding-bottom:40px}
 .footer .bname{font:900 20px 'Archivo';color:#fff}
 .footer .btag{font:700 10px 'Mulish';letter-spacing:.22em;color:var(--lblue);margin-top:5px}
 .footer .blurb{font:400 13px/1.6 'Mulish';margin:14px 0 0;max-width:260px}
-.footer h4{font:800 13px 'Mulish';color:#fff;margin:0 0 12px;letter-spacing:.06em;font-family:'Mulish'}
+.footer h4,.footer .h4{font:800 13px 'Mulish';color:#fff;margin:0 0 12px;letter-spacing:.06em;font-family:'Mulish'}
 .footer a,.footer .li{display:block;font:500 13px 'Mulish';line-height:2;color:var(--md3)}
 .footer a:hover{color:#fff}
 .footer .cd{font:500 13px/2 'Mulish'}
+.footer .cd a{display:inline;color:inherit}
+.footer .cd a:hover{color:#fff}
 
 /* Responsive */
 @media(max-width:1080px){
@@ -262,7 +305,7 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
   .hero .lead{font-size:15px}
   h2.title{font-size:26px}
   .svc-cards{grid-template-columns:1fr 1fr;gap:11px}
-  .svc-rows,.rev-grid,.signs,.gallery,.incl .list,.checks{grid-template-columns:1fr}
+  .svc-rows,.rev-grid,.signs,.gallery,.incl .list,.checks,.faqs,.form-row{grid-template-columns:1fr}
   .svc-row{grid-template-columns:104px 1fr}
   .owner-media{min-height:520px}
   .about-hero .photo{min-height:280px}

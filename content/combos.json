@@ -1,0 +1,986 @@
+[
+ {
+  "slug": "edwardsville",
+  "name": "Edwardsville",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "Edwardsville is home for us — our shop sits right here in town, so when a furnace quits on a January night, we're not driving in from somewhere else. We work on the old houses near downtown and the newer builds out in the subdivisions, and they fail in different ways. Either way, most heating repairs get done the same day, with common parts already on the truck.",
+    "localNote": "In the older homes around downtown Edwardsville we see furnaces limping past their service life; in the newer subdivisions it's more often builder-grade equipment that was installed fast and never dialed in.",
+    "faqs": [
+     {
+      "q": "Can I get same-day furnace repair in Edwardsville?",
+      "a": "Usually, yes. We're based right here in Edwardsville, so most repair calls in town get handled the same day, and we stock common parts on the truck. If your heat's out, tell us when you call and we'll get to you as fast as we can."
+     },
+     {
+      "q": "Should I repair my old furnace or replace it?",
+      "a": "Depends on the age of the unit and what's broken. We'll give you an honest read on both options and a free quote — if a repair will buy you a few more good years, we'll say so. If it's time to replace, we do free in-home estimates and offer financing on installs."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "July around here doesn't mess around. When the humidity settles over the Metro East, an AC that's been struggling all June tends to give up on the hottest week of the year. We repair and replace air conditioners all over Edwardsville, from the historic homes near downtown to the newer subdivisions, and since our shop is in town, help isn't far away.",
+    "localNote": "A lot of the older Edwardsville homes we visit have AC retrofitted into ductwork that was designed for heating, which makes airflow and sizing matter more than usual. In the newer subdivisions, we see builder-grade condensers wearing out sooner than homeowners expect.",
+    "faqs": [
+     {
+      "q": "How fast can you fix an AC in Edwardsville?",
+      "a": "Most calls get same-day service, we're based right in town and keep common parts stocked on the truck. During heat waves we prioritize the homes with no cooling at all and get to them as fast as we can. Call (314) 420-9851 and you get Dan, not a call center."
+     },
+     {
+      "q": "My AC runs but the house never cools down. What's wrong?",
+      "a": "Could be low refrigerant, a weak capacitor, dirty coils, or a system that was undersized to begin with. We'll diagnose it and quote the fix for free, and if the real problem is the unit itself, we'll tell you that straight. No pressure either way."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Winter air in a Metro East home gets bone dry — static shocks, cracked trim, sore throats by February. A whole-home humidifier ties into your existing furnace and fixes that at the source, no tabletop units to refill. We install and service them across Edwardsville, and we'll tell you honestly whether your house actually needs one. If dust or allergies are the bigger problem, we handle whole-home air quality too.",
+    "localNote": "Older Edwardsville houses tend to be drafty, which makes winter dryness worse; tighter new construction has the opposite problem and can trap stale air inside. We see both, and the right fix is different for each.",
+    "faqs": [
+     {
+      "q": "Do you install whole-home humidifiers in Edwardsville?",
+      "a": "Yes — Edwardsville is home base for us. Our shop is here in town, and we install and service whole-home humidifiers across the Metro East and into St. Louis. Quotes are free."
+     },
+     {
+      "q": "Is a whole-home humidifier worth it compared to portable ones?",
+      "a": "For most houses, yes. A whole-home unit mounts on your ductwork, feeds off your water line, and covers every room without daily refilling. We'll size it to your system, and if a portable is really all you need, we'll say so."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Sizing is where most new HVAC systems go wrong, and Edwardsville's mix of housing makes it tricky — a hundred-year-old house near downtown and a five-year-old build in a subdivision need very different equipment. We measure, we ask questions, and we quote honest options instead of just the biggest unit we sell. In-home estimates are free, and financing is available if you need it.",
+    "localNote": "A lot of the systems we replace around Edwardsville were oversized from day one — they cool the house fast, shut off, and never wring the humidity out. Right-sizing the new one fixes comfort problems people assumed they just had to live with.",
+    "faqs": [
+     {
+      "q": "How much does a new HVAC system cost in Edwardsville?",
+      "a": "It depends on the house and the equipment, so we don't quote blind. We do free in-home estimates — Dan comes out, measures, and walks you through honest options at different price points. Financing is available if you'd rather spread it out."
+     },
+     {
+      "q": "Do you install systems outside Edwardsville?",
+      "a": "Yes. We're based in Edwardsville, but we handle installs across the Metro East and over in St. Louis, Missouri. In-home estimates are free anywhere in our service area."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "Nobody thinks about their furnace in September or their AC in April — and that's exactly when we should be looking at them. A seasonal tune-up catches the weak capacitor or the cracked igniter before it strands you in a heat wave or a cold snap. We're based right here in Edwardsville, so getting on the tune-up schedule is easy, and it beats meeting us for the first time on an emergency call.",
+    "localNote": "The Metro East swings from humid summers to single-digit cold snaps, and that whiplash is hard on equipment. Around Edwardsville we also service a fair number of rentals near SIUE, where systems often go years without anyone looking at them.",
+    "faqs": [
+     {
+      "q": "When should I schedule an HVAC tune-up in Edwardsville?",
+      "a": "Spring for the AC, fall for the furnace — before the season puts real load on the equipment. We're open Monday through Friday 7 to 6 and Saturday mornings, and slots fill fastest right as the seasons turn, so calling a few weeks ahead helps."
+     },
+     {
+      "q": "What does a seasonal tune-up actually include?",
+      "a": "We clean the system, test the parts that commonly fail, check refrigerant and airflow, and flag anything wearing out before it breaks. If we find a problem, you get a straight answer and a free quote for the fix — no scare tactics. Most small repairs can happen on the same visit, since we stock common parts on the truck."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "glen-carbon",
+  "name": "Glen Carbon",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "A furnace that quits on a cold January night is not something to ride out. Our shop sits in Edwardsville, right next door to Glen Carbon, so when you call, you get Dan — not a call center — and usually a same-day fix. We work on furnaces and heat pumps in everything from the older ranch homes to the newer subdivisions, and we keep common parts on the truck.",
+    "localNote": "A lot of the ranch homes around Glen Carbon are still running their original or second-generation furnaces, and we see plenty limping through winters they shouldn't. The newer subdivisions mostly have builder-grade equipment that works fine but has rarely been tuned since move-in.",
+    "faqs": [
+     {
+      "q": "Do you offer emergency furnace repair in Glen Carbon?",
+      "a": "Yes, a dead furnace in winter gets treated like the emergency it is. We're based in Edwardsville, right next door, so most repair calls get handled the same day, and we stock common parts on the truck so the first visit is usually the fix."
+     },
+     {
+      "q": "My furnace is getting old — is a repair still worth the money?",
+      "a": "Depends on its age, the repair cost, and how it's been maintained. We'll give you an honest read and a free quote either way — we're not in the business of selling furnaces people don't need. If replacement makes sense, in-home estimates are free and financing is available."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "July around here is no joke. Glen Carbon gets the same thick St. Louis humidity as the rest of the Metro East, and an AC that can't keep up turns a house miserable in a hurry. We repair most systems same-day — the shop is right next door in Edwardsville — and when a unit is truly done, we'll say so plainly and walk you through honest replacement options with a free quote.",
+    "localNote": "We see two patterns in Glen Carbon: older ranch homes with condensers that have put in a lot of hard summers, and newer builds where the builder-grade AC was sized to a spreadsheet, not the house. Both show up as units that run all day and never quite catch up.",
+    "faqs": [
+     {
+      "q": "How fast can you get to an AC repair in Glen Carbon?",
+      "a": "Usually same-day for most calls, Glen Carbon is right next door to our Edwardsville shop. We stock common parts on the truck, so most repairs get finished in one visit. Call early in the day and there's a good chance we're out the same afternoon."
+     },
+     {
+      "q": "Is it worth repairing an AC unit that's over 15 years old?",
+      "a": "Sometimes. If the repair is small and the rest of the system checks out, fixing it can buy you a few more summers. We'll give you a straight answer and a free quote for both routes, and financing is available if replacement wins."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Static shocks in the hallway, cracked trim, a sore throat every morning — that's dry furnace air, and plenty of Glen Carbon homes deal with it all winter. A whole-home humidifier ties into the system you already have and fixes it at the source, no tanks to fill in every bedroom. We also install air quality equipment that cleans the air moving through your ducts, not just one room.",
+    "localNote": "In the older Glen Carbon ranch homes, wood floors and trim take a beating from dry furnace air every winter. In the newer builds it's usually the opposite complaint — tight construction that holds onto stale air and could use better filtration.",
+    "faqs": [
+     {
+      "q": "Do you install whole-home humidifiers in Glen Carbon?",
+      "a": "We do. Glen Carbon is right next door to our Edwardsville shop, so it's an easy trip for us. Quotes are free, and most humidifiers tie into your existing furnace without major work."
+     },
+     {
+      "q": "Do whole-home humidifiers really make a difference?",
+      "a": "In our experience, yes. A properly set whole-home unit holds the entire house at healthy humidity instead of one room at a time, and wood floors, trim, and sinuses all fare better through the winter. We'll size it to your system and show you how to run it."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Nobody wants to buy a new HVAC system, so when the time comes, the least we can do is make it straightforward. We measure the house, size the equipment right, and lay out honest options — no upselling, no pressure. Glen Carbon has everything from older ranch homes to brand-new builds, and the right system for one is the wrong system for the other. In-home estimates are free, and financing is available.",
+    "localNote": "A fair number of the installs we quote in Glen Carbon are replacements for original builder-grade systems that were never sized to the actual house. Getting the sizing right the first time is most of what separates a system that lasts from one that struggles.",
+    "faqs": [
+     {
+      "q": "Do you do free estimates for new HVAC systems in Glen Carbon?",
+      "a": "Yes. In-home estimates for new installs are free, and Glen Carbon is right next door to our shop in Edwardsville. Dan comes out, measures the house, and gives you honest options in plain language — financing is available if you want it."
+     },
+     {
+      "q": "How do I know what size system my house needs?",
+      "a": "You don't have to — that's our job. We size to the actual house: square footage, insulation, windows, ductwork. Oversized and undersized systems both cost you in comfort and bills, so we take the measuring seriously."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "The cheapest breakdown is the one you catch in a tune-up. Twice a year — furnace in the fall, AC in the spring — we go through the whole system, clean what needs cleaning, and flag small problems before they turn into no-heat calls in January. Since we're based next door in Edwardsville, keeping Glen Carbon homes on a seasonal schedule is easy for us and cheap insurance for you.",
+    "localNote": "The older equipment in Glen Carbon's ranch homes tends to have skipped a lot of tune-ups over the years, and it shows. The newer subdivision systems benefit too — a builder-grade unit that gets maintained will outlast one that doesn't.",
+    "faqs": [
+     {
+      "q": "Do you offer seasonal HVAC tune-ups in Glen Carbon?",
+      "a": "We do — furnace tune-ups in the fall, AC tune-ups in the spring. Glen Carbon is right next door to our Edwardsville shop, so scheduling is usually easy. Call or email Dan directly and we'll get you on the calendar."
+     },
+     {
+      "q": "Is an HVAC tune-up actually worth it?",
+      "a": "We think so, and not just because we sell them. A tune-up catches worn parts, dirty burners, and low refrigerant before they take the system down on the worst day of the year. It also keeps equipment running efficiently, which you see on the utility bill."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "maryville",
+  "name": "Maryville",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "When a cold snap rolls through Maryville, a furnace that's been limping along all fall tends to quit the same night. We fix furnaces and heat pumps across the village, from older homes near the center of town to the newer subdivisions off the main drag. Most repairs happen the same day because we stock common parts on the truck, and when you call you get Dan, not a call center.",
+    "localNote": "A lot of Maryville furnaces are builder-grade units that went in when the subdivisions were built, and they're hitting the age where igniters and blower motors start to fail. In the older parts of the village, we often find systems running well past their expected life.",
+    "faqs": [
+     {
+      "q": "How fast can you get to a furnace repair in Maryville?",
+      "a": "Fast, we're based in Edwardsville, a short drive from Maryville. Most repair calls get handled the same day since we keep common parts stocked on the truck. Call (314) 420-9851 first thing and we'll do our best to be out that day."
+     },
+     {
+      "q": "Should I repair my furnace or replace it?",
+      "a": "It depends on the age, the repair cost, and how the rest of the system is holding up. We'll give you honest numbers on both options with a free quote, and we won't push a new system if a repair makes more sense. If replacement is the smarter move, financing is available."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "Maryville summers are St. Louis summers — thick, humid, and long. An AC that keeps up in June can start falling behind by late July, running all day and never quite getting the house comfortable. We repair and replace air conditioners for homeowners around the village, and most repair calls get done the same day. If your system quits on a 95-degree afternoon, call us — you'll get Dan on the phone, not a call center.",
+    "localNote": "In Maryville's newer subdivisions we see a lot of builder-grade condensers that were sized off a spreadsheet instead of the house, and they struggle in a humid August. In the older parts of town, the common call is a worn system that's slowly losing refrigerant.",
+    "faqs": [
+     {
+      "q": "How fast can you get to an AC repair in Maryville?",
+      "a": "We're based in Edwardsville, so Maryville is a quick trip for us. Most repair calls are handled the same day, and during a heat wave we prioritize the homes with no cooling at all. Call (314) 420-9851 and you'll talk to Dan directly."
+     },
+     {
+      "q": "Why does my AC run all day but the house still feels humid?",
+      "a": "A system that's low on refrigerant or worn down can run constantly without pulling enough moisture out of the air. Sometimes the unit was never sized right for the house in the first place. We can diagnose it and lay out your options straight — quotes are free."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Dry winter air is the flip side of Maryville's muggy summers. Once the furnace starts running in November, indoor humidity drops fast — static shocks, cracked trim, wood floors starting to gap. A whole-home humidifier ties into your existing ductwork and treats the whole house at once, with no tabletop units to refill. We install and service them across Maryville, along with whole-home air cleaners and filtration matched to your system.",
+    "localNote": "Plenty of homes around Maryville run bone-dry all winter because nobody added a humidifier when the furnace went in. In tighter, newer construction we also see stale air and dust problems that a proper filtration setup clears up.",
+    "faqs": [
+     {
+      "q": "Do you install whole-home humidifiers in Maryville?",
+      "a": "Yes. We're based just up the road in Edwardsville and serve Maryville along with the rest of the Metro East. Quotes are free, and most units tie into your existing furnace and ductwork without much disruption."
+     },
+     {
+      "q": "What should my indoor humidity be in winter?",
+      "a": "Most homes do well somewhere in the 30 to 45 percent range — enough to stop the static and dry skin without fogging up the windows. A whole-home unit holds that level automatically. We'll set it up and show you how to adjust it."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "A new system is a big check, and Maryville homeowners deserve straight answers before writing it. We start with a free in-home estimate — measuring the actual house, not guessing off square footage — because a system sized wrong costs you every month it runs. Then we lay out honest options, with financing available if you want to spread it out. No pressure, no upsell, just what fits your house and your budget.",
+    "localNote": "Around Maryville we replace a lot of builder-grade systems that went in when the newer subdivisions were built and are now aging out at about the same time. In the older parts of the village, it's usually equipment that has been patched along for a couple of decades.",
+    "faqs": [
+     {
+      "q": "How do I know what size HVAC system my Maryville home needs?",
+      "a": "Square footage alone doesn't cut it — insulation, windows, ductwork, and layout all matter. That's why we do a free in-home estimate instead of quoting over the phone. Sizing it right is the difference between a system that lasts and one that struggles from day one."
+     },
+     {
+      "q": "Do you install new HVAC systems in Maryville, and can I finance one?",
+      "a": "Yes on both. Maryville is right in our service area — we're based a short drive away in Edwardsville, and financing options are available on new installs. The in-home estimate is free, and we'll give you a clear schedule before any work starts."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "The systems that die during the hottest week in Maryville are usually the ones nobody looked at in spring. A seasonal tune-up is cheap insurance — we clean coils, check refrigerant and electrical, and catch the worn part before it strands you. Twice a year, cooling in spring and heating in fall, and your equipment runs more efficiently and lasts longer. Around here, where a system works hard in both seasons, that adds up.",
+    "localNote": "The most common thing we find on a first-time tune-up in Maryville is a system that has run for years on a clogged filter and dirty coils, working harder than it should and wearing out early. Humid summers and winter cold snaps here don't give equipment much of an off-season.",
+    "faqs": [
+     {
+      "q": "When should I schedule an HVAC tune-up in Maryville?",
+      "a": "Spring for cooling and fall for heating, before the season leans on the system. That's when we catch weak capacitors, dirty coils, and worn parts while they're still small fixes. Call or email to get on the schedule — we're open Monday through Friday 7 to 6 and Saturday mornings."
+     },
+     {
+      "q": "Is an annual HVAC tune-up actually worth it?",
+      "a": "In our experience, yes. Most breakdowns we see started as small problems a tune-up would have caught, and a clean, tuned system uses less energy every month. Many manufacturer warranties also require documented maintenance to stay valid."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "troy",
+  "name": "Troy",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "Cold snaps around Troy don't announce themselves. A furnace that's been short-cycling a little longer each week will pick one of those nights to give up entirely. We repair furnaces and heat pumps across Troy and the rest of the Triad area, and we stock common parts on the truck — so most no-heat calls get fixed in one visit, often the same day.",
+    "localNote": "A lot of Troy's newer subdivisions came with builder-grade furnaces that start acting up around the ten-to-fifteen-year mark, while some of the older homes near the center of town are running equipment well past its expected life. We see plenty of both, and we're honest about which ones are worth fixing.",
+    "faqs": [
+     {
+      "q": "Do you offer emergency furnace repair in Troy?",
+      "a": "We do, Troy included, a no-heat call in winter is an emergency and we treat it that way. Call (314) 420-9851 and you'll get Dan, not a call center. Most repairs get handled the same day since we keep common parts on the truck."
+     },
+     {
+      "q": "At what point does replacing a furnace beat repairing it?",
+      "a": "It comes down to the unit's age, the cost of the fix, and how it's been running the last few winters. We'll give you a straight answer and a free quote either way. If replacement makes sense, the in-home estimate is free and financing is available."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "July in the Metro East is humid enough to make a worn-out air conditioner obvious in a hurry. Troy homeowners usually call us for one of two reasons: the AC quit during the hottest week of the year, or it runs all day and never quite catches up. We handle both — same-day repairs on most calls, and a straight answer when a unit is genuinely done.",
+    "localNote": "In Troy's newer subdivisions we see plenty of builder-grade condensers that were picked for the construction budget, not the house. They tend to run nonstop through the muggy stretch of late July and August, which is usually when their owners call us.",
+    "faqs": [
+     {
+      "q": "How fast can you get to Troy for an AC repair?",
+      "a": "We're based nearby in Edwardsville, so Troy is squarely in our service area. Most repair calls get same-day service, and during a heat wave we push the no-cooling homes to the front of the line."
+     },
+     {
+      "q": "Why is my AC running but not cooling the house?",
+      "a": "The usual suspects are a dirty coil, low refrigerant, or a failing capacitor — all things we can diagnose in one visit. We stock common parts on the truck, so most fixes happen the same trip. If it's something bigger, we'll lay out your options honestly before any work starts."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Furnace heat dries a house out fast, and by February most Troy homes are dealing with static shocks, cracked trim, and dry sinuses. A whole-home humidifier ties into the ductwork you already have and fixes the problem at the source, no portable units to refill. We install and service them across Troy and the Triad area, along with whole-home air quality equipment.",
+    "localNote": "Newer construction around Troy is built tight, which is good for energy bills but means dry winter air and recirculated dust have nowhere to go. Whole-home equipment built into the ductwork handles that better than a portable unit ever will.",
+    "faqs": [
+     {
+      "q": "Do you install whole-home humidifiers in Troy, IL?",
+      "a": "We do. We install and service whole-home humidifiers and air quality equipment throughout the Metro East, and Troy is a short drive from our Edwardsville shop. Quotes are free."
+     },
+     {
+      "q": "Is a whole-home humidifier better than portable units?",
+      "a": "For a whole house, yes. It mounts on your ductwork, uses the furnace fan you already run, and keeps the entire home at a set humidity without daily refills. Portables are fine for one room, but they can't keep up with a full house in winter."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Replacing a furnace or AC is one of the bigger checks a homeowner writes, and a wrong-sized system keeps costing you every month after. We do installs in Troy the way we'd want one done at our own place: sized to the actual house, options explained straight, and the work area left clean. In-home estimates are free, and financing is available.",
+    "localNote": "A good number of Troy homes went up during the same growth spurts, so original equipment across whole subdivisions tends to wear out around the same time. When a builder-grade system goes, sizing the replacement to the actual house — not just matching the old label — is where most of the improvement comes from.",
+    "faqs": [
+     {
+      "q": "Do you install new HVAC systems in Troy?",
+      "a": "Yes — Troy sits well inside our regular service area, which covers the Metro East and St. Louis. We start with a free in-home estimate, walk you through honest options, and offer financing on installs."
+     },
+     {
+      "q": "How do I know what size furnace or AC my house needs?",
+      "a": "We measure the house and run the numbers instead of just matching the label on the old unit. Oversized systems short-cycle and undersized ones never catch up, so sizing matters more than brand. The in-home estimate is free."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "Most of the breakdown calls we take in Troy trace back to the same thing: a system nobody had looked at in years. A seasonal tune-up catches the weak capacitor, the dirty flame sensor, the clogged drain line — small problems that turn into no-heat calls in January and dead-AC calls in July. Catching them in spring and fall is easier on everyone, your budget included.",
+    "localNote": "Troy runs on a commuter schedule, and equipment that hums along unattended all day tends to get ignored until the day it quits. The other thing we see constantly is filters left in far too long — changing them between tune-ups is the cheapest favor you can do your system.",
+    "faqs": [
+     {
+      "q": "Do you do seasonal HVAC tune-ups in Troy, IL?",
+      "a": "We do — AC tune-ups in spring, heating tune-ups in fall. We're family-owned and based just up the road in Edwardsville, and when you call (314) 420-9851 you're talking to Dan, not a scheduler in another state."
+     },
+     {
+      "q": "How often should my furnace and AC be serviced?",
+      "a": "Once a year each: cooling in spring, heating in fall. Regular tune-ups keep the system efficient, catch worn parts before they fail, and help equipment last longer. Skipping them is how most emergency calls start."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "collinsville",
+  "name": "Collinsville",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "A furnace that quits during a January cold snap is not something to sit on. We're DMAK'S HVAC, a family-owned shop based just up the road in Edwardsville, and we handle furnace and heat pump repairs for homeowners across Collinsville. Most repair calls get done the same day because we stock the common parts on the truck, and when you call you get Dan, not a call center.",
+    "localNote": "Around the older parts of Collinsville we see plenty of furnaces running well past their expected life, and houses that have been added onto over the years often have ductwork that never kept up. Both are fixable without starting from scratch.",
+    "faqs": [
+     {
+      "q": "How fast can you get to a no-heat call in Collinsville?",
+      "a": "Usually the same day. Our hours run Monday through Friday 7am to 6pm, plus Saturday 8am to 2pm, and Collinsville is a short trip from our Edwardsville shop. Most heating repairs get finished in one visit because we keep common furnace parts stocked on the truck."
+     },
+     {
+      "q": "Is it worth repairing an old furnace, or should I replace it?",
+      "a": "It depends on the age of the unit and what failed. We give you an honest read and a free quote either way, and we don't push new equipment when a repair will hold. If replacement makes sense, we walk you through options sized for your house, with financing available."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "By midsummer, Collinsville air conditioners are working from breakfast until well after dark, and the tired ones pick the worst stretch of the year to quit. We repair and replace AC systems all over town, older neighborhoods near downtown and newer subdivisions alike. Most repairs happen the same day, and when you call, it's Dan who answers — not a call center.",
+    "localNote": "We see a fair number of AC units in Collinsville that came with the house and are limping through their last summers, along with builder-grade systems in the newer subdivisions that struggle once the humidity really settles in.",
+    "faqs": [
+     {
+      "q": "How fast can you get to an AC repair in Collinsville?",
+      "a": "We're one town over in Edwardsville, so Collinsville is a short trip for us. Most repair calls get handled the same day, and during dangerous heat waves we prioritize the homes with no cooling at all. Call (314) 420-9851 and you'll get Dan, not a call center."
+     },
+     {
+      "q": "Why is my AC running but the house is still warm?",
+      "a": "Usually it's a dirty coil, a weak capacitor, or low refrigerant. All of those are common and fixable, and we diagnose on-site and handle most repairs the same day. If the unit really is at the end of its life, we'll tell you straight instead of patching it forever."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Dry winter air is the flip side of a Metro East summer. Once the furnace kicks on, a lot of Collinsville homes drop to desert-level humidity: static shocks, cracked trim, sore throats by February. A whole-home humidifier ties into your existing system and fixes that at the source. We install and service them, along with filtration and air quality upgrades, so the air in your house is something you don't have to think about.",
+    "localNote": "Older Collinsville homes tend to run dry and dusty all winter once the furnace takes over, and a surprising number of houses we visit have never had real filtration in the system. Both are straightforward to fix.",
+    "faqs": [
+     {
+      "q": "Do you install whole-home humidifiers in Collinsville?",
+      "a": "Yes, Collinsville is a regular part of our service area. We're a family-owned shop based in nearby Edwardsville, quotes are free, and a whole-home humidifier usually ties into your existing furnace without major work."
+     },
+     {
+      "q": "Is a whole-home humidifier better than portable units?",
+      "a": "For most houses, yes. A whole-home unit mounts on your ductwork and treats every room automatically, with no tanks to refill and nothing to move around. We size it to your house and set it up so you can mostly forget it's there."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Nobody gets excited about buying a new furnace or AC. But Collinsville's housing runs the gamut, and a system sized for one house is wrong for the next, which is why we start every install with a free in-home estimate instead of a guess over the phone. We lay out honest options, tell you what we'd put in our own house, and offer financing so a dead system doesn't wreck the budget. Installed clean, sized right, no surprises.",
+    "localNote": "A good share of the systems we replace in Collinsville were oversized on day one, which shows up as short-cycling, uneven rooms, and high bills. Older houses with additions are the usual suspects.",
+    "faqs": [
+     {
+      "q": "What size HVAC system does my Collinsville house need?",
+      "a": "It comes down to square footage, insulation, windows, and ductwork, which is why we do a free in-home estimate instead of guessing over the phone. Bigger is not better; an oversized system short-cycles and wears out faster. We size it to the actual house."
+     },
+     {
+      "q": "Do you offer financing on new HVAC systems?",
+      "a": "Yes, we have financing options on installs, and the in-home estimate is free. We serve Collinsville and the rest of the Metro East from our shop in Edwardsville, and we'll lay out your options without any pressure."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "The big catsup bottle has stood over Collinsville for decades because people take care of it. Your furnace and AC work the same way. Metro East weather runs equipment hard at both ends of the year, and a spring and fall tune-up is how small problems get caught before they turn into a no-heat call in January. We check the parts that actually fail, clean what's dirty, and tell you plainly what we found.",
+    "localNote": "A lot of the systems we tune up in Collinsville haven't been touched since they were installed. Dirty coils and clogged filters are the usual finds, and both quietly drive up bills long before anything breaks.",
+    "faqs": [
+     {
+      "q": "Do you do seasonal HVAC tune-ups in Collinsville?",
+      "a": "Yes, we run spring and fall tune-ups throughout Collinsville and the Metro East. We're open Monday through Friday 7am to 6pm and Saturday 8am to 2pm, and when you call you're talking to Dan directly."
+     },
+     {
+      "q": "How often should I have my heating and cooling system serviced?",
+      "a": "Twice a year is the standard: cooling in the spring, heating in the fall. That schedule catches worn parts before the season leans on them and keeps the system running efficiently. If it's been years, don't worry, we see that a lot, and it's a fine time to start."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "alton",
+  "name": "Alton",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "Alton's older homes are beautiful, but a lot of them are heated by furnaces that went in decades ago. When one of those quits on a cold night, you need it handled, not a sales pitch. We repair and tune up furnaces and heat pumps across Alton, stock common parts on the truck, and get most repairs done the same day. If the system is truly done, we'll tell you straight and walk you through the options.",
+    "localNote": "A good share of the furnaces we work on around Alton went in when the current owners bought the house, or before. Older equipment, plus ductwork retrofitted into homes never built for forced air, means winter breakdowns tend to hit harder here than in newer subdivisions.",
+    "faqs": [
+     {
+      "q": "Do you offer emergency furnace repair in Alton?",
+      "a": "Yes, a no-heat call in an Alton winter gets treated like the emergency it is. Alton is squarely in our regular service area, and during our weekday and Saturday hours most repairs get finished the same day because we stock common furnace parts on the truck."
+     },
+     {
+      "q": "Should I repair or replace my old furnace?",
+      "a": "It comes down to the furnace's age, what failed, and what the fix costs against the life it has left. We quote repairs for free and give you a straight answer either way. If replacement wins, the in-home estimate is free too, and financing is available."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "Summer heat off the river makes Alton muggy in a way the thermostat number doesn't capture. An AC that limps along in June usually gives out in July, right when you need it most. We handle AC repair and replacement for Alton homeowners, show up when we say we will, and fix most problems the same day. And when you call, you get Dan, not a call center.",
+    "localNote": "Plenty of Alton houses went up long before central air, so the AC came later — condensers tucked wherever they fit, ductwork squeezed into old chases, and a room or two the system never quite reaches. Add river-valley humidity, and tired equipment gets found out fast in July.",
+    "faqs": [
+     {
+      "q": "How fast can you get to an AC repair in Alton?",
+      "a": "Alton is right in our regular service area, and most repair calls get handled the same day. We stock common parts on the truck, so the first visit is usually the fix. Call first thing in the morning and there's a good chance we're out that day."
+     },
+     {
+      "q": "My AC never shuts off but the house stays warm — what gives?",
+      "a": "The usual suspects are a clogged filter, a dirty coil, a weak capacitor, or low refrigerant from a slow leak. We diagnose it straight and fix most of these on the first visit. If the repair isn't worth the unit's age, we'll say so and give you a free quote on the alternatives."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Old plaster walls, original woodwork, wide plank floors — the things that make an Alton home worth keeping are the same things dry winter air is hardest on. A whole-home humidifier ties into your existing furnace and keeps every room in a comfortable range, with no tabletop units to refill. We install and service them, along with air quality upgrades like better filtration, matched to what your house actually needs.",
+    "localNote": "Older Alton homes tend to run bone-dry by January — drafty enough that cold outside air keeps sneaking in and pulling the humidity down, which shows up as static shocks, cracked trim, and gaps opening in old woodwork. We also see a lot of decades-old ductwork where better filtration makes a visible difference in dust.",
+    "faqs": [
+     {
+      "q": "Are whole-home humidifiers worth it in an older house?",
+      "a": "Usually, yes — older homes leak air, so in winter the dry outside air keeps pulling your humidity down. Bringing it back up protects wood floors and trim, cuts down on static and dry sinuses, and makes the same thermostat setting feel warmer."
+     },
+     {
+      "q": "Do you install whole-home humidifiers in Alton?",
+      "a": "We do. Alton is part of our everyday service area, and most humidifier installs tie into your existing furnace in a single visit. Quotes are free, so it costs nothing to find out whether your system is a good fit."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Putting a new system into a hundred-year-old Alton house is not the same job as swapping equipment in a new subdivision. High ceilings, additions, old ductwork — they all change what size and setup actually make sense. We do a free in-home estimate, measure instead of guessing, and quote honest options without the upsell. Financing is available, and the install gets done clean, like it's our own house.",
+    "localNote": "A lot of the systems we replace around Alton were never matched to the house in the first place — picked off a price sheet instead of sized to the rooms. In older homes, the ductwork usually deserves as much attention as the equipment itself.",
+    "faqs": [
+     {
+      "q": "How much does a new HVAC system cost in Alton?",
+      "a": "There's no honest one-number answer — it depends on your home's size, the state of the ductwork, and the equipment you choose. That's why the in-home estimate is free: we measure first, then put real options in front of you. Financing is available if you'd rather spread the cost out."
+     },
+     {
+      "q": "How long does a new HVAC install take?",
+      "a": "Most replacements take about a day once the equipment is lined up, though older homes that need ductwork changes can run longer. You'll get a straight timeline with your free estimate. If your old system is completely dead in the meantime, tell us and we'll work to get you scheduled fast."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "Older equipment can run a long time if somebody keeps an eye on it, and Alton has plenty of equipment worth keeping an eye on. This climate works a system hard at both ends — muggy summers, hard winter freezes — so a spring and fall check earns its keep. We look at what matters, catch small problems while they're cheap, and tell you plainly what can wait. No inspection theater, no scare tactics.",
+    "localNote": "Older equipment is common in Alton, and it's exactly what a seasonal tune-up helps most — weak capacitors, dirty burners, and clogged drain lines are cheap to catch and expensive to ignore. We also find plenty of filters that haven't been touched since the last service call.",
+    "faqs": [
+     {
+      "q": "When should I schedule a furnace or AC tune-up in Alton?",
+      "a": "Cooling in spring, heating in fall — before the season leans on the system. Fall calendars fill up fast once the first cold night hits, so booking early is easier on everyone. A tune-up costs a lot less than the breakdown it heads off."
+     },
+     {
+      "q": "What happens if my system breaks down between tune-ups?",
+      "a": "Call us. Most repair calls get fixed the same day since we stock common parts on the truck, and tune-up customers get priority on the schedule. Tune-ups make breakdowns rarer, but nothing makes them impossible."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "godfrey",
+  "name": "Godfrey",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "When a cold snap settles over the Riverbend, Godfrey's bigger lots and open ground give the wind plenty of room to work on a house. Your furnace or heat pump has to hold the line all night, every night. We repair and tune heating systems across Godfrey, and we install new ones when a repair stops making sense. Most calls get fixed same-day, and when you call, you get Dan.",
+    "localNote": "A lot of what we see in Godfrey's established neighborhoods is aging equipment — furnaces well into their second decade, still running but working harder every year. On the more spread-out properties, heat pumps are common too, and they need their own kind of attention before winter.",
+    "faqs": [
+     {
+      "q": "Do you offer emergency furnace repair in Godfrey?",
+      "a": "Yes, a dead furnace in winter is an emergency and we treat it that way. Our hours are Monday through Friday 7am to 6pm plus Saturday 8am to 2pm. Godfrey is well inside our normal service area, and most repairs get handled the same day because we stock common parts on the truck."
+     },
+     {
+      "q": "How do I decide between fixing my furnace and buying a new one?",
+      "a": "Depends on its age, its condition, and what the repair costs against what the furnace has left in it. We'll tell you straight when a repair still makes sense and when you'd be putting money into a unit that's done. Quotes are free, so it costs nothing to find out."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "July around here is a St. Louis summer with river humidity stacked on top. A lot of Godfrey houses sprawl, too — long ranch layouts, additions, duct runs that stretch — so the far rooms never quite cool down while the condenser fights all afternoon. We fix most AC problems the same day, with common parts stocked on the truck, and when a system is truly done, we give you honest options instead of a sales pitch.",
+    "localNote": "A common one in Godfrey: a ranch that picked up an addition or two over the years, still running the original ductwork, with an AC that cools the front of the house and gives up by the back bedrooms. Sometimes that's a repair, sometimes airflow, sometimes a sizing problem — we figure out which before recommending anything.",
+    "faqs": [
+     {
+      "q": "How fast can you get to Godfrey for an AC repair?",
+      "a": "Same day for most calls. We're at it Monday through Friday 7am to 6pm and Saturday 8am to 2pm, and when you call (314) 420-9851 you get Dan, not a call center. Common AC parts ride on the truck, so the first visit is usually the only visit."
+     },
+     {
+      "q": "Why does my AC run all day without cooling the house?",
+      "a": "Usually it's one of a few things: a refrigerant leak, a weak capacitor, a clogged filter, dirty coils, or a unit that was undersized from the start. In humid weather a struggling system falls behind fast and never catches up. We can usually diagnose it in one visit and fix it on the spot."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Static shocks, gapping hardwood, a dry throat every morning — that's what a long heating season does to a Godfrey house. The air out here swings hard: soggy river humidity all summer, bone-dry furnace heat all winter. A whole-home humidifier built into your ductwork evens that out, and paired with better filtration it cuts down on dust, too. We size it to the house and set it up right.",
+    "localNote": "Between open lots, yard work, and long heating seasons, Godfrey homes tend to run dusty and dry — and most forced-air systems we open up have no humidity control at all. The good news: a whole-home unit is a straightforward add to an existing furnace.",
+    "faqs": [
+     {
+      "q": "Is a whole-house humidifier worth it in Godfrey?",
+      "a": "For most homes, yes. Once the furnace runs every day, indoor air gets dry enough to crack trim, shrink hardwood, and bother sinuses, and a whole-home unit treats the entire house through the ductwork — no tanks to refill. We'll give you a free quote and a straight answer on whether your house needs it."
+     },
+     {
+      "q": "Who installs whole-home humidifiers near Godfrey IL?",
+      "a": "We do, Godfrey and the rest of the Riverbend sit inside our regular service area, covered from our shop in Edwardsville. We're licensed, insured, and hold a 5-star Google rating across more than 90 reviews. Call (314) 420-9851 and you'll talk to Dan himself."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "No two houses in Godfrey call for the same system. A shaded ranch on an acre and a two-story in a newer subdivision heat and cool differently, and equipment that isn't sized to the house wastes money either way — short-cycling or running flat out. We do free in-home estimates, measure instead of guessing, and lay out honest options without the upsell. Financing is available, and the install gets done clean.",
+    "localNote": "Two patterns show up in Godfrey: older homes ready to retire equipment that's earned it, and newer subdivision builds running builder-grade systems that were never quite matched to the floor plan. Either way, the right answer starts with measuring the house, not quoting over the phone.",
+    "faqs": [
+     {
+      "q": "How soon can you install a new furnace or AC in Godfrey?",
+      "a": "It starts with a free in-home estimate — call (314) 420-9851 and we'll set a time, weekdays 7am to 6pm or Saturday morning. If you're sitting with no heat or no cooling, say so; those calls move to the front of the line. Financing options are available if you'd rather spread the cost out."
+     },
+     {
+      "q": "What size HVAC system does my house actually need?",
+      "a": "Square footage is only the start — insulation, windows, ductwork, ceiling heights, and sun exposure all change the answer, which is why we size systems standing in your home, not over the phone. Godfrey's mix of older houses and add-ons makes that walkthrough matter even more. The estimate is free, and bigger is not always better."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "We'd rather catch a weak capacitor in spring than meet it again in July when the AC quits. Out on Godfrey's bigger lots, equipment works hard in both directions — humid summers, cold winters, and a steady load of dust and grass clippings around the outdoor unit. Seasonal tune-ups catch worn parts early and help older systems last. We check it, clean it, and give you a straight answer on its condition.",
+    "localNote": "With homes spread out on larger lots, outdoor units in Godfrey sit exposed to sun, wind, and mowing debris more than most, and filters load up faster than people expect. Twice-a-year attention is usually the difference between a tune-up and a breakdown call.",
+    "faqs": [
+     {
+      "q": "When should I schedule furnace and AC tune-ups in Godfrey?",
+      "a": "AC in spring before the first heat wave, furnace in fall before the first hard cold. That timing catches worn parts while the weather is still forgiving. If you've missed the window, a mid-season check still beats no check."
+     },
+     {
+      "q": "Do you service Godfrey year-round for HVAC maintenance?",
+      "a": "Yes, we're based in Edwardsville and cover the Metro East year-round, Godfrey included. Hours are Monday through Friday 7am to 6pm and Saturday 8am to 2pm, and if something quits between visits we'll get to you fast. Call (314) 420-9851 or email dan@dmakshvac.com to get on the schedule."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "bethalto",
+  "name": "Bethalto",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "Bethalto winters have a way of finding the weak spot in a furnace, usually on the coldest night of the year. When yours quits, we answer, same-day repairs on most calls with common parts already on the truck. We work on furnaces and heat pumps across Bethalto, and we'll always tell you straight whether a repair or a replacement is the smarter money.",
+    "localNote": "A lot of Bethalto's housing stock is sturdy mid-century ranches, and plenty of them are still heating with furnaces well past their expected lifespan. We see a lot of tired blower motors, igniters, and heat exchangers in those systems — the kind of wear worth catching before deep winter.",
+    "faqs": [
+     {
+      "q": "Do you offer emergency furnace repair in Bethalto?",
+      "a": "We do, a no-heat call in winter is an emergency and we treat it that way. Bethalto sits well inside our regular Metro East service area, our shop is just down the road in Edwardsville. Most repairs get finished the same day because we stock common parts on the truck."
+     },
+     {
+      "q": "Is it smarter to keep fixing an aging furnace or replace it?",
+      "a": "It comes down to the unit's age, what failed, and what it costs to keep it going. We'll give you a straight answer either way — a repair when it makes sense, or a free in-home estimate if replacement is the smarter money. Nobody gets talked into a new system they don't need."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "When the humidity settles in over the Metro East and stays for weeks, a struggling AC doesn't get a day off. We repair and replace air conditioners for Bethalto homeowners, with same-day service on most calls and free quotes before any work starts. Low ranch houses around town soak up the afternoon sun, so if your system is short-cycling or blowing warm, call before the July stretch turns it into an emergency.",
+    "localNote": "A good number of Bethalto homes are older ranches where central air was added years after the house was built, and those retrofitted systems show their age once the humidity peaks. We also see plenty of condensers that were never quite sized right for the house.",
+    "faqs": [
+     {
+      "q": "How fast can you fix a broken AC in Bethalto?",
+      "a": "Most calls get same-day service. Bethalto is part of our everyday territory, so you're not waiting on a crew from across the river. Call (314) 420-9851 and you'll get Dan, not a call center."
+     },
+     {
+      "q": "Is it worth repairing an older air conditioner?",
+      "a": "Often it is. If the unit has life left and the fix is reasonable, we'll repair it and tell you what to keep an eye on. If it's at the end, we'll say so plainly and put together replacement options with a free quote — your call, no pressure."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Run a furnace long enough and it pulls the moisture out of everything — the air, the woodwork, your sinuses. Most Bethalto homes feel it by midwinter. A whole-home humidifier ties into the system you already have and puts that moisture back automatically, with no portable units to fill and babysit. We install and service them, along with air quality equipment that helps with the dust and allergens this area kicks up.",
+    "localNote": "Most Bethalto homes we visit have forced-air furnaces with no humidifier attached, which is why winter indoors feels so harsh here. In the older houses, that dry air is hard on original wood floors and trim, too.",
+    "faqs": [
+     {
+      "q": "Do whole-home humidifiers really make a difference in winter?",
+      "a": "Yes. A whole-home unit feeds moisture through your ductwork, so the entire house holds a steady humidity level instead of one room at a time. Less static, less cracked wood, easier breathing at night — and it runs automatically with your furnace."
+     },
+     {
+      "q": "Do you install whole-home humidifiers in Bethalto?",
+      "a": "We do, along with other whole-home air quality equipment. Bethalto is in our regular service area, and the install ties into your existing furnace, so it's usually a quick job. Quotes are free — call or email dan@dmakshvac.com and we'll see if your system is a good fit."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "A new furnace or air conditioner is one of the bigger checks a homeowner writes, and nobody in Bethalto wants to pay for more system than the house needs. We size every install to the actual home — square footage, ductwork, insulation — and lay out honest options instead of one inflated bid. In-home estimates are free, financing is available, and the work gets done clean the first time.",
+    "localNote": "In Bethalto we mostly run into two situations: original equipment in older homes that has finally reached the end of the line, and builder-grade systems in the newer subdivisions that were installed fast and sized loose. Either way, the right fix starts with measuring the house instead of guessing.",
+    "faqs": [
+     {
+      "q": "Do you install new HVAC systems in Bethalto?",
+      "a": "Yes — Bethalto is part of the Metro East area we cover every day from Edwardsville. In-home estimates for new systems are free, and financing options are available if you'd rather not pay all at once. We're licensed, insured, and we clean up after ourselves."
+     },
+     {
+      "q": "What size furnace or AC does my house need?",
+      "a": "It depends on square footage, insulation, windows, and ductwork — not just what the old unit was. Oversized systems short-cycle and wear out early; undersized ones run nonstop and still fall behind. We do the sizing work on every install so you pay for the capacity you need and nothing more."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "Folks in Bethalto take care of what they own — the truck, the mower, the house — and a furnace or AC deserves the same treatment. A seasonal tune-up costs far less than an emergency call during a January cold snap, and it usually buys aging equipment a few more good years. We clean, test, and adjust the whole system, then flag the small stuff before it becomes the expensive stuff.",
+    "localNote": "Plenty of Bethalto homeowners are getting honest mileage out of older systems, and regular maintenance is a big part of why. The neglected units — clogged filters, dirty coils, worn parts — are usually the ones we meet for the first time on an emergency call.",
+    "faqs": [
+     {
+      "q": "Do you do seasonal HVAC tune-ups in Bethalto?",
+      "a": "We do — Bethalto is in our regular service area, and tune-ups are easy to schedule around your week. We're open Monday through Friday 7 to 6 and Saturdays 8 to 2. Call (314) 420-9851 or email dan@dmakshvac.com to get on the calendar."
+     },
+     {
+      "q": "How often should my furnace and AC be serviced?",
+      "a": "Twice a year is the rule of thumb — furnace in the fall, AC in the spring, before each season leans on them. A tune-up catches worn parts early, keeps efficiency up, and helps equipment last longer. It's the cheapest thing you can do for an HVAC system."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "wood-river",
+  "name": "Wood River",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "A lot of Wood River houses went up in the refinery's heyday, and more than a few are still heating with equipment past its prime. When a January cold snap hits and the furnace quits, you need heat back, not a sales pitch. We repair furnaces and heat pumps all over Wood River, same-day for most calls, with common parts stocked on the truck. If a fix doesn't make sense, we'll say so.",
+    "localNote": "Wood River's housing stock skews mid-century, so we regularly find furnaces well past their expected life, pushing air through ductwork that's leaky or undersized. Many of our heating calls here come down to keeping older equipment safe and dependable.",
+    "faqs": [
+     {
+      "q": "Do you do same-day furnace repair in Wood River?",
+      "a": "Most calls, yes. We keep common furnace parts stocked on the truck, and we're based in Edwardsville, just up the road. Call first thing and there's a good chance we're out the same day."
+     },
+     {
+      "q": "Is it worth fixing a 20-year-old furnace or should I replace it?",
+      "a": "Depends on the repair and the shape the rest of the unit is in — sometimes a fix buys you years, sometimes it's throwing money at a lost cause. We'll give you an honest read, and the quote is free. If replacement makes sense, in-home estimates are free and financing is available."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "July in the Metro East doesn't mess around, and Wood River gets the full dose of St. Louis heat and humidity. Many homes here had central air added decades after they were built, and those aging systems tend to quit during the hottest stretch of the year. We fix most AC breakdowns the same day, and when a unit is truly done, we'll walk you through replacement options without the pressure.",
+    "localNote": "Around Wood River we run into central air that was retrofitted into homes built long before AC, often paired with ductwork meant only for heating. The usual result is a system that runs hard, cools unevenly, and struggles once the humidity spikes.",
+    "faqs": [
+     {
+      "q": "How fast can you get to an AC repair in Wood River?",
+      "a": "Wood River sits squarely in our service area, we're based in nearby Edwardsville and cover the whole Metro East. Most AC repairs get handled the same day, and during a heat wave we prioritize the homes with no cooling at all."
+     },
+     {
+      "q": "Why does my AC run all day but the house never cools off?",
+      "a": "Could be low refrigerant, a dying compressor, dirty coils, or a unit that was never sized right for the house — all common in older systems. We'll diagnose it and tell you exactly what we find, and the quote is free."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Wood River homeowners know dry winter air when they feel it — static shocks, cracked trim, a scratchy throat by February. Older homes around here tend to leak air, which pulls in dust and dries the place out worse. A whole-home humidifier ties into your existing furnace and fixes that at the source, and the right filtration takes real dust out of the air you breathe. We install and service both.",
+    "localNote": "Wood River's older homes tend to run dry in winter — drafty construction pulls in cold outside air that the furnace bakes even drier. We also see original ductwork carrying decades of dust, which better filtration can deal with.",
+    "faqs": [
+     {
+      "q": "Do whole-home humidifiers work in older Wood River houses?",
+      "a": "Yes — often they matter more in older houses, which leak air and dry out fast once the furnace kicks on. The unit mounts to your existing ductwork and holds steady humidity through the whole house, no tanks to fill. We'll tell you straight whether your setup can take one."
+     },
+     {
+      "q": "Do you install whole-home humidifiers near Wood River?",
+      "a": "We do — we're based in nearby Edwardsville and work across Wood River and the rest of the Metro East. It's a straightforward add-on for most furnaces, so scheduling is usually quick. Quotes are free."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Putting a new system in a Wood River home isn't the same as putting one in new construction. These mid-century houses have their own quirks — tighter mechanical spaces, older ductwork, sometimes a floor plan that's been added onto twice. We measure and size for the house you actually have, walk you through honest options, and install clean. Estimates are in-home and free, and financing is available if that helps.",
+    "localNote": "A common find in Wood River is equipment that was oversized for these modest floor plans, short-cycling for years and wearing out early. Right-sizing the replacement usually buys better comfort and lower utility bills, not just a newer box.",
+    "faqs": [
+     {
+      "q": "What size furnace and AC does an older Wood River house need?",
+      "a": "We size from the house itself — square footage, insulation, windows, ductwork — instead of copying the label off the old unit. Oversized systems short-cycle and wear out early; undersized ones never keep up. The in-home estimate that sorts this out is free."
+     },
+     {
+      "q": "Do you give free estimates on new HVAC systems in Wood River?",
+      "a": "Yes — in-home estimates for new installs are free, and Wood River is well inside our service area. We'll lay out honest options, and financing is available if you'd rather spread the cost out. When you call, you're talking to Dan, not a call center."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "Older equipment doesn't forgive neglect, and Wood River has plenty of furnaces and air conditioners running on borrowed time. A seasonal tune-up is cheap insurance: we clean the system, test it, and catch the worn part before it leaves you sweating in August or shivering in January. Fall for the furnace, spring for the AC — that rhythm is what keeps older systems going.",
+    "localNote": "Much of what we tune up around Wood River has gone years between check-ups, and older equipment shows that neglect fast — dirty burners, weak capacitors, clogged condensate lines. A steady tune-up schedule is often what decides whether a unit gets one more season or five.",
+    "faqs": [
+     {
+      "q": "When should I get my furnace tuned up in Wood River?",
+      "a": "Fall, before the first hard cold sets in, and spring for the AC. A tune-up catches worn parts while the weather is still forgiving. If it's been a few years, don't wait for a breakdown to get on the schedule."
+     },
+     {
+      "q": "What if my system breaks down between tune-ups?",
+      "a": "Call us, most repairs happen the same day since common parts ride along on the truck. We're open Monday through Friday 7am to 6pm and Saturday 8am to 2pm, and tune-up customers get priority when something goes wrong."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "granite-city",
+  "name": "Granite City",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "Granite City runs on older housing stock, and a good share of the furnaces we work on here have been on the job for a couple of decades. We keep them going: common parts ride on the truck, most calls get handled the same day, and every repair comes with a straight answer about how much life the unit has left. When a furnace really is finished, we'll say that too — and lay out the options without leaning on you.",
+    "localNote": "Many of the furnaces we work on in Granite City are 20-plus years old, sitting in basements of homes built long before central air was a thought. At that age, igniters, blower motors, and worn heat exchangers are the usual suspects.",
+    "faqs": [
+     {
+      "q": "Do you offer emergency furnace repair in Granite City?",
+      "a": "Yes, a dead furnace in winter is an emergency and we treat it that way. Granite City sits squarely in our regular service area, we're based just up the road in Edwardsville. When you call, you get Dan, not a call center, and most repairs get handled the same day."
+     },
+     {
+      "q": "Is it worth repairing a 20-year-old furnace?",
+      "a": "Sometimes. If it's a simple part and the heat exchanger is sound, a repair can buy you a few more winters. If it's a major failure on a unit that age, we'll tell you straight and quote a replacement for free — no pressure either way."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "July on this side of the river is no joke — the heat and humidity settle in and stay. If your AC is limping through it, or the upstairs never quite cools down, we can help. We handle most repair calls same-day, and we install new systems sized for how Granite City houses are actually built — older homes, retrofitted ductwork and all. Quotes are free, and the person who answers the phone is the person who shows up.",
+    "localNote": "Plenty of Granite City houses got central air added long after they were built, and we run into undersized units and duct runs that starve the second floor. If your upstairs stays hot no matter what the thermostat says, that's usually the story.",
+    "faqs": [
+     {
+      "q": "What makes an air conditioner blow air that isn't cold?",
+      "a": "The common culprits are a weak capacitor, a refrigerant leak, or a coil that's iced up or clogged with grime. We can usually pin it down in one visit, and since we stock common parts on the truck, most repairs get finished the same day you call."
+     },
+     {
+      "q": "How fast can you fix an AC in Granite City?",
+      "a": "Most repair calls get handled the same day, and during the brutal stretches we prioritize the homes with no cooling at all. We're based nearby in Edwardsville, and Granite City is part of our everyday service area."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Plaster walls, original woodwork, a furnace running half the year — winter inside an older Granite City home gets bone dry. You feel it in the static shocks and the cracked trim, and you breathe it all night. A whole-home humidifier mounts on your existing ductwork and fixes the problem at the source, with nothing to drag out and refill. We install and service them, and we'll tell you honestly whether your system is a good fit.",
+    "localNote": "The older frame and brick houses that make up so much of Granite City tend to leak air, so indoor humidity drops hard once the furnace kicks on for the season. Whole-home units tied into the furnace are the fix we end up recommending most.",
+    "faqs": [
+     {
+      "q": "Will a whole-home humidifier cause mold or damage?",
+      "a": "Not if it's sized and set correctly — that's most of the job. We set the humidistat so the house stays comfortable without pushing moisture into walls and windows, and a quick seasonal check keeps it dialed in."
+     },
+     {
+      "q": "Do you install whole-home humidifiers in Granite City?",
+      "a": "We do — Granite City is part of our regular Metro East service area. If you already have a forced-air furnace, most installs are straightforward, and the quote is free."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Replacing a system that's been in the basement longer than you've owned the house is a big call. In Granite City it usually comes with a wrinkle or two — an addition off the back, ductwork from an old remodel, a floor plan drawn up generations ago. So we measure the house you have and size the new system to it, not to a square-footage chart. In-home estimates are free, the options are laid out honestly, and financing is available.",
+    "localNote": "Sizing problems in Granite City often trace back to systems swapped like-for-like over the years without anyone rechecking the load — additions, new windows, and insulation all change what a house needs. We run the numbers fresh before we quote anything.",
+    "faqs": [
+     {
+      "q": "What size furnace and AC does my house need?",
+      "a": "It depends on more than square footage — insulation, windows, ductwork, and layout all matter. We run a proper load calculation during the free in-home estimate, then show you options that fit the house, not just the biggest unit we can sell."
+     },
+     {
+      "q": "Do you give free estimates on new HVAC systems in Granite City?",
+      "a": "Yes — in-home estimates for new installs are free, and Granite City is well inside our service area. We walk the house, take measurements, and leave you a straight quote with no obligation. Financing options are available if you'd rather spread the cost out."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "The cheapest furnace repair is the one you catch in October, before the first hard freeze turns it into an emergency. That goes double in Granite City, where a lot of the equipment we see has plenty of winters behind it. A seasonal tune-up catches worn parts early, keeps your system running efficiently, and stretches more life out of a unit you're not ready to replace yet. We do them spring and fall, heating and cooling both.",
+    "localNote": "Older systems in Granite City homes will usually give you a warning — a rattle at start-up, longer run times, a creeping utility bill — before they quit. Tune-ups are where we catch that early, while it's still a small fix.",
+    "faqs": [
+     {
+      "q": "How often should a furnace be serviced?",
+      "a": "Once a year — fall for the furnace, spring for the AC. On older equipment it matters more, since one worn part makes the rest work harder."
+     },
+     {
+      "q": "Do you do furnace and AC tune-ups in Granite City?",
+      "a": "Yes, all over Granite City and the rest of the Metro East. We book Monday through Friday, 7 to 6, plus Saturdays until early afternoon, so you don't have to burn a vacation day to get on the schedule."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "highland",
+  "name": "Highland",
+  "st": "IL",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "No furnace picks a mild afternoon to fail, and in Highland it's almost always a hard freeze. We repair and tune up furnaces and heat pumps across town, from the older two-stories near downtown to the newer builds on the edges. Most repairs get done the same day because we stock common parts on the truck, and when you call you get Dan, not a call center.",
+    "localNote": "A lot of Highland's older homes are running furnaces well past the fifteen-year mark, and we see plenty of cracked igniters and tired blower motors in them. The newer subdivisions mostly have builder-grade equipment that's worth a check before the first real cold.",
+    "faqs": [
+     {
+      "q": "Do you offer emergency furnace repair in Highland?",
+      "a": "Yes, a no-heat call in a Highland winter gets treated like the emergency it is. Highland is well inside our regular service area, and most furnace repairs get handled the same day because we keep common parts stocked on the truck."
+     },
+     {
+      "q": "My furnace keeps needing repairs — fix it again or replace it?",
+      "a": "It depends on the age of the unit and what actually failed. We'll lay out both options and tell you honestly which one we'd pick in your shoes. Quotes are free, in-home estimates for new systems are free, and financing is available if you go that route."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "By July, the humidity around Highland sits on a house like a wet blanket, and an AC that limped through June starts losing ground. We fix what's fixable, tell you straight when a unit isn't worth the money, and stock common parts on the truck so most repairs wrap up in one visit. When you call, you get Dan, not a call center.",
+    "localNote": "A lot of the ACs we see around Highland have been through ten or fifteen St. Louis-area summers, and it shows: weak capacitors, dirty coils, units short on refrigerant. Humid Julys make every one of those problems worse.",
+    "faqs": [
+     {
+      "q": "How fast can you fix an AC in Highland?",
+      "a": "Most calls get same-day service, and during a heat wave we prioritize the ones with no cooling at all. We're based in Edwardsville and cover the Metro East, so Highland is a regular stop for us."
+     },
+     {
+      "q": "Is it worth repairing a 15-year-old air conditioner?",
+      "a": "Sometimes. If it's a minor part, a repair can buy you a few more summers. If it's the compressor on a unit that age, replacement usually makes more sense, and either way you'll get an honest read and a free quote."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Static shocks, shrinking floorboards, a cough that shows up every January. Winter air in Highland homes turns harsh once the furnace starts running full-time. A whole-home humidifier ties into your existing system and fixes the problem at the source. We install and service them, along with whole-home air quality equipment that actually helps, not gadgets you don't need.",
+    "localNote": "In Highland's older homes, original woodwork and hardwood floors take a beating from dry furnace air, and split trim and gapped boards are common winter complaints. Tighter new construction can swing the other way, so we check actual humidity levels before recommending anything.",
+    "faqs": [
+     {
+      "q": "Do you install whole-home humidifiers in Highland?",
+      "a": "Yes, we install and service whole-home humidifiers throughout Highland and the surrounding Metro East. Most units tie into your existing furnace, and it's often easy to pair the install with a seasonal tune-up. Quotes are free, so it costs nothing to find out what your house needs."
+     },
+     {
+      "q": "Will a whole-home humidifier cause mold?",
+      "a": "Not if it's sized and set correctly. The horror stories come from oversized units and set-points left too high during a cold snap. We match the unit to your house, dial in the settings, and show you how to adjust it as the weather changes."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Nobody in Highland wakes up excited to buy a furnace or an air conditioner. When the day comes, what matters is simple: a system sized to your actual house, a clean install, and a straight answer about what you do and don't need. We give free in-home estimates, lay out the honest options, and offer financing so a dead system doesn't have to wreck your budget.",
+    "localNote": "Highland's housing runs from century-old homes that need real thought about ductwork to newer subdivisions where the original systems give out sooner than anyone expects. Sizing is where most installs go wrong, so we measure the house instead of guessing.",
+    "faqs": [
+     {
+      "q": "Do you install new HVAC systems in Highland, or just handle repairs?",
+      "a": "Both. We install furnaces, heat pumps, and complete AC systems in Highland and across the Metro East. In-home estimates are free, and financing options are available on installs."
+     },
+     {
+      "q": "How do I know what size furnace or AC my house needs?",
+      "a": "We run the numbers on your actual house, meaning square footage, insulation, windows, and ductwork, instead of matching whatever was in there before. An oversized system short-cycles and an undersized one never catches up. Getting the size right is most of the job."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "The cheapest repair is the one you never need. Our seasonal tune-ups catch weak parts before they fail, with a furnace check in the fall and an AC check in the spring, so Highland homeowners aren't scrambling in the middle of a heat wave or a hard freeze. In a town where word travels fast, we'd rather be the company that keeps things running than the one you only call in a crisis.",
+    "localNote": "Most of the breakdowns we handle around Highland trace back to small stuff a tune-up would have caught. Dirty flame sensors, weak capacitors, and clogged condensate lines top the list.",
+    "faqs": [
+     {
+      "q": "When should I schedule a furnace tune-up in Highland?",
+      "a": "Fall, before the first hard cold. That's when we catch cracked igniters and weak blower motors while it's still sweater weather instead of an emergency. Spring works the same way for your AC, ahead of the first heat wave."
+     },
+     {
+      "q": "You're in Edwardsville, so do you actually come out to Highland?",
+      "a": "Yes, all the time. We work the Metro East and St. Louis from our shop in Edwardsville, and Highland is well within the route. We're out Monday through Friday 7am to 6pm and Saturdays 8am to 2pm, so a tune-up doesn't have to mean a day off work."
+     }
+    ]
+   }
+  ]
+ },
+ {
+  "slug": "st-louis-mo",
+  "name": "St. Louis",
+  "st": "MO",
+  "services": [
+   {
+    "id": "heating",
+    "intro": "Old brick holds the cold, and a lot of St. Louis houses are old brick. When a furnace quits on a January night, you feel it fast. We repair and tune up furnaces and heat pumps across the city, same-day for most calls, with common parts already on the truck. Call (314) 420-9851 and you get Dan, not a call center.",
+    "localNote": "A lot of the city's housing stock predates central heat, so we see plenty of furnaces and ductwork that were added decades after the house was built — undersized runs, cold back bedrooms, and equipment working harder than it should.",
+    "faqs": [
+     {
+      "q": "Do you do emergency furnace repair in St. Louis?",
+      "a": "Yes, a dead furnace in winter is an emergency and we treat it that way. Crossing the river from Edwardsville is a normal part of our day, St. Louis is squarely in our service area, and most furnace repairs get handled in one visit."
+     },
+     {
+      "q": "Should I fix my old furnace or replace it?",
+      "a": "It depends on the age, the condition, and what the repair costs against what a new one costs. We'll give you a straight answer and a free quote either way — we fix plenty of old furnaces, and we'll tell you when one isn't worth fixing. If it comes to replacement, the in-home estimate is free and financing is available."
+     }
+    ]
+   },
+   {
+    "id": "cooling",
+    "intro": "Nobody has to explain a St. Louis July to the people living through one. The air turns thick, the AC runs from breakfast to midnight, and the humidity works a system as hard as the heat does. We fix most ACs same-day and install new ones sized for how these brick houses actually hold heat. Free quotes, straight answers, and a real person picking up the phone.",
+    "localNote": "A lot of St. Louis brick homes got central air retrofitted long after they were built, so we see aging condensers, patched-together ductwork, and second floors that never quite cool down. A good share of the 'AC can't keep up' calls we get in August turn out to be humidity problems from a system that was never sized right.",
+    "faqs": [
+     {
+      "q": "Why does my AC run all day and my house still feels muggy in St. Louis?",
+      "a": "Usually the system is the wrong size or on its way out — it moves air without wringing the moisture from it. We'll check the charge, the coil, and the sizing, then tell you plainly what's wrong, with a free quote on the fix."
+     },
+     {
+      "q": "How fast can you get to an AC repair in St. Louis?",
+      "a": "Same-day for most calls in season. We're based in Edwardsville, but the Missouri side of the river is a regular part of our route, so you're not waiting days. Common parts ride on the truck, so many repairs are done in one visit."
+     }
+    ]
+   },
+   {
+    "id": "humidifiers",
+    "intro": "Here's the odd thing about St. Louis air: you spend all summer fighting humidity, then the furnace kicks on and by January the house is dry enough to crack the woodwork and static-shock the dog. A whole-home humidifier fixes that from inside the ductwork, no tanks to refill. We install humidifiers and air quality equipment that work with your existing system — and we'll tell you honestly what your house needs and what it doesn't.",
+    "localNote": "Older St. Louis houses with plaster walls and original trim take winter dryness hard — doors that rattle, gaps opening in the woodwork, everybody waking up with a scratchy throat. We also hear plenty of dust and allergy complaints, which better filtration built into the system can take a real bite out of.",
+    "faqs": [
+     {
+      "q": "Is a whole-home humidifier worth it in St. Louis?",
+      "a": "For most houses here, yes. Once the furnace runs daily, indoor air gets very dry, and a whole-home unit mounted on the ductwork holds the entire house in a comfortable range — easier on woodwork, sinuses, and static. The quote is free, and if your house doesn't need one, we'll say so."
+     },
+     {
+      "q": "Do you install humidifiers in St. Louis, or just on the Illinois side?",
+      "a": "Both sides of the river. We're based in Edwardsville and serve the Metro East and St. Louis, and most of this work is a scheduled visit rather than an emergency — Monday through Friday 7 to 6, Saturdays 8 to 2. When you call, it's Dan on the phone, not a call center."
+     }
+    ]
+   },
+   {
+    "id": "installs",
+    "intro": "Replacing a system in St. Louis means sizing for both ends of the year — a summer that won't quit and the cold snaps that follow. A hundred-year-old brick house with plaster walls doesn't heat and cool like new construction, so we measure instead of guessing. The in-home estimate is free, the options are laid out honestly, and financing is available if you want it. No pressure, no upsell — just what the house needs.",
+    "localNote": "The ductwork is half the job in St. Louis — a lot of it was squeezed into houses never built for it, and new equipment only performs as well as the ducts feeding it. We look at that before we quote anything, because a right-sized system on starved ductwork is still a comfort problem.",
+    "faqs": [
+     {
+      "q": "What size HVAC system does my St. Louis house need?",
+      "a": "The honest answer is we don't know until we measure — square footage, insulation, windows, and ductwork all factor in, and old brick behaves differently than new framing. Oversized systems are the common mistake; they short-cycle and leave summer air clammy. The in-home estimate is free, so getting real numbers costs you nothing."
+     },
+     {
+      "q": "How soon can you replace a dead system?",
+      "a": "Call and we'll move fast, the free estimate comes first so the right equipment gets ordered, not just whatever's on hand. If you're without heat or cooling in the meantime, we can often patch the old system to get you to install day. Reach Dan directly at (314) 420-9851."
+     }
+    ]
+   },
+   {
+    "id": "maintenance",
+    "intro": "Around here the equipment works two hard shifts — a cooling season that's long and swampy, then a heating season right behind it. That's why St. Louis systems tend to quit on the worst day of the year, when they're straining hardest. A spring and fall tune-up catches worn parts, dirty coils, and weak capacitors before they turn into a no-cool July or a no-heat January. It's the cheapest work we do, and it prevents the expensive kind.",
+    "localNote": "A lot of what we tune up in St. Louis is equipment running past its expected life — older homes, older systems, owners sensibly trying to get another year or two out of them. Clean coils, tight connections, and fresh filters are usually what make those extra years possible.",
+    "faqs": [
+     {
+      "q": "When should I schedule an HVAC tune-up in St. Louis?",
+      "a": "AC in the spring before the humidity settles in, furnace in the fall before the first hard cold. If you've missed both windows, the best time is simply before the season you're headed into. We book around your schedule, Monday through Saturday."
+     },
+     {
+      "q": "What if my system breaks down between tune-ups?",
+      "a": "Call us. Most repairs happen the same day and common parts ride on the truck, so the first visit is usually the fix. And if you're a tune-up customer, we already know your equipment when something does go wrong, and you get priority on the schedule."
+     }
+    ]
+   }
+  ]
+ }
+]

@@ -3,3 +3,4 @@ node_modules/
 preview-server.js
 *.log
 .netlify/
+.claude/

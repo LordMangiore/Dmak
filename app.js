@@ -15,10 +15,18 @@
       diag:'A seasonal tune-up keeps things running, protects your warranty, and catches small issues early. Best booked just before peak season.' }
   };
 
+  // Maps a solver symptom to the matching option in the quote form's "problem" select
+  var PROBLEM = { cool:"AC isn't cooling", heat:'No heat', noise:'Strange noise or smell',
+    bills:'High energy bills', install:'New system / replacement', maint:'Tune-up & maintenance' };
+  var currentSym = 'cool';
+
   function select(id) {
     var s = SYM[id]; if (!s) return;
+    currentSym = id;
     document.querySelectorAll('.sym').forEach(function (b) {
-      b.classList.toggle('active', b.getAttribute('data-sym') === id);
+      var on = b.getAttribute('data-sym') === id;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', String(on));
     });
     var tag = document.querySelector('.sv-tag');
     var diag = document.querySelector('.sv-diag');
@@ -31,6 +39,20 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    // Schedule page: preferred-day picker can't be in the past
+    document.querySelectorAll('input[type=date][data-min-today]').forEach(function (i) {
+      var d = new Date();
+      i.min = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    });
+
+    // The solver's "Get a free quote" link carries the tapped symptom into the home form
+    document.querySelectorAll('.solver a[href="#quote"]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var sel = document.querySelector('#quote select[name=problem]');
+        if (sel && PROBLEM[currentSym]) sel.value = PROBLEM[currentSym];
+      });
+    });
+
     var buttons = document.querySelectorAll('.sym');
     if (!buttons.length) return;
     buttons.forEach(function (b) {

@@ -3,9 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const ROOT = __dirname;
 const PHONE = '(314) 420-9851', TEL = 'tel:+13144209851';
+// Dan's real Google Business Profile (resolved from the GBP share link). Rating/count are the live figures.
+const GBP = 'https://maps.google.com/?cid=7991446230126163755';
+const RATING = '5.0', REVIEW_COUNT = '95+';
 const RED = '#CE3F26', BLUE = '#2E76AE', ORANGE = '#E0823F';
 const amp = s => String(s).replace(/&(?![a-z]+;)/gi, '&amp;');
 const img = p => '/images/' + p.replace(/^uploads\//, '');
+// House style: body copy uses commas where an em-dash would go. Titles keep their dashes.
+const dash = s => String(s).replace(/\s*—\s*/g, ', ');
 
 const SERVICES = [
   { id:'heating', name:'Heating', short:'Furnaces, heat pumps, repairs & tune-ups.', accent:RED,
@@ -14,14 +19,14 @@ const SERVICES = [
     intro:"When the temperature drops and your furnace quits, you need someone who picks up and shows up. We repair, tune, and replace gas furnaces and heat pumps across the Metro East — and we stock common parts on the truck, so most heating calls get fixed the same day.",
     includes:['Furnace repair & diagnostics','Heat pump service & repair','New furnace installation','Igniter, blower & control board work','Thermostat replacement','Annual heating tune-ups'],
     signs:[{t:'No heat at all',d:"Furnace won't start or blows cold — often an igniter, flame sensor, or safety switch."},{t:'Short cycling',d:'Turns on and off constantly. Usually airflow, a sensor, or an oversized system.'},{t:'Burning or gas smell',d:"Shut it down and call us. We'll find the cause before it becomes a bigger repair."}],
-    gallery:['DSC07707-scaled.jpeg','image-24.png','image-25.png'] },
+    gallery:['DSC07707-scaled.jpeg','image-24.jpg','image-25.jpg'] },
   { id:'cooling', name:'Cooling', short:'AC install & fast repair for hot summers.', accent:BLUE,
     card:'DSC07667-scaled.jpeg', hero:'DSC07649-scaled.jpeg',
     tagline:'AC repair and installs that keep up with a St. Louis summer.',
     intro:"A dead AC in July is an emergency in this heat. We diagnose and repair central air fast, and when it's time to replace, we size the new system right for your home — no guesswork, no upsell.",
     includes:['Central AC repair','Refrigerant leak diagnosis','Capacitor & compressor service','New AC installation','Coil cleaning','Cooling tune-ups'],
     signs:[{t:'Warm air',d:'Running but not cooling — often low refrigerant or a failed capacitor.'},{t:"Won't turn on",d:'No response at the thermostat could be electrical, a breaker, or the contactor.'},{t:'High summer bills',d:"An aging or low-charge system runs constantly. We'll measure real efficiency."}],
-    gallery:['DSC07649-scaled.jpeg','DSC07667-scaled.jpeg','image-27.png'] },
+    gallery:['DSC07649-scaled.jpeg','DSC07667-scaled.jpeg','image-27.jpg'] },
   { id:'humidifiers', name:'Humidifiers & Air Quality', short:'Whole-home humidity & cleaner air.', accent:BLUE,
     card:'Humidifier.jpg', hero:'Humidifier.jpg',
     tagline:'Whole-home humidity and cleaner air, built right into your system.',
@@ -30,12 +35,12 @@ const SERVICES = [
     signs:[{t:'Dry, staticky air',d:'Shocks, cracked wood trim, and dry skin all winter mean your air needs moisture.'},{t:'Dust everywhere',d:'Better filtration cuts the dust that settles hours after you clean.'},{t:'Indoor allergies',d:'The right filtration and humidity make a real difference for sensitive households.'}],
     gallery:['Humidifier.jpg','DSC07688-scaled.jpeg','DSC07694-scaled.jpeg'] },
   { id:'installs', name:'System Installs', short:'New systems sized & installed right.', accent:RED,
-    card:'image-26.png', hero:'image-26.png',
+    card:'image-26.jpg', hero:'image-26.jpg',
     tagline:'New systems, sized right and installed clean.',
     intro:"Replacing a system is a big decision, so we make it a straight one. We measure your home, walk you through honest options at a few price points, and install it clean — then we're here for it after. Free in-home estimates, always.",
     includes:['Free in-home estimates','Load calculation & correct sizing','Furnace & AC replacement','Heat pump systems','High-efficiency upgrades','Financing options available'],
     signs:[{t:'Repairs adding up',d:"When repair costs start approaching a replacement, we'll tell you straight."},{t:'System over 12 years',d:'Older systems lose efficiency. A new one can pay for part of itself.'},{t:'Uneven comfort',d:'Hot and cold rooms often mean the system was never sized right.'}],
-    gallery:['image-26.png','image-24.png','image-25.png'] },
+    gallery:['image-26.jpg','image-24.jpg','image-25.jpg'] },
   { id:'maintenance', name:'Maintenance', short:'Seasonal tune-ups, fewer breakdowns.', accent:ORANGE,
     card:'DSC07694-scaled.jpeg', hero:'DSC07693-scaled.jpeg',
     tagline:'Seasonal tune-ups that head off the breakdowns.',
@@ -44,6 +49,15 @@ const SERVICES = [
     signs:[{t:"It's been a while",d:"If you can't remember the last tune-up, you're overdue."},{t:'Rising bills',d:'A dirty, unmaintained system works harder and costs more every month.'},{t:'Peak season ahead',d:'Tune up before the first heat wave or cold snap — not during.'}],
     gallery:['DSC07693-scaled.jpeg','DSC07694-scaled.jpeg','DSC07711-scaled.jpeg'] }
 ];
+
+// SEO-facing names for the service×city marketing pages
+const COMBO_NAME = {
+  heating: 'Furnace Repair & Heating',
+  cooling: 'AC Repair & Cooling',
+  humidifiers: 'Humidifiers & Air Quality',
+  installs: 'HVAC Installation & Replacement',
+  maintenance: 'HVAC Tune-Ups & Maintenance'
+};
 
 const SYMPTOMS = [
   { id:'cool',    accent:BLUE,   label:"AC isn't cooling",    sub:"Warm air or won't kick on" },
@@ -54,13 +68,13 @@ const SYMPTOMS = [
   { id:'maint',   accent:BLUE,   label:'Tune-up',             sub:'Seasonal maintenance' }
 ];
 
+// Real reviews from Dan's Google Business Profile (5.0★, 95+ reviews). The three highlight
+// quotes are Google's featured excerpts; named entries are real reviewers. Swap/extend as more come in.
 const REVIEWS = [
   { text:"Dan is great! Quick response, gets the job done right, and he's friendly and honest.", name:'Ryan Land', town:'Edwardsville, IL' },
-  { text:'Came out the same day when our AC died in July. Fair price and no upsell — exactly what you want.', name:'Verified customer', town:'Glen Carbon, IL' },
-  { text:'Told us we could get another season out of our furnace instead of replacing it. Honest people.', name:'Verified customer', town:'Troy, IL' },
-  { text:'Dorothy is a bonus, but Dan is the real deal. Explained everything and cleaned up after himself.', name:'Verified customer', town:'Alton, IL' },
-  { text:'Replaced our whole system. Clean install, on time, and the house has never been this comfortable.', name:'Verified customer', town:'Collinsville, IL' },
-  { text:'Answered the phone at 9pm and talked me through it until he could get out first thing. Lifesaver.', name:'Verified customer', town:'St. Louis, MO' }
+  { text:'Great experience, same-day service in the summer heat and did honest work.', name:'Google review', town:'' },
+  { text:'Quick diagnosis, fair pricing, and professional service throughout the visit.', name:'Google review', town:'' },
+  { text:'He gave us a few options to fit our budget.', name:'Google review', town:'' }
 ];
 
 const AREAS = [
@@ -78,12 +92,24 @@ const AREAS = [
   { name:'St. Louis', slug:'st-louis-mo', st:'MO', blurb:"We cross the river to serve St. Louis and the near suburbs. A St. Louis summer is no joke, so we treat a dead AC like the emergency it is." }
 ];
 
+// Per-city copy for the service×city pages (generated once, see content/combos.json)
+let COMBOS = null;
+try { COMBOS = JSON.parse(dash(fs.readFileSync(path.join(ROOT, 'content', 'combos.json'), 'utf8'))); }
+catch (e) { console.warn('content/combos.json missing — skipping service×city pages'); }
+const comboFor = (svcId, slug) => {
+  if (!COMBOS) return null;
+  const c = COMBOS.find(x => x.slug === slug);
+  const s = c && c.services.find(x => x.id === svcId);
+  return s || null;
+};
+
 // ---------- shared chrome ----------
 const header = active => {
   const a = k => active === k ? ' class="active"' : '';
   const links = `
       <a href="/services/"${a('services')}>Services</a>
       <a href="/service-area/"${a('area')}>Service Area</a>
+      <a href="/schedule/"${a('schedule')}>Schedule</a>
       <a href="/reviews/"${a('reviews')}>Reviews</a>
       <a href="/about/"${a('about')}>About</a>`;
   return `<header class="site-header"><div class="wrap header-inner">
@@ -95,51 +121,79 @@ const header = active => {
   <div class="wrap nav-chips">${links}<a href="/contact/"${a('contact')}>Contact</a></div></header>`;
 };
 const ctaBand = () => `<section class="band-dark"><div class="wrap cta">
-    <div><h2>Ready when you are.</h2><p>Same-day repairs and free quotes across the Metro East &amp; St. Louis.</p></div>
-    <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
+    <div><h2>Ready when you are.</h2><p>Same-day repairs and free quotes across the Metro East &amp; St. Louis.</p><p class="cta-hours">Mon–Fri 7a–6p · Sat 8a–2p · <b>Same-day repairs on most calls</b></p></div>
+    <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/schedule/">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
   </div></section>`;
 const footer = () => `<footer class="footer"><div class="wrap grid">
     <div><div class="bname">DMAK'S HVAC LLC</div><div class="btag">HEATING &amp; COOLING</div><p class="blurb">Family-owned heating &amp; cooling, serving the Metro East &amp; St. Louis.</p></div>
-    <div><h4>SERVICES</h4>${SERVICES.map(s=>`<a href="/services/${s.id}/">${amp(s.name)}</a>`).join('')}</div>
-    <div><h4>COMPANY</h4><a href="/about/">About</a><a href="/service-area/">Service Area</a><a href="/reviews/">Reviews</a><a href="/contact/">Contact</a></div>
-    <div><h4>CONTACT</h4><div class="cd">${PHONE}<br>dan@dmakshvac.com<br>812 Sherman Ave,<br>Edwardsville, IL 62025</div></div>
+    <div><div class="h4">SERVICES</div>${SERVICES.map(s=>`<a href="/services/${s.id}/">${amp(s.name)}</a>`).join('')}</div>
+    <div><div class="h4">COMPANY</div><a href="/about/">About</a><a href="/service-area/">Service Area</a><a href="/schedule/">Schedule Service</a><a href="/reviews/">Reviews</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a></div>
+    <div><div class="h4">CONTACT</div><div class="cd"><a href="${TEL}">${PHONE}</a><br><a href="mailto:dan@dmakshvac.com">dan@dmakshvac.com</a><br>812 Sherman Ave,<br>Edwardsville, IL 62025<br>Mon–Fri 7a–6p · Sat 8a–2p</div></div>
   </div></footer>`;
-const reviewCard = (r, town) => `<div class="review"><div class="stars">★★★★★</div><p>"${amp(r.text)}"</p><div class="nm">${r.name}</div>${town?`<div class="tw">${r.town}</div>`:''}</div>`;
+const reviewCard = (r, town) => `<div class="review"><div class="stars">★★★★★</div><p>"${amp(r.text)}"</p><div class="nm">${r.name}</div>${town && r.town?`<div class="tw">${r.town}</div>`:''}</div>`;
+// Clickable rating badge -> Dan's real Google listing
+const revScore = () => `<a class="rev-score" href="${GBP}" target="_blank" rel="noopener"><b>${RATING}★</b> Google · ${REVIEW_COUNT} reviews</a>`;
 
 // ---------- schema (JSON-LD) ----------
 const SITE = 'https://www.dmakshvac.com';
 const localBusinessSchema = () => ({
   "@context":"https://schema.org","@type":"HVACBusiness","@id":SITE+"/#business",
   "name":"DMAK'S HVAC LLC","telephone":"+13144209851","email":"dan@dmakshvac.com",
-  "url":SITE+"/","image":SITE+"/images/logo.png","priceRange":"$$",
+  "url":SITE+"/","image":SITE+"/images/logo.png","priceRange":"$$","sameAs":[GBP],
   "address":{"@type":"PostalAddress","streetAddress":"812 Sherman Ave","addressLocality":"Edwardsville","addressRegion":"IL","postalCode":"62025","addressCountry":"US"},
   "geo":{"@type":"GeoCoordinates","latitude":38.8114,"longitude":-89.9532},
   "openingHoursSpecification":[
     {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"07:00","closes":"18:00"},
     {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"08:00","closes":"14:00"}
   ],
-  "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","reviewCount":"200"},
   "areaServed":AREAS.map(a=>({"@type":"City","name":a.name+", "+a.st})),
   "makesOffer":SERVICES.map(s=>({"@type":"Offer","itemOffered":{"@type":"Service","name":s.name.replace(/&/g,'and')}}))
 });
-const serviceSchema = svc => ({
+const serviceSchema = (svc, city) => ({
   "@context":"https://schema.org","@type":"Service","serviceType":svc.name.replace(/&/g,'and'),
-  "name":svc.name.replace(/&/g,'and'),"description":svc.tagline,
+  "name":(city ? COMBO_NAME[svc.id].replace(/&/g,'and')+' in '+city.name+', '+city.st : svc.name.replace(/&/g,'and')),
+  "description":dash(svc.tagline),
   "provider":{"@type":"HVACBusiness","name":"DMAK'S HVAC LLC","telephone":"+13144209851","url":SITE+"/"},
-  "areaServed":AREAS.map(a=>a.name+", "+a.st),"url":SITE+"/services/"+svc.id+"/"
+  "areaServed":(city ? [city.name+", "+city.st] : AREAS.map(a=>a.name+", "+a.st)),
+  "url":SITE+"/services/"+svc.id+"/"+(city ? city.slug+"/" : "")
+});
+const faqSchema = faqs => ({
+  "@context":"https://schema.org","@type":"FAQPage",
+  "mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}}))
 });
 const breadcrumbSchema = items => ({
   "@context":"https://schema.org","@type":"BreadcrumbList",
   "itemListElement":items.map((it,i)=>({"@type":"ListItem","position":i+1,"name":it[0],"item":SITE+it[1]}))
 });
 
-const svcCard = s => `<a class="svc-card" href="/services/${s.id}/" style="border-bottom-color:${s.accent}">
+const svcCard = (s, citySlug) => `<a class="svc-card" href="/services/${s.id}/${citySlug ? citySlug + '/' : ''}" style="border-bottom-color:${s.accent}">
       <div class="img"><img src="${img(s.card)}" alt="${amp(s.name)} — DMAK'S HVAC" loading="lazy"></div>
       <div class="body"><div class="nm">${amp(s.name)}</div><div class="sh">${amp(s.short)}</div></div>
     </a>`;
+
+const quoteFormCard = () => `<form class="form-card" name="quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks/">
+      <input type="hidden" name="form-name" value="quote">
+      <p style="display:none"><label>Skip if human: <input name="bot-field"></label></p>
+      <div class="k">Free quote in 60 seconds</div>
+      <input name="name" placeholder="Your name" aria-label="Your name" autocomplete="name" required>
+      <input name="phone" type="tel" placeholder="Phone number" aria-label="Phone number" autocomplete="tel" required>
+      <input name="email" type="email" placeholder="Email (optional)" aria-label="Email (optional)" autocomplete="email">
+      <select name="town" aria-label="Your town">
+        <option value="" disabled selected>Your town</option>${AREAS.map(a=>`<option>${a.name}, ${a.st}</option>`).join('')}<option>Other / nearby</option>
+      </select>
+      <select name="problem" aria-label="What's the problem?" required>
+        <option value="" disabled selected>What's the problem?</option><option>AC isn't cooling</option><option>No heat</option><option>Strange noise or smell</option><option>High energy bills</option><option>New system / replacement</option><option>Tune-up &amp; maintenance</option>
+      </select>
+      <textarea name="message" rows="3" placeholder="Anything else we should know?" aria-label="Anything else we should know?"></textarea>
+      <button class="btn btn-dark btn-block" type="submit">Send my request →</button>
+      <div class="form-fine">No obligation · usually answered within the hour · <a href="/schedule/" style="font-weight:800;color:inherit;text-decoration:underline">book a visit online</a> · <a href="/privacy/" style="color:inherit">privacy</a></div>
+    </form>`;
 const cityReviews = c => { const m = REVIEWS.filter(r=>r.town.indexOf(c.name)===0); const rest = REVIEWS.filter(r=>r.town.indexOf(c.name)!==0); return m.concat(rest).slice(0,3); };
+// Honest heading: only claim reviews are from the town when at least one actually is
+const revHeading = c => REVIEWS.some(r=>r.town.indexOf(c.name)===0) ? `What ${c.name} neighbors say` : 'What Metro East neighbors say';
 
 const page = ({title, desc, active, body, cta = true, schema, noindex = false}) => {
+  desc = dash(desc); body = dash(body);
   const ld = (schema || [localBusinessSchema()]).map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n');
   return (`<!DOCTYPE html>
 <html lang="en"><head>
@@ -155,10 +209,10 @@ const page = ({title, desc, active, body, cta = true, schema, noindex = false}) 
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc}">
 <meta property="og:url" content="__CANONICAL__">
-<meta property="og:image" content="${SITE}/images/DSC07682-scaled.jpeg">
+<meta property="og:image" content="${SITE}/images/og-image.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=Archivo:wght@500;600;700;800;900&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Archivo:wght@800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 ${ld}
 </head><body>
@@ -170,7 +224,7 @@ ${cta ? ctaBand() : ''}
 </main>
 ${footer()}
 <script src="/app.js"></script>
-</body></html>`).replace(/\s*—\s*/g, ', ');
+</body></html>`);
 };
 
 // ---------- page bodies ----------
@@ -178,38 +232,39 @@ const solver = () => `<div class="solver">
         <div class="sv-eye">PROBLEM SOLVER</div>
         <div class="sv-title">What's wrong? Tap it.</div>
         <div class="sv-grid">${SYMPTOMS.map(s=>`
-          <button class="sym${s.id==='cool'?' active':''}" data-sym="${s.id}">
+          <button class="sym${s.id==='cool'?' active':''}" data-sym="${s.id}" aria-pressed="${s.id==='cool'?'true':'false'}">
             <span class="top"><span class="dot" style="background:${s.accent}"></span><span class="lb">${amp(s.label)}</span></span>
             <span class="sub">${s.sub}</span>
           </button>`).join('')}
         </div>
-        <div class="sv-result">
-          <span class="sv-tag"></span>
-          <p class="sv-diag"></p>
-          <div class="sv-actions"><a class="btn btn-red" href="${TEL}">Call now</a><a class="btn btn-outline sv-learn" href="/services/cooling/">Learn more</a></div>
-          <a class="sv-quote" href="/contact/">or get a free quote →</a>
+        <div class="sv-result" aria-live="polite">
+          <span class="sv-tag" style="background:${BLUE}">Same-day priority</span>
+          <p class="sv-diag">Most likely low refrigerant, a worn capacitor, or blocked airflow. We stock common parts on the truck and fix the majority of cooling calls the same day.</p>
+          <div class="sv-actions"><a class="btn btn-red" href="${TEL}">Call now</a><a class="btn btn-outline sv-learn" href="/services/cooling/">See AC repair →</a></div>
+          <div class="sv-links"><a class="sv-quote" href="#quote">Get a free quote →</a><a class="sv-quote" href="/schedule/">Book a visit →</a></div>
         </div>
       </div>`;
 
 const home = () => page({ active:'', cta:true,
   title:"DMAK'S HVAC — Heating & Cooling in Edwardsville, IL | Same-Day Repairs",
-  desc:"Family-owned, fully licensed HVAC in Edwardsville IL & the Metro East. Same-day heating & cooling repairs, honest pricing, 4.9★ on Google. Call (314) 420-9851.",
+  desc:"Family-owned, fully licensed HVAC in Edwardsville IL & the Metro East. Same-day heating & cooling repairs, honest pricing, 5.0★ on Google. Call (314) 420-9851.",
   body:`
 <section class="band band-dark pos hero" style="padding:60px 0 64px">
   <span class="blob blob-red"></span><span class="blob blob-blue"></span>
   <div class="wrap">
     <div class="grid">
       <div>
-        <span class="pill">24/7 EMERGENCY · METRO EAST + ST. LOUIS</span>
+        <span class="pill">SAME-DAY SERVICE · METRO EAST + ST. LOUIS</span>
         <h1>No heat?<br>No cool?<br><span class="accent-red">No problem.</span></h1>
         <p class="lead">Family-owned, fully licensed, and on the way. Same-day repairs and honest pricing across Edwardsville and beyond.</p>
-        <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
+        <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="#quote">Get a free quote</a></div>
+        <a class="hero-book" href="/schedule/">or book a visit online →</a>
       </div>
       ${solver()}
     </div>
     <div class="trust">
-      <span><b style="color:${RED}">200+</b> happy customers</span>
-      <span><b style="color:${BLUE_L()}">4.9★</b> on Google</span>
+      <a class="trust-link" href="${GBP}" target="_blank" rel="noopener"><b style="color:${BLUE_L()}">${RATING}★</b> on Google</a>
+      <span><b style="color:${RED}">${REVIEW_COUNT}</b> Google reviews</span>
       <span><b style="color:${ORANGE}">5+</b> years local</span>
       <span><b style="color:#fff">Licensed</b> &amp; insured</span>
     </div>
@@ -237,9 +292,21 @@ const home = () => page({ active:'', cta:true,
   </div>
 </section>
 <section class="band band-cream"><div class="wrap">
-  <div class="sec-head"><h2 class="title">Real reviews</h2><span class="rev-score"><b>4.9★</b> Google · 200+ reviews</span></div>
+  <div class="sec-head"><h2 class="title">Real reviews</h2>${revScore()}</div>
   <div class="rev-grid">${REVIEWS.slice(0,3).map(r=>reviewCard(r,false)).join('')}</div>
   <a class="link-red" href="/reviews/" style="display:inline-block;margin-top:22px">Read more reviews →</a>
+</div></section>
+<section class="band-red" id="quote" style="padding:60px 0"><div class="wrap">
+  <div class="contact-grid">
+    <div class="contact-info">
+      <span class="eyebrow">FREE QUOTE</span>
+      <h2 style="font:900 46px/1 'Archivo';text-transform:uppercase;margin:12px 0 0">Tell us what's<br>going on.</h2>
+      <p class="lead">Fill this out and a real person calls you back, usually within the hour. Prefer to pick a day and time yourself? <a href="/schedule/" style="color:#fff;font-weight:800;text-decoration:underline">Book a visit online</a>.</p>
+      <a class="phone" href="${TEL}">${PHONE}</a>
+      <div class="cd">Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p<br><b>Same-day repairs on most calls</b></div>
+    </div>
+    ${quoteFormCard()}
+  </div>
 </div></section>` });
 
 function BLUE_L(){ return '#6FB1DE'; }
@@ -247,6 +314,7 @@ function BLUE_L(){ return '#6FB1DE'; }
 const servicesOverview = () => page({ active:'services', cta:true,
   title:"HVAC Services in Edwardsville & the Metro East | DMAK'S HVAC",
   desc:"Heating, cooling, humidifiers, system installs, and maintenance from a family-owned Metro East HVAC team. Honest pricing, same-day repairs. (314) 420-9851.",
+  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Services','/services/']])],
   body:`
 <section class="band band-dark pos" style="padding:60px 0"><span class="blob blob-red" style="right:-80px;top:-70px;width:360px;height:360px"></span>
   <div class="wrap"><span class="eyebrow">WHAT WE DO</span>
@@ -273,7 +341,7 @@ const serviceDetail = svc => page({ active:'services', cta:true,
       <div class="crumb"><a href="/services/">Services</a> &nbsp;/&nbsp; ${amp(svc.name)}</div>
       <h1>${amp(svc.name)}</h1>
       <p class="tl">${amp(svc.tagline)}</p>
-      <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
+      <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/schedule/">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
     </div>
     <div class="sd-heroimg"><img src="${img(svc.hero)}" alt="${amp(svc.name)} — DMAK'S HVAC"></div>
   </div>
@@ -292,13 +360,16 @@ const serviceDetail = svc => page({ active:'services', cta:true,
   <div class="gallery">${svc.gallery.map(g=>`<div class="g"><img src="${img(g)}" alt="${amp(svc.name)} job — DMAK'S HVAC" loading="lazy"></div>`).join('')}</div>
 </div></section>
 <section class="band-ink2" style="padding:40px 0"><div class="wrap">
-  <div class="eyebrow" style="margin-bottom:14px">EXPLORE MORE SERVICES</div>
+  ${COMBOS ? `<div class="eyebrow" style="margin-bottom:14px">${amp(svc.name).toUpperCase()} BY TOWN</div>
+  <div class="chips">${AREAS.map(c=>`<a class="chip" href="/services/${svc.id}/${c.slug}/">${c.name}${c.st==='MO'?', MO':''}</a>`).join('')}</div>
+  <div class="eyebrow" style="margin:26px 0 14px">EXPLORE MORE SERVICES</div>` : `<div class="eyebrow" style="margin-bottom:14px">EXPLORE MORE SERVICES</div>`}
   <div class="chips">${SERVICES.filter(s=>s.id!==svc.id).map(o=>`<a class="chip" href="/services/${o.id}/">${amp(o.name)}</a>`).join('')}</div>
 </div></section>` });
 
 const about = () => page({ active:'about', cta:true,
   title:"About DMAK'S HVAC — Family-Owned HVAC in Edwardsville, IL",
   desc:"Meet Daniel Makarov (and Dorothy). DMAK'S HVAC is a family-owned, fully licensed heating & cooling company serving the Metro East. When you call, you get Dan.",
+  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['About','/about/']])],
   body:`
 <section class="about-hero">
   <div class="story">
@@ -314,13 +385,13 @@ const about = () => page({ active:'about', cta:true,
     <div class="about-portrait"><img class="p" src="/images/image_50727169-scaled.jpg" alt="Daniel Makarov, owner of DMAK'S HVAC"><img class="d" src="/images/image_123650291.jpg" alt="Dorothy, the shop dog"></div>
     <div>
       <h2>Dan &amp; Dorothy</h2>
-      <p>Daniel is fully licensed and certified with years in the field across the Metro East. Dorothy, the shop dog, runs quality control and morale. Together they've earned 200+ happy customers and a 4.9★ rating.</p>
+      <p>Daniel is fully licensed and certified with years in the field across the Metro East. Dorothy, the shop dog, runs quality control and morale. Together they've earned a 5.0★ Google rating across ${REVIEW_COUNT} reviews.</p>
       <div class="checks">${['Licensed & certified','Family-owned & local','Honest, no-pressure quotes','Fully insured'].map(c=>`<div class="c"><b>✓</b>${amp(c)}</div>`).join('')}</div>
     </div>
   </div>
   <div class="stats">
-    <div><b style="color:${RED}">200+</b><span>happy customers</span></div>
-    <div><b style="color:${BLUE}">4.9★</b><span>Google rating</span></div>
+    <div><b style="color:${RED}">${REVIEW_COUNT}</b><span>Google reviews</span></div>
+    <div><b style="color:${BLUE}">${RATING}★</b><span>Google rating</span></div>
     <div><b style="color:${ORANGE}">5+</b><span>years local</span></div>
     <div><b style="color:#1b1a18">1</b><span>very good dog</span></div>
   </div>
@@ -329,6 +400,7 @@ const about = () => page({ active:'about', cta:true,
 const area = () => page({ active:'area', cta:true,
   title:"Service Area — HVAC in the Metro East & St. Louis | DMAK'S HVAC",
   desc:"Based in Edwardsville, IL, DMAK'S HVAC serves Glen Carbon, Maryville, Troy, Collinsville, Alton, Godfrey, Granite City, Highland, St. Louis MO and surrounding areas.",
+  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Service Area','/service-area/']])],
   body:`
 <section class="band band-dark" style="padding:60px 0"><div class="wrap">
   <span class="eyebrow">WHERE WE WORK</span>
@@ -347,21 +419,25 @@ const area = () => page({ active:'area', cta:true,
 </div></section>` });
 
 const reviews = () => page({ active:'reviews', cta:true,
-  title:"Reviews — 4.9★ HVAC in Edwardsville, IL | DMAK'S HVAC",
-  desc:"See why neighbors across the Metro East rate DMAK'S HVAC 4.9★ with 200+ Google reviews. Honest, on-time heating & cooling from a family-owned team.",
+  title:"Reviews — 5.0★ HVAC in Edwardsville, IL | DMAK'S HVAC",
+  desc:"See why neighbors across the Metro East rate DMAK'S HVAC 5.0★ with 95+ Google reviews. Honest, on-time heating & cooling from a family-owned team.",
+  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Reviews','/reviews/']])],
   body:`
 <section class="band band-dark" style="padding:60px 0;text-align:center"><div class="wrap">
   <span class="eyebrow">GOOGLE REVIEWS</span>
   <h1 class="page-h1">Neighbors love<br>working with us</h1>
-  <div style="display:inline-flex;align-items:center;gap:12px;margin-top:20px;font:700 16px 'Mulish';color:#c9c9cd"><span style="color:${ORANGE};font:900 28px 'Archivo'">4.9★</span> · 200+ reviews on Google</div>
+  <div style="display:inline-flex;align-items:center;gap:12px;margin-top:20px;font:700 16px 'Mulish';color:#c9c9cd"><span style="color:${ORANGE};font:900 28px 'Archivo'">${RATING}★</span> · ${REVIEW_COUNT} reviews on Google</div>
+  <div style="margin-top:22px"><a class="btn btn-red" href="${GBP}" target="_blank" rel="noopener">Read our reviews on Google →</a></div>
 </div></section>
 <section class="band band-cream"><div class="wrap">
   <div class="rev-grid">${REVIEWS.map(r=>reviewCard(r,true)).join('')}</div>
+  <p style="text-align:center;margin-top:26px;font:600 14px 'Mulish';color:#6f6a62">These are a few of our Google reviews. <a href="${GBP}" target="_blank" rel="noopener" style="color:${RED};font-weight:800">See all ${REVIEW_COUNT} on Google →</a></p>
 </div></section>` });
 
 const contact = () => page({ active:'contact', cta:false,
   title:"Contact DMAK'S HVAC — Free Quote | (314) 420-9851",
   desc:"Call (314) 420-9851 or request a free quote from DMAK'S HVAC. A real person gets back to you — usually within the hour. Serving Edwardsville & the Metro East.",
+  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Contact','/contact/']])],
   body:`
 <section class="band-red" style="padding:60px 0"><div class="wrap">
   <div class="contact-grid">
@@ -371,22 +447,9 @@ const contact = () => page({ active:'contact', cta:false,
       <p class="lead">Call now or send a request and a real person will get back to you — usually within the hour.</p>
       <a class="phone" href="${TEL}">${PHONE}</a>
       <div class="cd">dan@dmakshvac.com<br>812 Sherman Ave, Edwardsville, IL 62025</div>
-      <div class="hours"><div class="k">HOURS</div>Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p<br><b>24/7 emergency service available</b></div>
+      <div class="hours"><div class="k">HOURS</div>Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p<br><b>Same-day repairs on most calls</b></div>
     </div>
-    <form class="form-card" name="quote" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks/">
-      <input type="hidden" name="form-name" value="quote">
-      <p style="display:none"><label>Skip if human: <input name="bot-field"></label></p>
-      <div class="k">Free quote in 60 seconds</div>
-      <input name="name" placeholder="Your name" required>
-      <input name="phone" type="tel" placeholder="Phone number" required>
-      <input name="email" type="email" placeholder="Email (optional)">
-      <select name="problem">
-        <option>What's the problem?</option><option>AC isn't cooling</option><option>No heat</option><option>Strange noise or smell</option><option>High energy bills</option><option>New system / replacement</option><option>Tune-up &amp; maintenance</option>
-      </select>
-      <textarea name="message" rows="3" placeholder="Anything else we should know?"></textarea>
-      <button class="btn btn-dark btn-block" type="submit">Send my request →</button>
-      <div class="form-fine">No obligation · usually answered within the hour</div>
-    </form>
+    ${quoteFormCard()}
   </div>
 </div></section>` });
 
@@ -408,13 +471,103 @@ const cityPage = c => page({ active:'area', cta:true,
 </div></section>
 <section class="band band-cream"><div class="wrap">
   <div class="sec-head"><h2 class="title">Services in ${c.name}</h2><a class="link-red" href="/services/">All services →</a></div>
-  <div class="svc-cards">${SERVICES.map(svcCard).join('')}</div>
+  <div class="svc-cards">${SERVICES.map(s=>svcCard(s, COMBOS ? c.slug : null)).join('')}</div>
 </div></section>
 <section class="band-cream" style="padding:0 0 20px"><div class="wrap">
-  <div class="sec-head"><h2 class="title" style="font-size:26px">What ${c.name} neighbors say</h2><span class="rev-score"><b>4.9★</b> Google · 200+ reviews</span></div>
+  <div class="sec-head"><h2 class="title" style="font-size:26px">${revHeading(c)}</h2>${revScore()}</div>
   <div class="rev-grid">${cityReviews(c).map(r=>reviewCard(r,true)).join('')}</div>
 </div></section>
 <section class="band-cream" style="padding:0 0 56px"><div class="wrap"><div class="map"><iframe loading="lazy" title="${c.name} service area map" src="https://www.google.com/maps?q=${encodeURIComponent(c.name+', '+c.st)}&z=12&output=embed"></iframe></div></div></section>` });
+
+const comboPage = (svc, c, copy) => page({ active:'services', cta:true,
+  title:`${COMBO_NAME[svc.id].replace(/&/g,'and')} in ${c.name}, ${c.st} | DMAK'S HVAC`,
+  desc:`${COMBO_NAME[svc.id].replace(/&/g,'and')} in ${c.name}, ${c.st} from family-owned DMAK'S HVAC. Same-day service, honest pricing, free quotes. Call (314) 420-9851.`,
+  schema:[localBusinessSchema(), serviceSchema(svc, c), faqSchema(copy.faqs),
+    breadcrumbSchema([['Home','/'],['Services','/services/'],[svc.name.replace(/&/g,'and'),'/services/'+svc.id+'/'],[c.name+', '+c.st,'/services/'+svc.id+'/'+c.slug+'/']])],
+  body:`
+<section class="band band-dark pos sd-hero" style="padding:56px 0 60px"><div class="wrap">
+  <div class="grid">
+    <div>
+      <div class="crumb"><a href="/services/">Services</a> &nbsp;/&nbsp; <a href="/services/${svc.id}/">${amp(svc.name)}</a> &nbsp;/&nbsp; ${c.name}, ${c.st}</div>
+      <h1>${amp(COMBO_NAME[svc.id])} in ${c.name}</h1>
+      <p class="tl">${amp(svc.tagline)}</p>
+      <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/schedule/">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
+    </div>
+    <div class="sd-heroimg"><img src="${img(svc.hero)}" alt="${amp(svc.name)} in ${c.name}, ${c.st} — DMAK'S HVAC"></div>
+  </div>
+</div></section>
+<section class="band band-cream"><div class="wrap sd-2col">
+  <div><h2>${amp(svc.name)} help in ${c.name}</h2><p class="intro">${amp(copy.intro)}</p>
+    <div class="local-note"><div class="k" style="color:${svc.accent}">WHAT WE SEE IN ${c.name.toUpperCase()}</div><p>${amp(copy.localNote)}</p></div>
+  </div>
+  <div class="incl"><div class="k" style="color:${svc.accent}">WHAT'S INCLUDED</div>
+    <div class="list">${svc.includes.map(i=>`<div class="c"><b style="color:${svc.accent}">✓</b>${amp(i)}</div>`).join('')}</div>
+  </div>
+</div></section>
+<section class="band-cream" style="padding:0 0 40px"><div class="wrap">
+  <h2 class="title" style="font-size:28px;margin-bottom:20px">Questions from ${c.name}</h2>
+  <div class="faqs">${copy.faqs.map(f=>`<div class="faq"><div class="q">${amp(f.q)}</div><p>${amp(f.a)}</p></div>`).join('')}</div>
+</div></section>
+<section class="band-cream" style="padding:0 0 56px"><div class="wrap">
+  <div class="sec-head"><h2 class="title" style="font-size:26px">${revHeading(c)}</h2>${revScore()}</div>
+  <div class="rev-grid">${cityReviews(c).map(r=>reviewCard(r,true)).join('')}</div>
+</div></section>
+<section class="band-ink2" style="padding:40px 0"><div class="wrap">
+  <div class="eyebrow" style="margin-bottom:14px">${amp(svc.name).toUpperCase()} IN OTHER TOWNS</div>
+  <div class="chips">${AREAS.filter(o=>o.slug!==c.slug).map(o=>`<a class="chip" href="/services/${svc.id}/${o.slug}/">${o.name}${o.st==='MO'?', MO':''}</a>`).join('')}</div>
+  <div class="eyebrow" style="margin:26px 0 14px">MORE IN ${c.name.toUpperCase()}</div>
+  <div class="chips">${SERVICES.filter(s=>s.id!==svc.id).map(o=>`<a class="chip" href="/services/${o.id}/${c.slug}/">${amp(o.name)}</a>`).join('')}<a class="chip" href="/service-area/${c.slug}/">${c.name} service area</a></div>
+</div></section>` });
+
+const schedulePage = () => page({ active:'schedule', cta:false,
+  title:"Schedule HVAC Service Online | DMAK'S HVAC — Book a Visit",
+  desc:"Book your heating or cooling visit online. Pick a day and time window that works and Dan confirms by call or text, usually within the hour. (314) 420-9851.",
+  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Schedule','/schedule/']])],
+  body:`
+<section class="band-red" style="padding:60px 0"><div class="wrap">
+  <div class="contact-grid" style="align-items:start">
+    <div class="contact-info">
+      <span class="eyebrow">BOOK ONLINE</span>
+      <h1>Pick a time.<br>We'll be there.</h1>
+      <p class="lead">Choose a day and time window that works for you. A real person confirms your appointment by call or text, usually within the hour.</p>
+      <a class="phone" href="${TEL}">${PHONE}</a>
+      <div class="cd">Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p</div>
+      <div class="hours"><div class="k">CAN'T WAIT?</div>No heat, no cool, or something smells like burning? Skip the form and call, and we'll get to you as fast as we can.<br><b>Same-day service on most calls.</b></div>
+    </div>
+    <form class="form-card" name="schedule" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks/">
+      <input type="hidden" name="form-name" value="schedule">
+      <p style="display:none"><label>Skip if human: <input name="bot-field"></label></p>
+      <div class="k">Schedule a visit</div>
+      <input name="name" placeholder="Your name" aria-label="Your name" autocomplete="name" required>
+      <div class="form-row">
+        <input name="phone" type="tel" placeholder="Phone number" aria-label="Phone number" autocomplete="tel" required>
+        <input name="email" type="email" placeholder="Email (optional)" aria-label="Email (optional)" autocomplete="email">
+      </div>
+      <input name="address" placeholder="Street address" aria-label="Street address" autocomplete="street-address" required>
+      <select name="town" aria-label="Your town" required>
+        <option value="" disabled selected>Your town</option>${AREAS.map(a=>`<option>${a.name}, ${a.st}</option>`).join('')}<option>Other / nearby</option>
+      </select>
+      <select name="service" aria-label="What do you need?" required>
+        <option value="" disabled selected>What do you need?</option>${SERVICES.map(s=>`<option>${amp(s.name)}</option>`).join('')}<option>Not sure, something's wrong</option>
+      </select>
+      <span class="field-label">How soon?</span>
+      <div class="radio-row">
+        <label class="radio-pill"><input type="radio" name="urgency" value="Today (urgent)" required>Today, it's urgent</label>
+        <label class="radio-pill"><input type="radio" name="urgency" value="This week">This week</label>
+        <label class="radio-pill"><input type="radio" name="urgency" value="Flexible">I'm flexible</label>
+      </div>
+      <div class="form-row">
+        <div><span class="field-label">Preferred day</span><input name="date" type="date" data-min-today aria-label="Preferred day" required></div>
+        <div><span class="field-label">Time window</span><select name="window" aria-label="Preferred time window" required>
+          <option value="" disabled selected>Pick a window</option><option>Morning (7a – 12p)</option><option>Afternoon (12p – 4p)</option><option>Late day (4p – 6p)</option><option>Saturday (8a – 2p)</option>
+        </select></div>
+      </div>
+      <textarea name="notes" rows="3" placeholder="What's going on? Anything we should know?" aria-label="What's going on? Anything we should know?"></textarea>
+      <button class="btn btn-dark btn-block" type="submit">Request this time →</button>
+      <div class="form-fine">This sends a request, not a hold. Dan confirms by call or text. No obligation.</div>
+    </form>
+  </div>
+</div></section>` });
 
 const thanksPage = () => page({ active:'', cta:false, noindex:true,
   title:"Thanks, we got your request | DMAK'S HVAC",
@@ -425,6 +578,29 @@ const thanksPage = () => page({ active:'', cta:false, noindex:true,
   <h1 class="page-h1">Thanks, we've got it.</h1>
   <p class="lead" style="margin:16px auto 26px;max-width:480px">A real person will get back to you soon, usually within the hour. If it's urgent, call us and we'll pick up.</p>
   <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/">Back home</a></div>
+</div></section>` });
+
+const privacyPage = () => page({ active:'', cta:false,
+  title:"Privacy Policy | DMAK'S HVAC",
+  desc:"What DMAK'S HVAC collects through this website (the information you type into our quote and scheduling forms) and how we use it: to respond to your request.",
+  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Privacy','/privacy/']])],
+  body:`
+<section class="band band-dark" style="padding:52px 0"><div class="wrap">
+  <span class="eyebrow">THE FINE PRINT</span>
+  <h1 class="page-h1">Privacy policy</h1>
+  <p class="lead" style="max-width:560px;margin-top:14px">The short version: we only use what you send us to get back to you about your heating and cooling. We don't sell it, and we don't spam you.</p>
+</div></section>
+<section class="band band-cream"><div class="wrap prose">
+  <h2>What we collect</h2>
+  <p>When you fill out our quote or scheduling forms, we receive what you type: your name, phone number, email, address, and whatever you tell us about the problem. If you call or email us directly, we have whatever you share with us then. That's it — this site has no accounts, no logins, and we don't buy data about you from anyone.</p>
+  <h2>How we use it</h2>
+  <p>To respond to your request, schedule and perform the work, and follow up about it. If you ask for a quote, we use your info to give you one. We don't sell or rent your information, and we don't add you to marketing lists you didn't ask for.</p>
+  <h2>Who else sees it</h2>
+  <p>Form submissions are processed by Netlify, the company that hosts this website. Pages also load fonts from Google Fonts and maps from Google Maps, which means Google may see standard technical data about your visit (like your IP address), the same as on most websites. We don't run advertising trackers on this site.</p>
+  <h2>How long we keep it</h2>
+  <p>As long as we need it to handle your request and keep our records straight (things like invoices and warranty work). If you want your contact info deleted, email <a href="mailto:dan@dmakshvac.com">dan@dmakshvac.com</a> or call <a href="${TEL}">${PHONE}</a> and we'll take care of it.</p>
+  <h2>Questions</h2>
+  <p>This policy covers dmakshvac.com, run by DMAK'S HVAC LLC, 812 Sherman Ave, Edwardsville, IL 62025. If anything here is unclear, ask Dan — you'll get a straight answer. Last updated July 2026.</p>
 </div></section>` });
 
 const notFoundPage = () => page({ active:'', cta:true, noindex:true,
@@ -455,11 +631,21 @@ out.push(write('service-area', area()));
 AREAS.forEach(c => out.push(write('service-area/' + c.slug, cityPage(c))));
 out.push(write('reviews', reviews()));
 out.push(write('contact', contact()));
+out.push(write('schedule', schedulePage()));
+out.push(write('privacy', privacyPage()));
 out.push(write('thanks', thanksPage()));
+const COMBO_URLS = [];
+if (COMBOS) SERVICES.forEach(s => AREAS.forEach(c => {
+  const copy = comboFor(s.id, c.slug);
+  if (!copy) { console.warn('missing combo copy: ' + s.id + ' × ' + c.slug); return; }
+  out.push(write('services/' + s.id + '/' + c.slug, comboPage(s, c, copy)));
+  COMBO_URLS.push('/services/' + s.id + '/' + c.slug + '/');
+}));
 
-const URLS = ['/', '/services/', '/about/', '/service-area/', '/reviews/', '/contact/']
+const URLS = ['/', '/services/', '/about/', '/service-area/', '/reviews/', '/contact/', '/schedule/', '/privacy/']
   .concat(SERVICES.map(s => '/services/' + s.id + '/'))
-  .concat(AREAS.map(c => '/service-area/' + c.slug + '/'));
+  .concat(AREAS.map(c => '/service-area/' + c.slug + '/'))
+  .concat(COMBO_URLS);
 fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${URLS.map(u => `  <url><loc>${SITE}${u}</loc></url>`).join('\n')}\n</urlset>\n`);
