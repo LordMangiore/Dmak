@@ -74,7 +74,7 @@ h1,h2,h3,h4{font-family:'Archivo',sans-serif;margin:0;letter-spacing:-.01em}
 .hero .lead{font:400 18px/1.55 'Mulish';color:var(--md1);max-width:430px;margin:22px 0 0}
 .hero .actions{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap}
 .trust{position:relative;display:flex;gap:40px;flex-wrap:wrap;margin-top:44px;padding-top:26px;border-top:1px solid #2a2a30;font:700 14px 'Mulish';color:var(--md2)}
-.trust span,.trust-link{display:flex;align-items:center;gap:8px}
+.trust>span,.trust-link{display:flex;align-items:center;gap:8px}
 .trust b{font:900 20px 'Archivo'}
 .trust-link{color:var(--md2)}
 .trust-link:hover{color:#fff}
