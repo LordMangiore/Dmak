@@ -6,6 +6,7 @@ const PHONE = '(314) 420-9851', TEL = 'tel:+13144209851';
 // Dan's real Google Business Profile (resolved from the GBP share link). Rating/count are the live figures.
 const GBP = 'https://maps.google.com/?cid=7991446230126163755';
 const RATING = '5.0', REVIEW_COUNT = '95+';
+const STAR = '<span class="star">★</span>'; // optically-centered star glyph (Archivo lacks ★)
 const RED = '#CE3F26', BLUE = '#2E76AE', ORANGE = '#E0823F';
 const amp = s => String(s).replace(/&(?![a-z]+;)/gi, '&amp;');
 const img = p => '/images/' + p.replace(/^uploads\//, '');
@@ -132,7 +133,7 @@ const footer = () => `<footer class="footer"><div class="wrap grid">
   </div></footer>`;
 const reviewCard = (r, town) => `<div class="review"><div class="stars">★★★★★</div><p>"${amp(r.text)}"</p><div class="nm">${r.name}</div>${town && r.town?`<div class="tw">${r.town}</div>`:''}</div>`;
 // Clickable rating badge -> Dan's real Google listing
-const revScore = () => `<a class="rev-score" href="${GBP}" target="_blank" rel="noopener"><b>${RATING}★</b> Google · ${REVIEW_COUNT} reviews</a>`;
+const revScore = () => `<a class="rev-score" href="${GBP}" target="_blank" rel="noopener"><b>${RATING}${STAR}</b> Google · ${REVIEW_COUNT} reviews</a>`;
 
 // ---------- schema (JSON-LD) ----------
 const SITE = 'https://www.dmakshvac.com';
@@ -263,7 +264,7 @@ const home = () => page({ active:'', cta:true,
       ${solver()}
     </div>
     <div class="trust">
-      <a class="trust-link" href="${GBP}" target="_blank" rel="noopener"><b style="color:${BLUE_L()}">${RATING}★</b> on Google</a>
+      <a class="trust-link" href="${GBP}" target="_blank" rel="noopener"><b style="color:${BLUE_L()}">${RATING}${STAR}</b> on Google</a>
       <span><b style="color:${RED}">${REVIEW_COUNT}</b> Google reviews</span>
       <span><b style="color:${ORANGE}">5+</b> years local</span>
       <span><b style="color:#fff">Licensed</b> &amp; insured</span>
@@ -385,13 +386,13 @@ const about = () => page({ active:'about', cta:true,
     <div class="about-portrait"><img class="p" src="/images/image_50727169-scaled.jpg" alt="Daniel Makarov, owner of DMAK'S HVAC"><img class="d" src="/images/image_123650291.jpg" alt="Dorothy, the shop dog"></div>
     <div>
       <h2>Dan &amp; Dorothy</h2>
-      <p>Daniel is fully licensed and certified with years in the field across the Metro East. Dorothy, the shop dog, runs quality control and morale. Together they've earned a 5.0★ Google rating across ${REVIEW_COUNT} reviews.</p>
+      <p>Daniel is fully licensed and certified with years in the field across the Metro East. Dorothy, the shop dog, runs quality control and morale. Together they've earned a 5.0${STAR} Google rating across ${REVIEW_COUNT} reviews.</p>
       <div class="checks">${['Licensed & certified','Family-owned & local','Honest, no-pressure quotes','Fully insured'].map(c=>`<div class="c"><b>✓</b>${amp(c)}</div>`).join('')}</div>
     </div>
   </div>
   <div class="stats">
     <div><b style="color:${RED}">${REVIEW_COUNT}</b><span>Google reviews</span></div>
-    <div><b style="color:${BLUE}">${RATING}★</b><span>Google rating</span></div>
+    <div><b style="color:${BLUE}">${RATING}${STAR}</b><span>Google rating</span></div>
     <div><b style="color:${ORANGE}">5+</b><span>years local</span></div>
     <div><b style="color:#1b1a18">1</b><span>very good dog</span></div>
   </div>
@@ -426,7 +427,7 @@ const reviews = () => page({ active:'reviews', cta:true,
 <section class="band band-dark" style="padding:60px 0;text-align:center"><div class="wrap">
   <span class="eyebrow">GOOGLE REVIEWS</span>
   <h1 class="page-h1">Neighbors love<br>working with us</h1>
-  <div style="display:inline-flex;align-items:center;gap:12px;margin-top:20px;font:700 16px 'Mulish';color:#c9c9cd"><span style="color:${ORANGE};font:900 28px 'Archivo'">${RATING}★</span> · ${REVIEW_COUNT} reviews on Google</div>
+  <div style="display:inline-flex;align-items:center;gap:12px;margin-top:20px;font:700 16px 'Mulish';color:#c9c9cd"><span style="color:${ORANGE};font:900 28px 'Archivo'">${RATING}${STAR}</span> · ${REVIEW_COUNT} reviews on Google</div>
   <div style="margin-top:22px"><a class="btn btn-red" href="${GBP}" target="_blank" rel="noopener">Read our reviews on Google →</a></div>
 </div></section>
 <section class="band band-cream"><div class="wrap">

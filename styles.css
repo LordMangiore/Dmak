@@ -22,6 +22,8 @@ h1,h2,h3,h4{font-family:'Archivo',sans-serif;margin:0;letter-spacing:-.01em}
 .eyebrow{font:700 12px 'Mulish';letter-spacing:.16em;color:var(--lblue);text-transform:uppercase}
 .accent-red{color:var(--red)}
 .mono{font-family:'Spline Sans Mono',monospace}
+/* Rating star: Archivo has no ★ glyph, so the fallback sits high — optically center it with the digits */
+.star{display:inline-block;font-size:.9em;line-height:1;vertical-align:middle;position:relative;top:-.06em;margin-left:.02em}
 
 /* Buttons */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:800 16px 'Mulish';padding:16px 26px;border-radius:11px;border:1.5px solid transparent;cursor:pointer;transition:.16s;text-align:center}
@@ -312,12 +314,15 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
   .why{padding:30px 18px}
   .sd-hero h1{font-size:38px}
   .about-hero h1,.contact-info h1{font-size:34px}
-  .cta{flex-direction:column;align-items:flex-start;gap:16px}
-  .footer .grid{grid-template-columns:1fr 1fr;gap:22px}
+  .cta{flex-direction:column;align-items:flex-start;gap:18px;padding-top:36px;padding-bottom:36px}
+  .cta .actions{width:100%;flex-direction:column;gap:10px}
+  .cta .actions .btn{width:100%}
+  .footer .grid{grid-template-columns:1fr 1fr;gap:26px 22px;padding-top:36px;padding-bottom:44px}
   .trust{gap:14px 22px;margin-top:22px}
   .stats{gap:24px}
 }
 @media(max-width:480px){
   .svc-cards{grid-template-columns:1fr 1fr}
-  .footer .grid{grid-template-columns:1fr}
+  .footer .grid{grid-template-columns:1fr;gap:24px}
+  .footer .blurb{max-width:none}
 }
