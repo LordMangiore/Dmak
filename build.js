@@ -72,13 +72,27 @@ const SYMPTOMS = [
   { id:'maint',   accent:BLUE,   label:'Tune-up',             sub:'Seasonal maintenance' }
 ];
 
-// Real reviews from Dan's Google Business Profile (5.0★, 95+ reviews). The three highlight
-// quotes are Google's featured excerpts; named entries are real reviewers. Swap/extend as more come in.
+// Real reviews from Dan's Google Business Profile (5.0★, 95+ reviews). Verbatim (lightly trimmed)
+// from the listing; names as shown on Google. Add more or tag towns as they're confirmed.
 const REVIEWS = [
-  { text:"Dan is great! Quick response, gets the job done right, and he's friendly and honest.", name:'Ryan Land', town:'Edwardsville, IL' },
-  { text:'Great experience, same-day service in the summer heat and did honest work.', name:'Google review', town:'' },
-  { text:'Quick diagnosis, fair pricing, and professional service throughout the visit.', name:'Google review', town:'' },
-  { text:'He gave us a few options to fit our budget.', name:'Google review', town:'' }
+  { text:"My regular maintenance company quoted me almost $4,500. I called around and reread reviews, and DMAK's came out the next day, did the repair, and saved me more than $1,000.", name:'Damon Campbell', town:'' },
+  { text:"We had Dan out to replace our old system. We'd gotten a few other quotes, but once Dan inspected our system we knew the search was over. Knowledgeable, friendly, honest, and he gave us a few options to fit our budget.", name:'Jonathan', town:'' },
+  { text:"Our coil went out right as it got hot out. Another large company tried to give me the runaround, so I called DMAK for a second opinion. They were quick to show, gave a fair price, and replaced the coil same day.", name:'Gary Clinton', town:'' },
+  { text:"Dan came soon after I called. Our furnace was old and not working and it was freezing. He installed a new furnace as fast as possible, his price was fair, and he fixed a problem with our air conditioner while he was here.", name:'Debra Greenwell', town:'' },
+  { text:"Dan came to my house and set up my new unit, and he was very kind and informative about his procedures. He got the job done and kept us protected from the heat. I'll use his services again for sure.", name:'Michael Valentini', town:'' },
+  { text:"Dan was fantastic to work with, down to earth, honest, and hardworking. I had a full install done, and as a first-time homeowner he made me feel included and comfortable with all of it.", name:'Phillip Wahby', town:'' },
+  { text:"Dan was smart, efficient, super helpful, and super reasonable on price. He had my system up and running in a matter of minutes and was at my house the next day. We have a new HVAC guy for life.", name:'Don Myatt', town:'' },
+  { text:"Dan was extremely responsive. Even though I'm a good distance from his business, he agreed to come out for a very fair travel fee, and he even offered to FaceTime first to help diagnose the problem.", name:'Mary Smith', town:'' },
+  { text:"Dan provided the best and quickest service possible. Our AC went out on a hot summer day and the company we'd booked canceled on us, and Dan got us up and running again.", name:'Jervis Atagana', town:'' },
+  { text:"Dan is genuinely the best HVAC guy I've worked with. He's fixed multiple things at my house with no problems since. If you want a fair price with workmanship and pride behind the work, this is your guy.", name:'Cody Alvarez', town:'' },
+  { text:"DMAK'S HVAC provided excellent heating and cooling service. The furnace repair was fast, professional, and very affordable, and the technician explained everything clearly and finished on time.", name:'Aspen Abbott', town:'' },
+  { text:"I highly recommend Dan for all your HVAC needs. He's respectful, informative, timely, communicates well, and has very fair pricing. Most of all, he's honest about what he recommends.", name:'Janiece Stewart', town:'' },
+  { text:"Our furnace needed replacing and he was here right away. When we had a thermostat issue afterward, he came right back. Great with us, great with our dog, and great customer service.", name:'Alicia Barton', town:'' },
+  { text:"Dan was prompt, professional, and knowledgeable. He quickly diagnosed and resolved my HVAC issue, and the pricing was fair and transparent. Highly recommend for anyone needing HVAC work.", name:'Zach Thompson', town:'' },
+  { text:"Dan did a great job. He was quick and thorough, explained everything, and now I have a great working system. He'll be my go-to HVAC person.", name:'Kathy Lowry', town:'' },
+  { text:"My furnace went out on the first extremely cold day this year. Dan was out in a matter of hours and had me up and running in a very short amount of time, and the cost was a relief.", name:'Chloe Cummings', town:'' },
+  { text:"Our blower went out on one of the coldest days of the year. Dan was an absolute lifesaver, and his swift response turned a potentially disastrous situation into a manageable one.", name:'Andrew Guelker', town:'' },
+  { text:"Same-day service, and quick with the diagnostics and repairs. Will do business with him again in the future.", name:'Patrick Ampleman', town:'' }
 ];
 
 const AREAS = [
