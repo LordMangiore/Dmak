@@ -3,6 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const ROOT = __dirname;
 const PHONE = '(314) 420-9851', TEL = 'tel:+13144209851';
+// Business hours (single source of truth): Mon–Sat 8am–8pm, closed Sunday
+const HOURS = 'Mon–Sat 8a–8p';
+const HOURS_FULL = 'Mon–Sat 8:00a – 8:00p · Closed Sun';
 // Dan's real Google Business Profile (resolved from the GBP share link). Rating/count are the live figures.
 const GBP = 'https://maps.google.com/?cid=7991446230126163755';
 const RATING = '5.0', REVIEW_COUNT = '95+';
@@ -122,14 +125,14 @@ const header = active => {
   <div class="wrap nav-chips">${links}<a href="/contact/"${a('contact')}>Contact</a></div></header>`;
 };
 const ctaBand = () => `<section class="band-dark"><div class="wrap cta">
-    <div><h2>Ready when you are.</h2><p>Same-day repairs and free quotes across the Metro East &amp; St. Louis.</p><p class="cta-hours">Mon–Fri 7a–6p · Sat 8a–2p · <b>Same-day repairs on most calls</b></p></div>
+    <div><h2>Ready when you are.</h2><p>Same-day repairs and free quotes across the Metro East &amp; St. Louis.</p><p class="cta-hours">${HOURS} · <b>Same-day repairs on most calls</b></p></div>
     <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/schedule/">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
   </div></section>`;
 const footer = () => `<footer class="footer"><div class="wrap grid">
     <div><div class="bname">DMAK'S HVAC LLC</div><div class="btag">HEATING &amp; COOLING</div><p class="blurb">Family-owned heating &amp; cooling, serving the Metro East &amp; St. Louis.</p></div>
     <div><div class="h4">SERVICES</div>${SERVICES.map(s=>`<a href="/services/${s.id}/">${amp(s.name)}</a>`).join('')}</div>
     <div><div class="h4">COMPANY</div><a href="/about/">About</a><a href="/service-area/">Service Area</a><a href="/schedule/">Schedule Service</a><a href="/reviews/">Reviews</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a></div>
-    <div><div class="h4">CONTACT</div><div class="cd"><a href="${TEL}">${PHONE}</a><br><a href="mailto:dan@dmakshvac.com">dan@dmakshvac.com</a><br>812 Sherman Ave,<br>Edwardsville, IL 62025<br>Mon–Fri 7a–6p · Sat 8a–2p</div></div>
+    <div><div class="h4">CONTACT</div><div class="cd"><a href="${TEL}">${PHONE}</a><br><a href="mailto:dan@dmakshvac.com">dan@dmakshvac.com</a><br>812 Sherman Ave,<br>Edwardsville, IL 62025<br>${HOURS}</div></div>
   </div></footer>`;
 const reviewCard = (r, town) => `<div class="review"><div class="stars">★★★★★</div><p>"${amp(r.text)}"</p><div class="nm">${r.name}</div>${town && r.town?`<div class="tw">${r.town}</div>`:''}</div>`;
 // Clickable rating badge -> Dan's real Google listing
@@ -144,8 +147,7 @@ const localBusinessSchema = () => ({
   "address":{"@type":"PostalAddress","streetAddress":"812 Sherman Ave","addressLocality":"Edwardsville","addressRegion":"IL","postalCode":"62025","addressCountry":"US"},
   "geo":{"@type":"GeoCoordinates","latitude":38.8114,"longitude":-89.9532},
   "openingHoursSpecification":[
-    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday"],"opens":"07:00","closes":"18:00"},
-    {"@type":"OpeningHoursSpecification","dayOfWeek":"Saturday","opens":"08:00","closes":"14:00"}
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"08:00","closes":"20:00"}
   ],
   "areaServed":AREAS.map(a=>({"@type":"City","name":a.name+", "+a.st})),
   "makesOffer":SERVICES.map(s=>({"@type":"Offer","itemOffered":{"@type":"Service","name":s.name.replace(/&/g,'and')}}))
@@ -304,7 +306,7 @@ const home = () => page({ active:'', cta:true,
       <h2 style="font:900 46px/1 'Archivo';text-transform:uppercase;margin:12px 0 0">Tell us what's<br>going on.</h2>
       <p class="lead">Fill this out and a real person calls you back, usually within the hour. Prefer to pick a day and time yourself? <a href="/schedule/" style="color:#fff;font-weight:800;text-decoration:underline">Book a visit online</a>.</p>
       <a class="phone" href="${TEL}">${PHONE}</a>
-      <div class="cd">Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p<br><b>Same-day repairs on most calls</b></div>
+      <div class="cd">${HOURS_FULL}<br><b>Same-day repairs on most calls</b></div>
     </div>
     ${quoteFormCard()}
   </div>
@@ -448,7 +450,7 @@ const contact = () => page({ active:'contact', cta:false,
       <p class="lead">Call now or send a request and a real person will get back to you — usually within the hour.</p>
       <a class="phone" href="${TEL}">${PHONE}</a>
       <div class="cd">dan@dmakshvac.com<br>812 Sherman Ave, Edwardsville, IL 62025</div>
-      <div class="hours"><div class="k">HOURS</div>Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p<br><b>Same-day repairs on most calls</b></div>
+      <div class="hours"><div class="k">HOURS</div>${HOURS_FULL}<br><b>Same-day repairs on most calls</b></div>
     </div>
     ${quoteFormCard()}
   </div>
@@ -532,7 +534,7 @@ const schedulePage = () => page({ active:'schedule', cta:false,
       <h1>Pick a time.<br>We'll be there.</h1>
       <p class="lead">Choose a day and time window that works for you. A real person confirms your appointment by call or text, usually within the hour.</p>
       <a class="phone" href="${TEL}">${PHONE}</a>
-      <div class="cd">Mon–Fri 7:00a – 6:00p · Sat 8:00a – 2:00p</div>
+      <div class="cd">${HOURS_FULL}</div>
       <div class="hours"><div class="k">CAN'T WAIT?</div>No heat, no cool, or something smells like burning? Skip the form and call, and we'll get to you as fast as we can.<br><b>Same-day service on most calls.</b></div>
     </div>
     <form class="form-card" name="schedule" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/thanks/">
@@ -560,7 +562,7 @@ const schedulePage = () => page({ active:'schedule', cta:false,
       <div class="form-row">
         <div><span class="field-label">Preferred day</span><input name="date" type="date" data-min-today aria-label="Preferred day" required></div>
         <div><span class="field-label">Time window</span><select name="window" aria-label="Preferred time window" required>
-          <option value="" disabled selected>Pick a window</option><option>Morning (7a – 12p)</option><option>Afternoon (12p – 4p)</option><option>Late day (4p – 6p)</option><option>Saturday (8a – 2p)</option>
+          <option value="" disabled selected>Pick a window</option><option>Morning (8a – 12p)</option><option>Afternoon (12p – 4p)</option><option>Evening (4p – 8p)</option>
         </select></div>
       </div>
       <textarea name="notes" rows="3" placeholder="What's going on? Anything we should know?" aria-label="What's going on? Anything we should know?"></textarea>
