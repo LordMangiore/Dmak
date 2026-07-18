@@ -669,13 +669,17 @@ fs.writeFileSync(path.join(ROOT, 'sitemap.xml'),
 fs.writeFileSync(path.join(ROOT, '404.html'), notFoundPage().replace(/__CANONICAL__/g, SITE + '/404'));
 
 // ---------- Netlify _redirects: legacy WordPress URLs -> new structure (301 permanent) ----------
-const slugify = s => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-// Old WP town pages were /<town>-<st>-hvac-services/. Derive all 12 from AREAS so none are missed.
-const townRedirects = AREAS.map(a => [`/${slugify(a.name)}-${a.st.toLowerCase()}-hvac-services/`, `/service-area/${a.slug}/`]);
+// Source of truth: the old WP page-sitemap. The whole old site was home, /contact-us/, /about-us/,
+// and exactly 6 town pages (no service pages, no blog). Home stays "/", so it needs no redirect.
 const REDIRECTS = [
   ['/contact-us/', '/contact/'],
   ['/about-us/', '/about/'],
-  ...townRedirects
+  ['/edwardsville-il-hvac-services/', '/service-area/edwardsville/'],
+  ['/glen-carbon-il-hvac-services/', '/service-area/glen-carbon/'],
+  ['/alton-il-hvac-services/', '/service-area/alton/'],
+  ['/troy-il-hvac-services/', '/service-area/troy/'],
+  ['/collinsville-il-hvac-services/', '/service-area/collinsville/'],
+  ['/st-louis-mo-hvac-services/', '/service-area/st-louis-mo/']
 ];
 // Emit each rule with and without a trailing slash so old links match regardless of form.
 const redirectLines = REDIRECTS.flatMap(([from, to]) => {
