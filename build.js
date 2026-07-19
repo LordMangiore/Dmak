@@ -4,8 +4,8 @@ const path = require('path');
 const ROOT = __dirname;
 const PHONE = '(314) 420-9851', TEL = 'tel:+13144209851';
 // Business hours (single source of truth): Mon–Sat 8am–8pm, closed Sunday
-const HOURS = 'Mon–Sat 8a–8p';
-const HOURS_FULL = 'Mon–Sat 8:00a – 8:00p · Closed Sun';
+const HOURS = 'Open daily 8a–8p';
+const HOURS_FULL = 'Open daily 8:00a – 8:00p';
 // Dan's real Google Business Profile (resolved from the GBP share link). Rating/count are the live figures.
 const GBP = 'https://maps.google.com/?cid=7991446230126163755';
 const RATING = '5.0', REVIEW_COUNT = '95+';
@@ -161,7 +161,7 @@ const localBusinessSchema = () => ({
   "address":{"@type":"PostalAddress","streetAddress":"812 Sherman Ave","addressLocality":"Edwardsville","addressRegion":"IL","postalCode":"62025","addressCountry":"US"},
   "geo":{"@type":"GeoCoordinates","latitude":38.8114,"longitude":-89.9532},
   "openingHoursSpecification":[
-    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"opens":"08:00","closes":"20:00"}
+    {"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"08:00","closes":"20:00"}
   ],
   "areaServed":AREAS.map(a=>({"@type":"City","name":a.name+", "+a.st})),
   "makesOffer":SERVICES.map(s=>({"@type":"Offer","itemOffered":{"@type":"Service","name":s.name.replace(/&/g,'and')}}))
