@@ -641,6 +641,46 @@ const notFoundPage = () => page({ active:'', cta:true, noindex:true,
   <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap"><a class="btn btn-red" href="/">Back home</a><a class="btn btn-outline" href="/contact/">Contact us</a></div>
 </div></section>` });
 
+// ---------- scheduler A/B/C test variants (standalone, noindex, driven by /scheduler.js) ----------
+const SCHED_VARIANTS = [
+  { id:'a', name:'Guided', page:'#f3efe9', card:"background:#fff;min-height:620px;border:1px solid #ece7df;box-shadow:0 30px 70px rgba(0,0,0,.16)", maxw:660, ph:'#b3ada3', link:'#3a352e', linkHover:'#141416' },
+  { id:'b', name:'Fast Track', page:'#141416', card:"background:#141416;min-height:600px;border:1px solid #2c2c30;box-shadow:0 30px 70px rgba(0,0,0,.4);position:relative", maxw:600, ph:'#7b7b82', link:'#c9c9cd', linkHover:'#fff' },
+  { id:'c', name:'Chat', page:'#f3efe9', card:"background:#F6F4F1;height:640px;border:1px solid #e6e1d8;box-shadow:0 30px 70px rgba(0,0,0,.35)", maxw:560, ph:'#a7a29a', link:'#3a352e', linkHover:'#141416' },
+];
+const schedulerHiddenForm = id => `<form name="schedule-${id}" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden aria-hidden="true">
+    <input type="hidden" name="form-name" value="schedule-${id}"><input name="bot-field"><input name="variant"><input name="name"><input name="phone"><input name="email"><input name="zip"><input name="address"><input name="city"><input name="problem"><input name="urgency"><input name="when">
+  </form>`;
+const schedulerVariantPage = v => `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a visit (${v.name}) | DMAK'S HVAC</title>
+<meta name="description" content="Book your DMAK'S HVAC visit in about a minute.">
+<meta name="robots" content="noindex,nofollow">
+<link rel="canonical" href="__CANONICAL__">
+<link rel="icon" href="/images/favicon.png"><meta name="theme-color" content="${v.id==='b'?'#141416':'#f3efe9'}">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800;900&family=Archivo:wght@600;700;800;900&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box} html,body{margin:0}
+  body{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:64px 16px 40px;font-family:'Mulish',sans-serif;background:${v.page}}
+  @keyframes scRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+  @keyframes scPop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+  @keyframes scPulse{0%,100%{opacity:1}50%{opacity:.4}}
+  @keyframes scDot{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-4px);opacity:1}}
+  .sc-screen,.sc-in{animation:scRise .3s ease both}
+  .sc-thread::-webkit-scrollbar{width:7px}.sc-thread::-webkit-scrollbar-thumb{background:#d8d2c8;border-radius:99px}
+  input::placeholder{color:${v.ph}}
+  .sc-card{width:100%;max-width:${v.maxw}px;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;${v.card}}
+  .sc-home{position:fixed;top:16px;left:18px;display:flex;align-items:center;gap:9px;text-decoration:none;font:800 13px 'Mulish';color:${v.link}}
+  .sc-home:hover{color:${v.linkHover}} .sc-home img{width:26px;height:26px;object-fit:contain}
+</style>
+</head><body>
+<a class="sc-home" href="/"><img src="/images/favicon.png" alt="">← DMAK'S HVAC</a>
+<div class="sc-card" data-scheduler="${v.id}"></div>
+${schedulerHiddenForm(v.id)}
+<script src="/scheduler.js"></script>
+</body></html>`;
+
 // ---------- write ----------
 const write = (rel, html) => {
   const dir = path.join(ROOT, rel);
@@ -659,6 +699,7 @@ AREAS.forEach(c => out.push(write('service-area/' + c.slug, cityPage(c))));
 out.push(write('reviews', reviews()));
 out.push(write('contact', contact()));
 out.push(write('schedule', schedulePage()));
+SCHED_VARIANTS.forEach(v => out.push(write('schedule/' + v.id, schedulerVariantPage(v))));
 out.push(write('privacy', privacyPage()));
 out.push(write('thanks', thanksPage()));
 const COMBO_URLS = [];
