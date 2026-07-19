@@ -205,7 +205,17 @@ const quoteFormCard = () => `<form class="form-card" name="quote" method="POST" 
       <button class="btn btn-dark btn-block" type="submit">Send my request →</button>
       <div class="form-fine">No obligation · usually answered within the hour · <a href="/schedule/" style="font-weight:800;color:inherit;text-decoration:underline">book a visit online</a> · <a href="/privacy/" style="color:inherit">privacy</a></div>
     </form>`;
-const cityReviews = c => { const m = REVIEWS.filter(r=>r.town.indexOf(c.name)===0); const rest = REVIEWS.filter(r=>r.town.indexOf(c.name)!==0); return m.concat(rest).slice(0,3); };
+// Stable string hash so each page deterministically rotates through the review pool.
+const hashStr = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+// Prefer reviews tagged to this town (if any get tagged later); otherwise rotate by seed so
+// different service-area / combo pages don't all show the same 3 reviews.
+const cityReviews = (c, seed) => {
+  const matched = REVIEWS.filter(r => r.town && r.town.indexOf(c.name) === 0);
+  if (matched.length >= 3) return matched.slice(0, 3);
+  const start = hashStr(seed || c.slug) % REVIEWS.length;
+  const rotated = REVIEWS.slice(start).concat(REVIEWS.slice(0, start)).filter(r => !matched.includes(r));
+  return matched.concat(rotated).slice(0, 3);
+};
 // Honest heading: only claim reviews are from the town when at least one actually is
 const revHeading = c => REVIEWS.some(r=>r.town.indexOf(c.name)===0) ? `What ${c.name} neighbors say` : 'What Metro East neighbors say';
 
@@ -492,7 +502,7 @@ const cityPage = c => page({ active:'area', cta:true,
 </div></section>
 <section class="band-cream" style="padding:0 0 20px"><div class="wrap">
   <div class="sec-head"><h2 class="title" style="font-size:26px">${revHeading(c)}</h2>${revScore()}</div>
-  <div class="rev-grid">${cityReviews(c).map(r=>reviewCard(r,true)).join('')}</div>
+  <div class="rev-grid">${cityReviews(c, c.slug).map(r=>reviewCard(r,true)).join('')}</div>
 </div></section>
 <section class="band-cream" style="padding:0 0 56px"><div class="wrap"><div class="map"><iframe loading="lazy" title="${c.name} service area map" src="https://www.google.com/maps?q=${encodeURIComponent(c.name+', '+c.st)}&z=12&output=embed"></iframe></div></div></section>` });
 
@@ -527,7 +537,7 @@ const comboPage = (svc, c, copy) => page({ active:'services', cta:true,
 </div></section>
 <section class="band-cream" style="padding:0 0 56px"><div class="wrap">
   <div class="sec-head"><h2 class="title" style="font-size:26px">${revHeading(c)}</h2>${revScore()}</div>
-  <div class="rev-grid">${cityReviews(c).map(r=>reviewCard(r,true)).join('')}</div>
+  <div class="rev-grid">${cityReviews(c, svc.id + '-' + c.slug).map(r=>reviewCard(r,true)).join('')}</div>
 </div></section>
 <section class="band-ink2" style="padding:40px 0"><div class="wrap">
   <div class="eyebrow" style="margin-bottom:14px">${amp(svc.name).toUpperCase()} IN OTHER TOWNS</div>
