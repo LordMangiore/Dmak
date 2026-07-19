@@ -699,7 +699,7 @@ AREAS.forEach(c => out.push(write('service-area/' + c.slug, cityPage(c))));
 out.push(write('reviews', reviews()));
 out.push(write('contact', contact()));
 out.push(write('schedule', schedulePage()));
-SCHED_VARIANTS.forEach(v => out.push(write('schedule/' + v.id, schedulerVariantPage(v))));
+SCHED_VARIANTS.forEach(v => out.push(write('schedule-' + v.id, schedulerVariantPage(v))));
 out.push(write('privacy', privacyPage()));
 out.push(write('thanks', thanksPage()));
 const COMBO_URLS = [];
