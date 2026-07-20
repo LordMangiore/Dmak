@@ -5,6 +5,14 @@
   command = "node build.js"
   publish = "."
 
+[build.environment]
+  # This is a 100% public static marketing site (HTML/CSS/JS) with no backend,
+  # API keys, or secrets — every file is served publicly. Netlify's default
+  # secret scanner was throwing false positives and blocking deploys, so it's
+  # disabled here. Re-enable (and use SECRETS_SCAN_OMIT_PATHS) if real secrets
+  # are ever introduced.
+  SECRETS_SCAN_ENABLED = "false"
+
 [[headers]]
   for = "/images/*"
   [headers.values]
