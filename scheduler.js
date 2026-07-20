@@ -43,6 +43,7 @@
   function refNum() { return 'DMAK-' + (1000 + Math.floor(Math.random() * 9000)); }
   var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
   var zip5 = function (v) { return /^\d{5}$/.test(v); };
+  var phoneOk = function (v) { return v.replace(/\D/g, '').length >= 10; }; // needs a real 10-digit number
   var digitsOnly = function (v) { return v.replace(/[^0-9]/g, '').slice(0, 5); };
 
   function submitNetlify(formName, data) {
@@ -93,9 +94,9 @@
   var A_ON = 'cursor:pointer;border:none;background:' + RED + ';color:#fff;font:800 15px Mulish;letter-spacing:.04em;padding:17px 64px;border-radius:11px;box-shadow:0 12px 28px rgba(206,63,38,.32)';
   var A_OFF = 'border:none;background:#ece7df;color:#b8b2a8;font:800 15px Mulish;letter-spacing:.04em;padding:17px 64px;border-radius:11px;cursor:not-allowed';
   function initA(root) {
-    var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '' };
+    var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '' };
     var autoT;
-    function canNext() { if (st.step === 0) return !!st.first.trim(); if (st.step === 4) return zip5(st.zip) && !!st.phone.trim(); return false; }
+    function canNext() { if (st.step === 0) return !!st.first.trim(); if (st.step === 4) return zip5(st.zip) && phoneOk(st.phone); return false; }
     function go(n) { st.step = Math.max(0, Math.min(n, 5)); render(true); }
     function auto() { clearTimeout(autoT); autoT = setTimeout(function () { go(st.step + 1); }, 340); }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canNext(); b.disabled = !can; b.style.cssText = can ? A_ON : A_OFF; }
@@ -162,8 +163,8 @@
 
       if (st.step === 0)
         html += '<div' + scr + ' style="width:100%;max-width:560px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
-          + '<input data-in="first" value="' + esc(st.first) + '" placeholder="FIRST NAME" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:17px 16px;font:600 16px Mulish;background:#fff;outline:none;text-align:center;">'
-          + '<input data-in="last" value="' + esc(st.last) + '" placeholder="LAST NAME" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:17px 16px;font:600 16px Mulish;background:#fff;outline:none;text-align:center;"></div>';
+          + '<input data-in="first" aria-label="First name" autocomplete="given-name" value="' + esc(st.first) + '" placeholder="FIRST NAME" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:17px 16px;font:600 16px Mulish;background:#fff;outline:none;text-align:center;">'
+          + '<input data-in="last" aria-label="Last name" autocomplete="family-name" value="' + esc(st.last) + '" placeholder="LAST NAME" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:17px 16px;font:600 16px Mulish;background:#fff;outline:none;text-align:center;"></div>';
       if (st.step === 1)
         html += '<div' + scr + ' style="width:100%;max-width:620px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">' + PROBLEMS.map(optProblem).join('') + '</div>';
       if (st.step === 2)
@@ -172,10 +173,11 @@
         html += '<div' + scr + ' style="width:100%;max-width:520px;"><div style="display:flex;align-items:center;justify-content:center;gap:7px;font:700 12px Mulish;color:#8a857c;margin-bottom:14px;"><span style="width:14px;height:14px;border-radius:50%;background:#6FB1DE;display:inline-block;"></span>Central time (' + nowTime() + ')</div><div style="display:flex;flex-direction:column;gap:11px;">' + slots().map(optSlot).join('') + '</div></div>';
       if (st.step === 4)
         html += '<div' + scr + ' style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px;">'
-          + '<div style="position:relative;"><span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:' + RED + ';font-size:18px;">📍</span><input data-in="address" value="' + esc(st.address) + '" placeholder="STREET ADDRESS, CITY" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 16px 16px 44px;font:600 15px Mulish;background:#fff;outline:none;"></div>'
-          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" value="' + esc(st.zip) + '" placeholder="ZIP CODE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 40px 16px 16px;font:600 15px Mulish;background:#fff;outline:none;">'
+          + '<div style="position:relative;"><span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:' + RED + ';font-size:18px;">📍</span><input data-in="address" data-address aria-label="Street address and city" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="STREET ADDRESS, CITY" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 16px 16px 44px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
+          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP CODE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 40px 16px 16px;font:600 16px Mulish;background:#fff;outline:none;">'
           + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div>'
-          + '<input data-in="phone" inputmode="tel" value="' + esc(st.phone) + '" placeholder="PHONE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 15px Mulish;background:#fff;outline:none;"></div>'
+          + '<input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="PHONE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
+          + '<input data-in="email" type="email" aria-label="Email (optional)" autocomplete="email" value="' + esc(st.email) + '" placeholder="EMAIL (OPTIONAL)" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;">'
           + (zipOk ? '<div style="display:flex;align-items:center;justify-content:center;gap:8px;font:700 13px Mulish;color:#2f8a52;"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;"></span>You\'re in our service area.</div>' : '')
           + '</div>';
 
@@ -207,7 +209,7 @@
         if (!canNext()) return;
         if (st.step === 4) { st._ref = refNum(); submitNetlify('schedule-a', payload('A (Guided)', st)); go(5); }
         else go(st.step + 1);
-      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '' }; render(true); }
+      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '' }; render(true); }
     });
     root.addEventListener('input', function (e) {
       var inp = e.target.closest('[data-in]'); if (!inp) return;
@@ -227,7 +229,7 @@
   var BD = 'width:100%;border:1px solid #34343a;border-radius:11px;padding:14px;font:600 15px Mulish;background:#1f1f23;color:#fff;outline:none;'; // dark input
   function initB(root) {
     var st = { step: 'pick', problem: null, slot: null, name: '', phone: '', email: '', address: '', city: '', zip: '' };
-    function canBook() { return !!(st.slot && st.name.trim() && st.phone.trim() && st.address.trim() && st.city.trim() && zip5(st.zip)); }
+    function canBook() { return !!(st.slot && st.name.trim() && phoneOk(st.phone) && st.address.trim() && st.city.trim() && zip5(st.zip)); }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canBook(); b.disabled = !can; b.style.cssText = can ? B_ON : B_OFF; }
     function render(animate) {
       var scr = animate ? ' class="sc-screen"' : '';
@@ -255,10 +257,10 @@
             return '<button type="button" data-pickslot="' + s.id + '" style="position:relative;text-align:left;cursor:pointer;background:' + (active ? 'rgba(206,63,38,.14)' : '#1f1f23') + ';border:1.5px solid ' + (active ? RED : '#2e2e34') + ';border-radius:12px;padding:12px 14px;font-family:Mulish,sans-serif;"><div style="font:800 14px Mulish;color:#fff;">' + esc(s.day) + '</div><div style="font:600 12px Mulish;color:#9b9ba1;">' + esc(s.wShort) + '</div>' + (s.fastest ? '<div style="font:800 10px Mulish;color:' + RED + ';margin-top:4px;">⚡ FASTEST</div>' : '') + '</button>';
           }).join('') + '</div>'
           + '<div style="font:800 11px Mulish;letter-spacing:.14em;color:#6FB1DE;margin-bottom:10px;">YOUR DETAILS</div>'
-          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="name" value="' + esc(st.name) + '" placeholder="Full name" autocomplete="name" style="' + BD + '"><input data-in="phone" inputmode="tel" value="' + esc(st.phone) + '" placeholder="Phone" autocomplete="tel" style="' + BD + '"></div>'
-          + '<input data-in="email" type="email" value="' + esc(st.email) + '" placeholder="Email" autocomplete="email" style="' + BD + 'margin-top:9px;">'
-          + '<input data-in="address" data-address value="' + esc(st.address) + '" placeholder="Street address" autocomplete="street-address" style="' + BD + 'margin-top:9px;">'
-          + '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:9px;margin-top:9px;"><input data-in="city" list="sc-towns" value="' + esc(st.city) + '" placeholder="City" autocomplete="address-level2" style="' + BD + '"><div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" value="' + esc(st.zip) + '" placeholder="ZIP" style="' + BD + 'padding-right:42px;">' + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div></div>'
+          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="name" aria-label="Full name" value="' + esc(st.name) + '" placeholder="Full name" autocomplete="name" style="' + BD + '"><input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" value="' + esc(st.phone) + '" placeholder="Phone" autocomplete="tel" style="' + BD + '"></div>'
+          + '<input data-in="email" type="email" aria-label="Email (optional)" value="' + esc(st.email) + '" placeholder="Email (optional)" autocomplete="email" style="' + BD + 'margin-top:9px;">'
+          + '<input data-in="address" data-address aria-label="Street address" value="' + esc(st.address) + '" placeholder="Street address" autocomplete="street-address" style="' + BD + 'margin-top:9px;">'
+          + '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:9px;margin-top:9px;"><input data-in="city" list="sc-towns" aria-label="City" value="' + esc(st.city) + '" placeholder="City" autocomplete="address-level2" style="' + BD + '"><div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP" style="' + BD + 'padding-right:42px;">' + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div></div>'
           + '<datalist id="sc-towns">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>'
           + '<div style="margin-top:22px;"><button type="button" data-act="book" class="sc-cta"' + (can ? '' : ' disabled') + ' style="' + (can ? B_ON : B_OFF) + '">Book my visit →</button></div></div>';
       } else {
@@ -303,7 +305,7 @@
   function initC(root) {
     var st = { step: 0, typing: true, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false };
     var typeT, autoT, thread;
-    function canNext() { if (st.step === 2) return zip5(st.zip); if (st.step === 4) return !!(st.name.trim() && st.phone.trim()); return false; }
+    function canNext() { if (st.step === 2) return zip5(st.zip); if (st.step === 4) return !!(st.name.trim() && phoneOk(st.phone)); return false; }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canNext(); b.disabled = !can; b.style.cssText = can ? C_ON : C_OFF; }
     function startTyping() { clearTimeout(typeT); st.typing = true; render(true); typeT = setTimeout(function () { st.typing = false; render(true); }, 650); }
     function go(n) { st.step = Math.max(0, Math.min(n, 5)); startTyping(); }
@@ -350,8 +352,8 @@
           return '<button type="button" data-pick="urgency" data-id="' + u.id + '" style="position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:12px;padding:13px 15px;font-family:Mulish,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:10px;">' + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:12px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '') + '<span style="display:flex;flex-direction:column;gap:1px;"><span style="font:800 15px Mulish;color:#1b1a18;">' + esc(u.label) + '</span><span style="font:500 12px Mulish;color:#8a857c;">' + esc(u.sub) + '</span></span><span style="font:800 11px Mulish;color:' + u.accent + ';background:' + u.tagBg + ';padding:5px 10px;border-radius:99px;white-space:nowrap;">' + esc(u.tag) + '</span></button>';
         }).join('') + '</div>';
       if (st.step === 2) {
-        h += '<div style="position:relative;margin-bottom:9px;"><input data-in="zip" inputmode="numeric" maxlength="5" value="' + esc(st.zip) + '" placeholder="ZIP code" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:14px 44px 14px 15px;font:600 16px Mulish;background:#fff;outline:none;">' + (zipOk ? '<span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 13px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div>';
-        if (zipOk) h += '<div style="display:flex;align-items:center;gap:8px;font:700 13px Mulish;color:#2f8a52;margin-bottom:11px;"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;"></span>You\'re in our service area.</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="address" value="' + esc(st.address) + '" placeholder="Street address" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 14px Mulish;background:#fff;outline:none;"><input data-in="city" value="' + esc(st.city) + '" placeholder="City" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 14px Mulish;background:#fff;outline:none;"></div>';
+        h += '<div style="position:relative;margin-bottom:9px;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP code" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:14px 44px 14px 15px;font:600 16px Mulish;background:#fff;outline:none;">' + (zipOk ? '<span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 13px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div>';
+        if (zipOk) h += '<div style="display:flex;align-items:center;gap:8px;font:700 13px Mulish;color:#2f8a52;margin-bottom:11px;"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;"></span>You\'re in our service area.</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="address" data-address aria-label="Street address" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="Street address" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"><input data-in="city" list="sc-towns" aria-label="City" autocomplete="address-level2" value="' + esc(st.city) + '" placeholder="City" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"></div><datalist id="sc-towns">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>';
       }
       if (st.step === 3)
         h += '<div style="display:flex;align-items:center;gap:7px;font:700 11.5px Mulish;color:#8a857c;margin-bottom:9px;"><span style="width:14px;height:14px;border-radius:50%;background:#6FB1DE;display:inline-block;"></span>Central time (' + nowTime() + ')</div><div style="display:flex;flex-direction:column;gap:9px;">' + slots().map(function (s) {
@@ -359,8 +361,8 @@
           return '<button type="button" data-pick="slot" data-id="' + s.id + '" style="position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:12px;padding:13px 15px;font-family:Mulish,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:10px;">' + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:12px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '') + '<span style="display:flex;align-items:center;gap:12px;"><span style="width:20px;height:20px;border-radius:50%;border:2px solid ' + (active ? RED : '#c9c3b8') + ';display:flex;align-items:center;justify-content:center;flex:none;"><span style="width:10px;height:10px;border-radius:50%;background:' + (active ? RED : 'transparent') + ';"></span></span><span style="display:flex;flex-direction:column;gap:1px;"><span style="font:800 15px Mulish;color:#1b1a18;">' + esc(s.day) + '</span><span style="font:600 12.5px Mulish;color:#6a655d;">' + esc(s.window) + '</span></span></span>' + (s.fastest ? '<span style="font:800 11px Mulish;color:' + RED + ';background:rgba(206,63,38,.1);padding:5px 10px;border-radius:99px;white-space:nowrap;">⚡ Fastest</span>' : '') + '</button>';
         }).join('') + '</div>';
       if (st.step === 4) {
-        h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="name" value="' + esc(st.name) + '" placeholder="Your name" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 15px Mulish;background:#fff;outline:none;"><input data-in="phone" inputmode="tel" value="' + esc(st.phone) + '" placeholder="Phone" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 15px Mulish;background:#fff;outline:none;"></div>'
-          + '<input data-in="email" value="' + esc(st.email) + '" placeholder="Email (optional)" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 15px Mulish;background:#fff;outline:none;margin-top:9px;">'
+        h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="name" aria-label="Your name" autocomplete="name" value="' + esc(st.name) + '" placeholder="Your name" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;"><input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="Phone" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;"></div>'
+          + '<input data-in="email" type="email" aria-label="Email (optional)" autocomplete="email" value="' + esc(st.email) + '" placeholder="Email (optional)" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;margin-top:9px;">'
           + '<label data-act="toggleText" style="display:flex;align-items:center;gap:10px;cursor:pointer;font:600 13.5px Mulish;color:#3a352e;margin-top:13px;"><span style="width:21px;height:21px;border-radius:6px;border:2px solid ' + (st.textOk ? RED : '#c9c3b8') + ';background:' + (st.textOk ? RED : '#fff') + ';display:flex;align-items:center;justify-content:center;color:#fff;font:900 11px Mulish;flex:none;">' + (st.textOk ? '✓' : '') + '</span>Text me appointment updates</label>';
       }
       if (st.step === 2 || st.step === 4) {
