@@ -303,31 +303,50 @@
   var C_ON = 'width:100%;cursor:pointer;border:none;background:' + RED + ';color:#fff;font:800 15px Mulish;padding:14px;border-radius:12px;margin-top:13px;box-shadow:0 10px 24px rgba(206,63,38,.3)';
   var C_OFF = 'width:100%;border:none;background:#f0b7ac;color:#fff;font:800 15px Mulish;padding:14px;border-radius:12px;margin-top:13px;cursor:not-allowed';
   function initC(root) {
-    var st = { step: 0, typing: true, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false };
-    var typeT, autoT, thread;
-    function canNext() { if (st.step === 2) return zip5(st.zip); if (st.step === 4) return !!(st.name.trim() && phoneOk(st.phone)); return false; }
+    // stage = which question we're on; shown = how many chat messages are revealed so far.
+    var st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false, shown: 0, typing: false };
+    var revT, thread;
+    function canNext() { if (st.stage === 2) return zip5(st.zip); if (st.stage === 4) return !!(st.name.trim() && phoneOk(st.phone)); return false; }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canNext(); b.disabled = !can; b.style.cssText = can ? C_ON : C_OFF; }
-    function startTyping() { clearTimeout(typeT); st.typing = true; render(true); typeT = setTimeout(function () { st.typing = false; render(true); }, 650); }
-    function go(n) { st.step = Math.max(0, Math.min(n, 5)); startTyping(); }
-    function auto() { clearTimeout(autoT); autoT = setTimeout(function () { go(st.step + 1); }, 430); }
 
-    function chatMsgs() {
+    // Full conversation for the current state. Questions show at stage>=N; an answer's
+    // bubbles show once the user has committed it (stage moved past that input).
+    function fullMsgs() {
       var prob = PROBLEMS.find(function (p) { return p.id === st.problem; });
       var urg = URGENCIES.find(function (u) { return u.id === st.urgency; });
       var s = slots().find(function (x) { return x.id === st.slot; });
-      var zipOk = zip5(st.zip);
       var first = (st.name.trim().split(' ')[0]) || '';
       var m = [];
       m.push({ t: 'bot', text: "Hey, I'm Dan. Real person, not a call center. Let's get you booked in about a minute." });
       m.push({ t: 'bot', text: "First up, what's going on?" });
-      if (prob) { m.push({ t: 'user', text: prob.label }); m.push({ t: 'bot', text: prob.reply }); }
-      if (st.step >= 1) { m.push({ t: 'bot', text: 'How soon do you need us?' }); if (urg) { m.push({ t: 'user', text: urg.label }); m.push({ t: 'bot', text: urg.reply }); } }
-      if (st.step >= 2) { m.push({ t: 'bot', text: 'Where are you? A zip gets us started.' }); if (zipOk) { m.push({ t: 'user', text: st.zip }); m.push({ t: 'bot', text: "Perfect, that's right in our area." }); } }
-      if (st.step >= 3) { m.push({ t: 'bot', text: "Here's the soonest I can swing by." }); if (s) { m.push({ t: 'user', text: s.short }); m.push({ t: 'bot', text: 'Locked in.' }); } }
-      if (st.step >= 4) { m.push({ t: 'bot', text: 'Last thing, how do I reach you?' }); if (st.name.trim() && st.phone.trim()) { m.push({ t: 'user', text: st.name }); m.push({ t: 'bot', text: 'Thanks, ' + first + '. Almost done.' }); } }
-      if (st.step >= 5) { m.push({ t: 'bot', text: "You're all set. See you soon!" }); }
-      if (st.typing && st.step < 5) m.push({ t: 'typing' });
+      if (st.stage > 0 && prob) { m.push({ t: 'user', text: prob.label }); m.push({ t: 'bot', text: prob.reply }); }
+      if (st.stage >= 1) m.push({ t: 'bot', text: 'How soon do you need us?' });
+      if (st.stage > 1 && urg) { m.push({ t: 'user', text: urg.label }); m.push({ t: 'bot', text: urg.reply }); }
+      if (st.stage >= 2) m.push({ t: 'bot', text: 'Where are you? A zip gets us started.' });
+      if (st.stage > 2 && zip5(st.zip)) { m.push({ t: 'user', text: st.zip }); m.push({ t: 'bot', text: "Perfect, that's right in our area." }); }
+      if (st.stage >= 3) m.push({ t: 'bot', text: "Here's the soonest I can swing by." });
+      if (st.stage > 3 && s) { m.push({ t: 'user', text: s.short }); m.push({ t: 'bot', text: 'Locked in.' }); }
+      if (st.stage >= 4) m.push({ t: 'bot', text: 'Last thing, how do I reach you?' });
+      if (st.stage > 4 && st.name.trim() && st.phone.trim()) { m.push({ t: 'user', text: st.name }); m.push({ t: 'bot', text: 'Thanks, ' + first + '. Almost done.' }); }
+      if (st.stage >= 5) m.push({ t: 'bot', text: "You're all set. See you soon!" });
       return m;
+    }
+    // Reveal messages one at a time: bot messages get a "typing" pause first, user
+    // messages pop in right away. Only the newest bubble animates in.
+    function reveal() {
+      var full = fullMsgs();
+      if (st.shown >= full.length) { st.typing = false; render(st.shown, true); return; } // caught up -> show controls
+      var next = full[st.shown];
+      if (next.t === 'user') {
+        st.typing = false; st.shown++; render(st.shown - 1, false);
+        clearTimeout(revT); revT = setTimeout(reveal, 160);
+      } else {
+        st.typing = true; render(st.shown, false); // typing dots
+        clearTimeout(revT); revT = setTimeout(function () {
+          st.typing = false; st.shown++; render(st.shown - 1, false);
+          clearTimeout(revT); revT = setTimeout(reveal, 90);
+        }, 480);
+      }
     }
     function bubble(m, animate) {
       var c = animate ? ' class="sc-in"' : '';
@@ -336,37 +355,37 @@
       return '<div' + c + ' style="align-self:flex-end;max-width:82%;background:' + RED + ';color:#fff;border-radius:15px 15px 5px 15px;padding:12px 15px;font:700 15px/1.45 Mulish;">' + esc(m.text) + '</div>';
     }
     function controls(animate) {
-      if (st.step >= 5 || st.typing) return '';
+      if (st.stage >= 5) return '';
       var c = animate ? ' class="sc-in"' : '';
       var zipOk = zip5(st.zip);
       var h = '<div' + c + ' style="align-self:stretch;margin-top:3px;">';
-      if (st.step > 0) h += '<button type="button" data-act="back" style="cursor:pointer;border:none;background:none;color:#8a857c;font:800 13px Mulish;padding:0 0 9px;display:inline-flex;align-items:center;gap:5px;">← Back</button>';
-      if (st.step === 0)
+      if (st.stage > 0) h += '<button type="button" data-act="back" style="cursor:pointer;border:none;background:none;color:#8a857c;font:800 13px Mulish;padding:0 0 9px;display:inline-flex;align-items:center;gap:5px;">← Back</button>';
+      if (st.stage === 0)
         h += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;">' + PROBLEMS.map(function (p) {
           var active = st.problem === p.id;
           return '<button type="button" data-pick="problem" data-id="' + p.id + '" style="position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:13px;padding:13px 14px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:3px;">' + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:13px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '') + '<span style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:50%;background:' + p.accent + ';flex:none;"></span><span style="font:800 14.5px Mulish;color:#1b1a18;">' + esc(p.label) + '</span></span><span style="font:500 12px Mulish;color:#8a857c;padding-left:18px;">' + esc(p.sub) + '</span></button>';
         }).join('') + '</div>';
-      if (st.step === 1)
+      if (st.stage === 1)
         h += '<div style="display:flex;flex-direction:column;gap:9px;">' + URGENCIES.map(function (u) {
           var active = st.urgency === u.id;
           return '<button type="button" data-pick="urgency" data-id="' + u.id + '" style="position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:12px;padding:13px 15px;font-family:Mulish,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:10px;">' + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:12px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '') + '<span style="display:flex;flex-direction:column;gap:1px;"><span style="font:800 15px Mulish;color:#1b1a18;">' + esc(u.label) + '</span><span style="font:500 12px Mulish;color:#8a857c;">' + esc(u.sub) + '</span></span><span style="font:800 11px Mulish;color:' + u.accent + ';background:' + u.tagBg + ';padding:5px 10px;border-radius:99px;white-space:nowrap;">' + esc(u.tag) + '</span></button>';
         }).join('') + '</div>';
-      if (st.step === 2) {
+      if (st.stage === 2) {
         h += '<div style="position:relative;margin-bottom:9px;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP code" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:14px 44px 14px 15px;font:600 16px Mulish;background:#fff;outline:none;">' + (zipOk ? '<span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 13px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div>';
         if (zipOk) h += '<div style="display:flex;align-items:center;gap:8px;font:700 13px Mulish;color:#2f8a52;margin-bottom:11px;"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;"></span>You\'re in our service area.</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="address" data-address aria-label="Street address" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="Street address" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"><input data-in="city" list="sc-towns" aria-label="City" autocomplete="address-level2" value="' + esc(st.city) + '" placeholder="City" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"></div><datalist id="sc-towns">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>';
       }
-      if (st.step === 3)
+      if (st.stage === 3)
         h += '<div style="display:flex;align-items:center;gap:7px;font:700 11.5px Mulish;color:#8a857c;margin-bottom:9px;"><span style="width:14px;height:14px;border-radius:50%;background:#6FB1DE;display:inline-block;"></span>Central time (' + nowTime() + ')</div><div style="display:flex;flex-direction:column;gap:9px;">' + slots().map(function (s) {
           var active = st.slot === s.id;
           return '<button type="button" data-pick="slot" data-id="' + s.id + '" style="position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:12px;padding:13px 15px;font-family:Mulish,sans-serif;display:flex;align-items:center;justify-content:space-between;gap:10px;">' + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:12px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '') + '<span style="display:flex;align-items:center;gap:12px;"><span style="width:20px;height:20px;border-radius:50%;border:2px solid ' + (active ? RED : '#c9c3b8') + ';display:flex;align-items:center;justify-content:center;flex:none;"><span style="width:10px;height:10px;border-radius:50%;background:' + (active ? RED : 'transparent') + ';"></span></span><span style="display:flex;flex-direction:column;gap:1px;"><span style="font:800 15px Mulish;color:#1b1a18;">' + esc(s.day) + '</span><span style="font:600 12.5px Mulish;color:#6a655d;">' + esc(s.window) + '</span></span></span>' + (s.fastest ? '<span style="font:800 11px Mulish;color:' + RED + ';background:rgba(206,63,38,.1);padding:5px 10px;border-radius:99px;white-space:nowrap;">⚡ Fastest</span>' : '') + '</button>';
         }).join('') + '</div>';
-      if (st.step === 4) {
+      if (st.stage === 4) {
         h += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="name" aria-label="Your name" autocomplete="name" value="' + esc(st.name) + '" placeholder="Your name" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;"><input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="Phone" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;"></div>'
           + '<input data-in="email" type="email" aria-label="Email (optional)" autocomplete="email" value="' + esc(st.email) + '" placeholder="Email (optional)" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;margin-top:9px;">'
           + '<label data-act="toggleText" style="display:flex;align-items:center;gap:10px;cursor:pointer;font:600 13.5px Mulish;color:#3a352e;margin-top:13px;"><span style="width:21px;height:21px;border-radius:6px;border:2px solid ' + (st.textOk ? RED : '#c9c3b8') + ';background:' + (st.textOk ? RED : '#fff') + ';display:flex;align-items:center;justify-content:center;color:#fff;font:900 11px Mulish;flex:none;">' + (st.textOk ? '✓' : '') + '</span>Text me appointment updates</label>';
       }
-      if (st.step === 2 || st.step === 4) {
-        var can = canNext(), label = st.step === 4 ? 'Book it →' : 'Continue';
+      if (st.stage === 2 || st.stage === 4) {
+        var can = canNext(), label = st.stage === 4 ? 'Book it →' : 'Continue';
         h += '<button type="button" data-act="next" class="sc-cta"' + (can ? '' : ' disabled') + ' style="' + (can ? C_ON : C_OFF) + '">' + label + '</button>';
       }
       return h + '</div>';
@@ -379,44 +398,50 @@
         + sd.rows.map(function (r) { return '<div style="display:flex;justify-content:space-between;gap:14px;padding:6px 0;font:600 13.5px Mulish;"><span style="color:#8a857c;">' + r.k + '</span><span style="color:#1b1a18;font-weight:800;text-align:right;">' + esc(r.v) + '</span></div>'; }).join('')
         + '</div><div style="display:flex;gap:10px;margin-top:14px;"><a href="' + TEL + '" style="flex:1;text-align:center;text-decoration:none;border:1.5px solid #d8d2c8;color:#1b1a18;font:800 14px Mulish;padding:13px;border-radius:11px;">Call Dan</a><button type="button" data-act="restart" style="flex:1;cursor:pointer;border:none;background:#141416;color:#fff;font:800 14px Mulish;padding:13px;border-radius:11px;">Book another</button></div>';
     }
-    function render(animate) {
-      var bars = [0, 1, 2, 3, 4].map(function (i) { return '<span style="flex:1;height:4px;border-radius:99px;background:' + (i <= st.step ? RED : '#3a3a40') + ';transition:background .3s;"></span>'; }).join('');
+    function render(animFrom, animControls) {
+      if (animFrom == null) animFrom = st.shown; // default: nothing animates
+      var full = fullMsgs();
+      var vis = full.slice(0, st.shown);
+      var caught = st.shown >= full.length;
+      var bars = [0, 1, 2, 3, 4].map(function (i) { return '<span style="flex:1;height:4px;border-radius:99px;background:' + (i <= st.stage ? RED : '#3a3a40') + ';transition:background .3s;"></span>'; }).join('');
       var html = '<div style="background:#141416;padding:16px 18px 0;flex:none;"><div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;">'
         + '<div style="position:relative;flex:none;"><div style="width:44px;height:44px;border-radius:50%;background:' + RED + ';display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="/images/favicon.png" alt="Dan" style="width:32px;height:32px;object-fit:contain;"></div><span style="position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:#4ec97a;border:2.5px solid #141416;"></span></div>'
         + '<div style="line-height:1.15;flex:1;min-width:0;"><div style="font:800 16px Archivo,sans-serif;color:#fff;">Dan · DMAK\'S HVAC</div><div style="font:700 11px Mulish;color:#4ec97a;margin-top:3px;">Online now · replies in seconds</div></div>'
         + '<div style="text-align:right;flex:none;"><div style="font:900 15px Archivo;color:' + ORANGE + ';">5.0★</div><div style="font:700 9px Mulish;letter-spacing:.08em;color:#8a8a90;">95+ REVIEWS</div></div></div>'
-        + (st.step < 5 ? '<div style="display:flex;gap:5px;padding-bottom:14px;">' + bars + '</div>' : '') + '</div>';
+        + (st.stage < 5 ? '<div style="display:flex;gap:5px;padding-bottom:14px;">' + bars + '</div>' : '') + '</div>';
 
       html += '<div class="sc-thread" data-thread style="flex:1;overflow-y:auto;padding:20px 18px 8px;display:flex;flex-direction:column;gap:11px;">';
-      html += chatMsgs().map(function (m) { return bubble(m, animate); }).join('');
-      html += controls(animate);
-      if (st.step >= 5) html += doneBlock();
+      html += vis.map(function (m, i) { return bubble(m, i >= animFrom); }).join('');
+      if (st.typing) html += bubble({ t: 'typing' }, true);
+      if (caught && !st.typing && st.stage < 5) html += controls(!!animControls);
+      if (caught && st.stage >= 5) html += doneBlock();
       html += '</div>';
-      if (st.step < 5) html += '<a href="' + TEL + '" style="flex:none;text-decoration:none;background:#fff;border-top:1px solid #e6e1d8;padding:13px 18px;display:flex;align-items:center;justify-content:center;gap:8px;font:800 13.5px Mulish;color:' + RED + ';">📞 Emergency? Call ' + PHONE + '</a>';
+      if (st.stage < 5) html += '<a href="' + TEL + '" style="flex:none;text-decoration:none;background:#fff;border-top:1px solid #e6e1d8;padding:13px 18px;display:flex;align-items:center;justify-content:center;gap:8px;font:800 13.5px Mulish;color:' + RED + ';">📞 Emergency? Call ' + PHONE + '</a>';
 
       root.innerHTML = html;
       thread = root.querySelector('[data-thread]'); if (thread) thread.scrollTop = thread.scrollHeight;
     }
     root.addEventListener('click', function (e) {
-      var pick = e.target.closest('[data-pick]'); if (pick) { st[pick.getAttribute('data-pick')] = pick.getAttribute('data-id'); render(false); auto(); return; }
+      var pick = e.target.closest('[data-pick]');
+      if (pick) { st[pick.getAttribute('data-pick')] = pick.getAttribute('data-id'); st.stage++; reveal(); return; } // commit answer + advance, then reveal reply
       var act = e.target.closest('[data-act]'); if (!act) return;
       var a = act.getAttribute('data-act');
-      if (a === 'back') { clearTimeout(autoT); go(st.step - 1); }
-      else if (a === 'toggleText') { st.textOk = !st.textOk; keepFocus(root, function () { render(false); }); }
+      if (a === 'back') { clearTimeout(revT); if (st.stage > 0) st.stage--; st.typing = false; st.shown = fullMsgs().length; render(st.shown, false); }
+      else if (a === 'toggleText') { st.textOk = !st.textOk; keepFocus(root, function () { render(st.shown, false); }); }
       else if (a === 'next') {
         if (!canNext()) return;
-        if (st.step === 4) { st._ref = refNum(); submitNetlify('schedule-c', payload('C (Chat)', st)); go(5); }
-        else go(st.step + 1);
-      } else if (a === 'restart') { clearTimeout(autoT); clearTimeout(typeT); st = { step: 0, typing: true, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false }; startTyping(); }
+        if (st.stage === 4) { st._ref = refNum(); submitNetlify('schedule-c', payload('C (Chat)', st)); st.stage = 5; reveal(); }
+        else { st.stage++; reveal(); }
+      } else if (a === 'restart') { clearTimeout(revT); st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false, shown: 0, typing: false }; reveal(); }
     });
     root.addEventListener('input', function (e) {
       var inp = e.target.closest('[data-in]'); if (!inp) return;
       var k = inp.getAttribute('data-in'), was = zip5(st.zip);
       st[k] = k === 'zip' ? digitsOnly(inp.value) : inp.value;
-      if (k === 'zip' && zip5(st.zip) !== was) keepFocus(root, function () { render(false); }); // reveals address/city + service-area line
+      if (k === 'zip' && zip5(st.zip) !== was) keepFocus(root, function () { render(st.shown, false); }); // reveals address/city + service-area line
       else syncCta();
     });
-    startTyping();
+    reveal();
   }
 
   // ---- dispatch ----
