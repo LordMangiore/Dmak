@@ -11,7 +11,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] Dan created Google Workspace for dmakshvac.com (Oct 13).
 - [x] Google verification TXT added (Oct 13); domain verified.
 - [x] MX is now `1 smtp.google.com` (TTL 300), old MX removed (Oct 13). Confirmed on the authoritative DNS and Google DNS.
-- [ ] Replace SPF with `v=spf1 include:_spf.google.com ~all`, or whatever Workspace shows. Nothing else sends as the domain: Netlify form emails come from Netlify.
+- [x] SPF replaced with `v=spf1 include:_spf.google.com ~all` (live on all 4 nameservers, Oct 13). Was: replace SPF with `v=spf1 include:_spf.google.com ~all`, or whatever Workspace shows. Nothing else sends as the domain: Netlify form emails come from Netlify.
 - [ ] Turn on DKIM in the Workspace admin and add its TXT record. Optional: add a DMARC record (`_dmarc` TXT `v=DMARC1; p=none; rua=mailto:dan@dmakshvac.com`).
 - [ ] Test: email dan@dmakshvac.com from outside and reply from it.
 - [ ] Later: add dan@dmakshvac.com as an owner of the Google Business Profile; point Netlify form notifications at it. Before the hosting ever lapses, download the old 266 MB mailbox if Dan wants it.
@@ -29,7 +29,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] Service area: 50 miles (straight line) from Edwardsville per Dan, 236 ZIPs from the Census ZIP file. Outside ZIPs can still book. To change the radius: `node tools/area-zips.js <2025_Gaz_zcta_national.txt> <miles>`, then commit `service-area-zips.js`.
 - [x] Not serviced: East St. Louis area ZIPs 62201, 62203, 62204, 62205, 62206, 62207 get "Sorry, Dan doesn't service this ZIP code" and can't book (`EXCLUDED` in tools/area-zips.js). Still serviced, nearby: Brooklyn 62059, Venice 62090, Madison 62060. Confirm with Dan.
 - [ ] Service-area tiers: green = known ZIPs (`CORE` in tools/area-zips.js: the 11 Illinois site towns), yellow = within 25 mi ("Dan will confirm") or beyond ("outside our usual area"), red = not serviced. Ask Dan which St. Louis ZIPs/neighborhoods should be green, then add them to `CORE` and re-run the script.
-- [x] Domain added in Netlify (Oct 13). [ ] Make `www.dmakshvac.com` the primary once the certificate is issued (Netlify blocks the change while it's provisioning); right now the bare domain is primary and www redirects to it.
+- [x] Domain added in Netlify; `www.dmakshvac.com` is primary and `dmakshvac.com` redirects to it (Oct 13).
 
 ### GA4 property settings (property "Dmak", stream https://www.dmakshvac.com)
 - [x] Stream measurement ID confirmed as `G-5BGJHY2MSM`. It's the same property the old WordPress site uses, so history carries over.
@@ -43,12 +43,12 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 ## 3. Switch (independent of email; do whenever ready)
 
 - [x] DNS switched (Oct 13): `dmakshvac.com` A → 75.2.60.5, `www` CNAME → dmakshvac-redesign.netlify.app, TTL 300. Old answers stay cached for up to 4h on some resolvers.
-- [ ] Wait for Netlify to issue the SSL certificate.
+- [x] Let's Encrypt certificate issued 1:35 PM Oct 13 (dmakshvac.com + www), auto-renews.
 
 ## 4. Check right after
 
-- [ ] The bare domain and http both redirect to `https://www.dmakshvac.com`.
-- [ ] The 6 old city addresses plus /contact-us/ and /about-us/ redirect to the new pages.
+- [x] The bare domain and http both redirect to `https://www.dmakshvac.com` (verified).
+- [x] The 6 old city addresses plus /contact-us/ and /about-us/ redirect to the new pages (verified, 301).
 - [ ] A form sent from the live domain reaches Dan, by email and in Jobber.
 - [ ] The tap-to-call links work.
 - [ ] Email (Google Workspace) still works both ways.
