@@ -84,7 +84,27 @@ export async function gql<T = any>(query: string, variables: Record<string, unkn
   })
   const body = await res.json().catch(() => ({}))
   if (!res.ok || body.errors) throw new Error(`Jobber GraphQL error (${res.status}): ${JSON.stringify(body.errors || body)}`)
+  // Jobber warns here ~3 months before API_VERSION stops being supported
+  const warning = body.extensions?.versioning?.warning
+  if (warning) { console.warn("Jobber API version:", warning); await store().setJSON("version-warning", { warning, at: new Date().toISOString() }) }
   return body.data
+}
+
+// Alerts go through a hidden Netlify form ("jobber-alerts", defined in build.js) so they land in
+// the same inbox as lead notifications without adding an email service.
+export const ALERT_FORM = "jobber-alerts"
+export async function sendAlert(subject: string, message: string) {
+  const site = Netlify.env.get("URL") || "https://dmakshvac-redesign.netlify.app"
+  try {
+    const res = await fetch(new URL("/jobber-alerts/", site), {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({ "form-name": ALERT_FORM, alert: "1", subject, message }).toString(),
+    })
+    if (!res.ok) console.error(`Alert form POST failed (${res.status})`)
+  } catch (e) {
+    console.error("Alert form POST failed:", (e as Error).message)
+  }
 }
 
 // Mutations report validation problems in userErrors rather than as GraphQL errors

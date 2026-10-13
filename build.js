@@ -739,6 +739,18 @@ const redirectLines = REDIRECTS.flatMap(([from, to]) => {
   const bare = from.replace(/\/$/, '');
   return [`${from}  ${to}  301`, `${bare}  ${to}  301`];
 });
+// Hidden form that registers "jobber-alerts" with Netlify Forms; the Jobber functions POST failure
+// alerts to it so they arrive through the same Forms email notifications as leads.
+fs.mkdirSync(path.join(ROOT, 'jobber-alerts'), { recursive: true });
+fs.writeFileSync(path.join(ROOT, 'jobber-alerts', 'index.html'), `<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Jobber alerts</title></head><body>
+<form name="jobber-alerts" method="POST" data-netlify="true" hidden>
+  <input type="hidden" name="form-name" value="jobber-alerts">
+  <input name="alert"><input name="subject"><textarea name="message"></textarea>
+</form>
+</body></html>
+`);
+
 // The repo root is the publish dir, so keep function source and installed packages off the public site.
 const PRIVATE = ['/netlify/*', '/node_modules/*', '/package.json', '/package-lock.json'].map(p => `${p}  /404.html  404!`);
 fs.writeFileSync(path.join(ROOT, '_redirects'),

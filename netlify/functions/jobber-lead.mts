@@ -2,7 +2,7 @@
 // Client + Request in Jobber. Netlify still stores the submission and sends its email
 // notification, so a Jobber outage never loses a lead; failures land in the function log.
 import type { FormSubmittedEvent } from "@netlify/functions"
-import { assertNoUserErrors, gql, store } from "../lib/jobber.mts"
+import { ALERT_FORM, assertNoUserErrors, gql, sendAlert, store } from "../lib/jobber.mts"
 
 type Lead = {
   form: string
@@ -105,6 +105,8 @@ async function createRequest(lead: Lead, clientId: string): Promise<string> {
 
 export default {
   async formSubmitted(event: FormSubmittedEvent) {
+    // Our own failure alerts are form submissions too; never push those to Jobber
+    if (event.data.alert || event.data["form-name"] === ALERT_FORM) return
     const lead = toLead(event.data)
     try {
       const clientId = (await findClient(lead)) || (await createClient(lead))
@@ -115,6 +117,12 @@ export default {
       // Netlify Forms still has the submission; log enough to re-enter it by hand
       console.error(`Jobber push failed for ${lead.form} (${lead.firstName} ${lead.lastName}, ${lead.phone}):`, (e as Error).message)
       await store().setJSON("last-lead", { ok: false, form: lead.form, error: (e as Error).message, at: new Date().toISOString() })
+      await sendAlert(
+        `Jobber sync failed: ${lead.firstName} ${lead.lastName}`.trim(),
+        `A website lead did NOT reach Jobber. It is still saved in Netlify Forms.\n\n` +
+          `Name: ${lead.firstName} ${lead.lastName}\nPhone: ${lead.phone}\nEmail: ${lead.email}\n${lead.details}\n\n` +
+          `Error: ${(e as Error).message}`
+      )
     }
   },
 }
