@@ -51,11 +51,11 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] The bare domain and http both redirect to `https://www.dmakshvac.com` (verified).
 - [x] The 6 old city addresses plus /contact-us/ and /about-us/ redirect to the new pages (verified, 301).
 - [ ] A form sent from the live domain reaches Dan, by email and in Jobber.
-- [ ] The tap-to-call links work.
+- [x] The tap-to-call links work (tested on phone, Oct 13).
 - [ ] Email (Google Workspace) still works both ways.
 - [ ] You show up in GA4 Realtime.
 - [x] Sitemap submitted in Search Console (Oct 13; showed "Couldn't fetch" at first, which is normal; recheck Oct 14). Search Console ownership kept: old site's HTML verification tag carried over to the new site, plus a backup method verified. [ ] Update the website link on Dan's Google Business Profile.
-- [ ] Google still shows the OLD site's title/description/sitelinks (Oct 13). Search Console: add Domain property dmakshvac.com (TXT record → Netlify DNS, plus cPanel until ~Oct 15), submit sitemap, "Request indexing" on home + key pages.
+- [x] Google still shows the OLD site's title/description/sitelinks (Oct 13). Search Console: add Domain property dmakshvac.com (TXT record → Netlify DNS, plus cPanel until ~Oct 15), submit sitemap, "Request indexing" on home + key pages. Indexing requested for home + key pages (Oct 13); recheck the search listing in a few days.
 - [ ] Duplicate site `dmaks-hvac.square.site` (Square Online) competes in search. Ask Dan: unpublish it (keep Square payments if used) or point it to dmakshvac.com.
 - [ ] Jobber: add `https://www.dmakshvac.com/jobber/callback` as a callback URL on the "DMAK Website Leads" app. No reconnect needed.
 
