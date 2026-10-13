@@ -288,6 +288,9 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
 .footer .grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:30px;padding-top:40px;padding-bottom:40px}
 .footer .bname{font:900 20px 'Archivo';color:#fff}
 .footer .btag{font:700 10px 'Mulish';letter-spacing:.22em;color:var(--lblue);margin-top:5px}
+.footer .social{display:flex;gap:10px;margin-top:16px}
+.footer .social a{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;padding:0;line-height:1;border:1px solid #34343a;border-radius:10px;color:var(--md2)}
+.footer .social a:hover{color:#fff;border-color:#6a6a72}
 .footer .blurb{font:400 13px/1.6 'Mulish';margin:14px 0 0;max-width:260px}
 .footer h4,.footer .h4{font:800 13px 'Mulish';color:#fff;margin:0 0 12px;letter-spacing:.06em;font-family:'Mulish'}
 .footer a,.footer .li{display:block;font:500 13px 'Mulish';line-height:2;color:var(--md3)}

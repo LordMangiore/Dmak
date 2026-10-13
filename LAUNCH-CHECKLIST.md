@@ -78,7 +78,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [ ] More copy on the town pages.
 - [ ] Color contrast fixes.
 - [ ] Image compression.
-- [ ] Facebook link: get the page URL ("Dmak's HVAC | Edwardsville IL", 370+ followers) → add to site footer + schema `sameAs`; set the Facebook page's website to https://www.dmakshvac.com.
+- [x] Facebook + Instagram: footer icons and schema `sameAs` (facebook.com/DmaksHVACLLC, instagram.com/dmakshvac). [ ] Set both profiles' website link to https://www.dmakshvac.com.
 - [x] 320px header: logo stays on one line and header keeps its padding down to 320px (verified at 320/360/375/390/412).
 - [x] Make the repo private (GitHub reports LordMangiore/Dmak is private).
 - [ ] Keep the old hosting for at least 2 weeks. dan@dmakshvac.com is probably a cPanel forwarder to Dan's Gmail (check cPanel → Email → Forwarders / Email Accounts). The forwarding runs on the old host, so BEFORE cancelling: move it to a free forwarder (ImprovMX, or Cloudflare Email Routing) and change the MX to theirs. If it's a real mailbox, save its mail first.

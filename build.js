@@ -12,6 +12,9 @@ const HOURS_FULL = 'Open daily 8:00a – 8:00p';
 // Dan's real Google Business Profile (resolved from the GBP share link). Rating/count are the live figures.
 const GBP = 'https://maps.google.com/?cid=7991446230126163755';
 const RATING = '5.0', REVIEW_COUNT = '95+';
+// Dan's social profiles (footer icons + schema sameAs)
+const FACEBOOK = 'https://www.facebook.com/DmaksHVACLLC';
+const INSTAGRAM = 'https://www.instagram.com/dmakshvac/';
 const STAR = '<span class="star">★</span>'; // optically-centered star glyph (Archivo lacks ★)
 const RED = '#CE3F26', BLUE = '#2E76AE', ORANGE = '#E0823F';
 const amp = s => String(s).replace(/&(?![a-z]+;)/gi, '&amp;');
@@ -148,7 +151,11 @@ const ctaBand = () => `<section class="band-dark"><div class="wrap cta">
     <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="${BOOK_URL}">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
   </div></section>`;
 const footer = () => `<footer class="footer"><div class="wrap grid">
-    <div><div class="bname">DMAK'S HVAC LLC</div><div class="btag">HEATING &amp; COOLING</div><p class="blurb">Family-owned heating &amp; cooling, serving the Metro East &amp; St. Louis.</p></div>
+    <div><div class="bname">DMAK'S HVAC LLC</div><div class="btag">HEATING &amp; COOLING</div><p class="blurb">Family-owned heating &amp; cooling, serving the Metro East &amp; St. Louis.</p>
+      <div class="social">
+        <a href="${FACEBOOK}" target="_blank" rel="noopener" aria-label="DMAK'S HVAC on Facebook"><svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.5l.4-3h-2.9V8.6c0-.9.3-1.5 1.5-1.5h1.5V4.4c-.3 0-1.2-.1-2.2-.1-2.2 0-3.7 1.3-3.7 3.8v2.4H8v3h2.6V21h2.9z"/></svg></a>
+        <a href="${INSTAGRAM}" target="_blank" rel="noopener" aria-label="DMAK'S HVAC on Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      </div></div>
     <div><div class="h4">SERVICES</div>${SERVICES.map(s=>`<a href="/services/${s.id}/">${amp(s.name)}</a>`).join('')}</div>
     <div><div class="h4">COMPANY</div><a href="/about/">About</a><a href="/service-area/">Service Area</a><a href="${BOOK_URL}">Schedule Service</a><a href="/reviews/">Reviews</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a></div>
     <div><div class="h4">CONTACT</div><div class="cd"><a href="${TEL}">${PHONE}</a><br><a href="mailto:dan@dmakshvac.com">dan@dmakshvac.com</a><br>812 Sherman Ave,<br>Edwardsville, IL 62025<br>${HOURS}</div></div>
@@ -162,7 +169,7 @@ const SITE = 'https://www.dmakshvac.com';
 const localBusinessSchema = () => ({
   "@context":"https://schema.org","@type":"HVACBusiness","@id":SITE+"/#business",
   "name":"DMAK'S HVAC LLC","telephone":"+13144209851","email":"dan@dmakshvac.com",
-  "url":SITE+"/","image":SITE+"/images/logo.png","priceRange":"$$","sameAs":[GBP],
+  "url":SITE+"/","image":SITE+"/images/logo.png","priceRange":"$$","sameAs":[GBP, FACEBOOK, INSTAGRAM],
   "address":{"@type":"PostalAddress","streetAddress":"812 Sherman Ave","addressLocality":"Edwardsville","addressRegion":"IL","postalCode":"62025","addressCountry":"US"},
   "geo":{"@type":"GeoCoordinates","latitude":38.8114,"longitude":-89.9532},
   "openingHoursSpecification":[
