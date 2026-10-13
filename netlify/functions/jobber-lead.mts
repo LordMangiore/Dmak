@@ -16,6 +16,8 @@ type Lead = {
   zip: string
   title: string
   details: string
+  // Q&A for the request's "Service details" section (same place Jobber's own request form fills)
+  answers: [string, string][]
 }
 
 const clean = (v?: string) => (v || "").trim()
@@ -67,8 +69,15 @@ export function toLead(d: Record<string, string>): Lead {
     city,
     state: cityState || townState || stateForZip(zip) || (city.toLowerCase().includes("st. louis") ? "MO" : city ? "IL" : ""),
     zip,
-    title: `${isBooking ? "Website booking" : "Website quote"}: ${problem || "Service request"}${clean(d.urgency) ? ` (${clean(d.urgency)})` : ""}`.slice(0, 120),
+    title: `${problem || "Service request"}${clean(d.urgency) ? ` (${clean(d.urgency)})` : ""}`.slice(0, 120),
     details,
+    answers: ([
+      ["What do you need help with?", problem],
+      ["How soon do you need us?", clean(d.urgency)],
+      ["Preferred time", when],
+      ["Please provide as much information as you can", clean(d.message) || clean(d.notes)],
+      ["How did you hear about us?", `Website (dmakshvac.com, ${isBooking ? "online booking" : "quote form"} "${form}")`],
+    ] as [string, string][]).filter(([, v]) => v),
   }
 }
 
@@ -128,15 +137,24 @@ async function propertyFor(lead: Lead, clientId: string): Promise<string | null>
   return propertyCreate.properties?.[0]?.id || null
 }
 
+const REQUEST_CREATE = `mutation($input: RequestCreateInput!) { requestCreate(input: $input) { request { id } userErrors { message path } } }`
+
+// Details go in "Service details" like Jobber's own request form. If Jobber ever rejects that
+// shape, fall back to the assessment instructions so the lead is never lost.
 async function createRequest(lead: Lead, clientId: string, propertyId: string | null): Promise<string> {
-  const input: Record<string, unknown> = { clientId, title: lead.title, assessment: { instructions: lead.details } }
-  if (propertyId) input.propertyId = propertyId
-  const { requestCreate } = await gql(
-    `mutation($input: RequestCreateInput!) { requestCreate(input: $input) { request { id } userErrors { message path } } }`,
-    { input }
-  )
-  assertNoUserErrors("requestCreate", requestCreate)
-  return requestCreate.request.id
+  const base: Record<string, unknown> = { clientId, title: lead.title }
+  if (propertyId) base.propertyId = propertyId
+  try {
+    const details = { form: { sections: [{ label: "Service details", items: lead.answers.map(([label, answerText]) => ({ label, answerText })) }] } }
+    const { requestCreate } = await gql(REQUEST_CREATE, { input: { ...base, requestDetails: details } })
+    assertNoUserErrors("requestCreate", requestCreate)
+    return requestCreate.request.id
+  } catch (e) {
+    console.warn("Service details rejected, using assessment instructions:", (e as Error).message)
+    const { requestCreate } = await gql(REQUEST_CREATE, { input: { ...base, assessment: { instructions: lead.details } } })
+    assertNoUserErrors("requestCreate", requestCreate)
+    return requestCreate.request.id
+  }
 }
 
 export default {
