@@ -66,6 +66,13 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 
 ## Can wait until later this week
 
+- [ ] Real availability in scheduler A: read Dan's Jobber schedule (add "Scheduled items" scope to the Jobber app) and offer only open slots; optionally book the assessment straight onto his calendar. Needs Dan's rules (hours, buffer, max per day).
+- [ ] Closed-loop tracking: Jobber webhooks (request → quote → job → paid invoice) → GA4 `qualify_lead` / `close_convert_lead` with job value; same events to Meta Conversions API for his IG/FB ads.
+- [ ] Faster lead response: instant text to Dan + auto-reply text to the customer. Check Jobber's built-in notifications / Receptionist first.
+- [ ] Google review requests after completed jobs (Jobber's review feature → Dan's Google listing).
+- [ ] Jobber Payments: Dan finishes business verification; add a "Customer login: quotes & invoices" link to his Client Hub on the site.
+- [ ] Seasonal tune-up reminders to past Jobber clients; optional maintenance-plan page.
+- [ ] Google Business Profile booking button → `https://www.dmakshvac.com/schedule-a/?utm_source=google&utm_medium=organic&utm_campaign=gbp_booking` (Dan is setting this up; may need Jobber's Google booking turned off first).
 - [ ] More copy on the town pages.
 - [ ] Color contrast fixes.
 - [ ] Image compression.
