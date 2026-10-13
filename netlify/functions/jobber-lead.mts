@@ -28,7 +28,7 @@ const splitTown = (town: string): [string, string] => {
 
 export function toLead(d: Record<string, string>): Lead {
   // Which form: Netlify includes form-name; otherwise infer from the fields each form has
-  const form = clean(d["form-name"]) || (d.variant ? `schedule-${clean(d.variant).toLowerCase()}` : d.window || d.date ? "schedule" : "quote")
+  const form = clean(d["form-name"]) || (d.variant ? `schedule-${clean(d.variant).charAt(0).toLowerCase()}` : d.window || d.date ? "schedule" : "quote")
   const [firstName, ...rest] = clean(d.name).split(/\s+/)
   const [townCity, townState] = splitTown(clean(d.town))
   const city = clean(d.city) || townCity
