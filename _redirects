@@ -15,3 +15,8 @@
 /collinsville-il-hvac-services  /service-area/collinsville/  301
 /st-louis-mo-hvac-services/  /service-area/st-louis-mo/  301
 /st-louis-mo-hvac-services  /service-area/st-louis-mo/  301
+# Not part of the site
+/netlify/*  /404.html  404!
+/node_modules/*  /404.html  404!
+/package.json  /404.html  404!
+/package-lock.json  /404.html  404!
