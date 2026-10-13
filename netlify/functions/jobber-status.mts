@@ -3,12 +3,14 @@
 import type { Config } from "@netlify/functions"
 import { API_VERSION, checkSetupKey, gql, store, tokenStatus } from "../lib/jobber.mts"
 
-const TYPES = ["ClientCreateInput", "RequestCreateInput", "AssessmentAttributes", "PhoneNumberCreateAttributes",
-  "EmailCreateAttributes", "AddressAttributes", "PropertyAttributes"]
+const TYPES = ["ClientCreateInput", "RequestCreateInput", "AssessmentCreateInput", "RequestDetailsInput",
+  "PhoneNumberCreateAttributes", "PhoneNumberDescription", "EmailCreateAttributes", "EmailDescription",
+  "AddressAttributes", "PropertyAttributes", "SourceAttributionAttributes"]
 
 const typeQuery = `query($name: String!) { __type(name: $name) {
   name kind
   inputFields { name type { kind name ofType { kind name ofType { kind name ofType { name } } } } }
+  fields { name }
   enumValues { name }
 } }`
 
