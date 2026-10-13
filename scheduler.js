@@ -49,11 +49,16 @@
   // tools/area-zips.js). Outside ZIPs can still book; they just aren't told "you're in our area".
   var AREA = window.DMAK_AREA || { zips: [] };
   var inArea = function (z) { return zip5(z) && AREA.zips.indexOf(z) !== -1; };
-  var areaLine = function (z, align, extra) {
+  // ZIPs Dan doesn't service at all (East St. Louis area): say so plainly and don't take the booking
+  var notServiced = function (z) { return zip5(z) && (AREA.excluded || []).indexOf(z) !== -1; };
+  var areaLine = function (z, align, extra, dark) {
     if (!zip5(z)) return '';
+    var c = dark ? { bad: '#ff8a7a', ok: '#6fdc98', warn: '#f0b27a' } : { bad: '#b3261e', ok: '#2f8a52', warn: '#8a6a2f' };
+    if (notServiced(z))
+      return '<div role="alert" style="display:flex;align-items:flex-start;justify-content:' + align + ';gap:8px;font:700 13px/1.45 Mulish;color:' + c.bad + ';text-align:left;' + (extra || '') + '"><span style="width:8px;height:8px;border-radius:50%;background:#CE3F26;flex:none;margin-top:5px;"></span>Sorry, Dan doesn\'t service this ZIP code (East St. Louis area), so we can\'t book a visit here.</div>';
     return inArea(z)
-      ? '<div style="display:flex;align-items:center;justify-content:' + align + ';gap:8px;font:700 13px Mulish;color:#2f8a52;' + (extra || '') + '"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;flex:none;"></span>You\'re in our service area.</div>'
-      : '<div style="display:flex;align-items:flex-start;justify-content:' + align + ';gap:8px;font:600 13px/1.45 Mulish;color:#8a6a2f;text-align:left;' + (extra || '') + '"><span style="width:8px;height:8px;border-radius:50%;background:#E0823F;flex:none;margin-top:5px;"></span>That\'s a bit outside our usual area. Book anyway, and Dan will let you know if he can make it.</div>';
+      ? '<div style="display:flex;align-items:center;justify-content:' + align + ';gap:8px;font:700 13px Mulish;color:' + c.ok + ';' + (extra || '') + '"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;flex:none;"></span>You\'re in our service area.</div>'
+      : '<div style="display:flex;align-items:flex-start;justify-content:' + align + ';gap:8px;font:600 13px/1.45 Mulish;color:' + c.warn + ';text-align:left;' + (extra || '') + '"><span style="width:8px;height:8px;border-radius:50%;background:#E0823F;flex:none;margin-top:5px;"></span>That\'s a bit outside our usual area. Book anyway, and Dan will let you know if he can make it.</div>';
   };
   var phoneOk = function (v) { return v.replace(/\D/g, '').length >= 10; }; // needs a real 10-digit number
   var digitsOnly = function (v) { return v.replace(/[^0-9]/g, '').slice(0, 5); };
@@ -119,7 +124,7 @@
   function initA(root) {
     var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '', note: '' };
     var autoT;
-    function canNext() { if (st.step === 0) return !!st.first.trim(); if (st.step === 4) return zip5(st.zip) && phoneOk(st.phone); return false; }
+    function canNext() { if (st.step === 0) return !!st.first.trim(); if (st.step === 4) return zip5(st.zip) && !notServiced(st.zip) && phoneOk(st.phone); return false; }
     function go(n) { var to = Math.max(0, Math.min(n, 5)); if (to > st.step) stepTo('A', to); st.step = to; render(true); }
     function auto() { clearTimeout(autoT); autoT = setTimeout(function () { go(st.step + 1); }, 340); }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canNext(); b.disabled = !can; b.style.cssText = can ? A_ON : A_OFF; }
@@ -152,7 +157,7 @@
     function render(animate) {
       var scr = animate ? ' class="sc-screen"' : '';
       var first = st.first.trim();
-      var zipOk = zip5(st.zip);
+      var zipOk = inArea(st.zip); // ✓ only for ZIPs Dan services
       var done = st.step === 5;
       var phaseOf = [0, 1, 1, 2, 3], cur = done ? 3 : phaseOf[st.step];
       var tabLabels = ['You', 'Service', 'Schedule', 'Location'];
@@ -256,12 +261,12 @@
   var BD = 'width:100%;border:1px solid #34343a;border-radius:11px;padding:14px;font:600 15px Mulish;background:#1f1f23;color:#fff;outline:none;'; // dark input
   function initB(root) {
     var st = { step: 'pick', problem: null, slot: null, name: '', phone: '', email: '', address: '', city: '', zip: '', note: '' };
-    function canBook() { return !!(st.slot && st.name.trim() && phoneOk(st.phone) && st.address.trim() && st.city.trim() && zip5(st.zip)); }
+    function canBook() { return !!(st.slot && st.name.trim() && phoneOk(st.phone) && st.address.trim() && st.city.trim() && zip5(st.zip) && !notServiced(st.zip)); }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canBook(); b.disabled = !can; b.style.cssText = can ? B_ON : B_OFF; }
     function render(animate) {
       var scr = animate ? ' class="sc-screen"' : '';
       var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
-      var zipOk = zip5(st.zip), can = canBook();
+      var zipOk = inArea(st.zip), can = canBook(); // ✓ only for ZIPs Dan services
       var html = '<div style="position:absolute;right:-90px;top:-70px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(206,63,38,.22),transparent 70%);pointer-events:none;"></div>';
       html += '<div style="position:relative;flex:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:22px 26px;border-bottom:1px solid #26262b;">'
         + '<div style="display:flex;align-items:center;gap:11px;"><img src="/images/favicon.png" alt="" style="width:38px;height:38px;object-fit:contain;"><div style="line-height:1;"><div style="font:900 15px Archivo;color:#fff;letter-spacing:.02em;">FAST TRACK BOOKING</div><div style="font:700 9px Mulish;letter-spacing:.2em;color:#6FB1DE;margin-top:3px;">DMAK\'S HVAC</div></div></div>'
@@ -291,6 +296,7 @@
           + noteBox(st, BD + 'margin-top:9px;')
           + '<input data-in="address" data-address aria-label="Street address" value="' + esc(st.address) + '" placeholder="Street address" autocomplete="street-address" style="' + BD + 'margin-top:9px;">'
           + '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:9px;margin-top:9px;"><input data-in="city" list="sc-towns" aria-label="City" value="' + esc(st.city) + '" placeholder="City" autocomplete="address-level2" style="' + BD + '"><div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP" style="' + BD + 'padding-right:42px;">' + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div></div>'
+          + areaLine(st.zip, 'flex-start', 'margin-top:10px;', true)
           + '<datalist id="sc-towns">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>'
           + '<div style="margin-top:22px;"><button type="button" data-act="book" class="sc-cta"' + (can ? '' : ' disabled') + ' style="' + (can ? B_ON : B_OFF) + '">Book my visit →</button></div></div>';
       } else {
@@ -336,7 +342,7 @@
     // stage = which question we're on; shown = how many chat messages are revealed so far.
     var st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', note: '', textOk: false, shown: 0, typing: false };
     var revT, thread;
-    function canNext() { if (st.stage === 2) return zip5(st.zip); if (st.stage === 4) return !!(st.name.trim() && phoneOk(st.phone)); return false; }
+    function canNext() { if (st.stage === 2) return zip5(st.zip) && !notServiced(st.zip); if (st.stage === 4) return !!(st.name.trim() && phoneOk(st.phone)); return false; }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canNext(); b.disabled = !can; b.style.cssText = can ? C_ON : C_OFF; }
 
     // Full conversation for the current state. Questions show at stage>=N; an answer's
