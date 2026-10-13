@@ -12,7 +12,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] Google verification TXT added (Oct 13); domain verified.
 - [x] MX is now `1 smtp.google.com` (TTL 300), old MX removed (Oct 13). Confirmed on the authoritative DNS and Google DNS.
 - [x] SPF replaced with `v=spf1 include:_spf.google.com ~all` (live on all 4 nameservers, Oct 13). Was: replace SPF with `v=spf1 include:_spf.google.com ~all`, or whatever Workspace shows. Nothing else sends as the domain: Netlify form emails come from Netlify.
-- [ ] Turn on DKIM in the Workspace admin and add its TXT record. Optional: add a DMARC record (`_dmarc` TXT `v=DMARC1; p=none; rua=mailto:dan@dmakshvac.com`).
+- [ ] Turn on DKIM in the Workspace admin and add its TXT record (in Netlify DNS; also in cPanel if before Oct 15). Optional: add a DMARC record (`_dmarc` TXT `v=DMARC1; p=none; rua=mailto:dan@dmakshvac.com`).
 - [ ] Test: email dan@dmakshvac.com from outside and reply from it.
 - [ ] Later: add dan@dmakshvac.com as an owner of the Google Business Profile; point Netlify form notifications at it. Before the hosting ever lapses, download the old 266 MB mailbox if Dan wants it.
 
@@ -73,4 +73,6 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] 320px header: logo stays on one line and header keeps its padding down to 320px (verified at 320/360/375/390/412).
 - [x] Make the repo private (GitHub reports LordMangiore/Dmak is private).
 - [ ] Keep the old hosting for at least 2 weeks. dan@dmakshvac.com is probably a cPanel forwarder to Dan's Gmail (check cPanel → Email → Forwarders / Email Accounts). The forwarding runs on the old host, so BEFORE cancelling: move it to a free forwarder (ImprovMX, or Cloudflare Email Routing) and change the MX to theirs. If it's a real mailbox, save its mail first.
-- [ ] Move DNS off the old host to Netlify DNS (after DKIM + email test). Today the nameservers are hosting.com's (ns1-4.mysecurecloudhost.com), so cancelling or lapsing the old hosting (paid to Oct 15, 2027) would take down the site AND email. Steps: add dmakshvac.com to Netlify DNS, recreate site/MX/SPF/DKIM/google-site-verification records, then switch nameservers at the registrar (domain appears to be in Dan's hosting.com account).
+- [x] DNS moved to Netlify DNS (Oct 13, 1:49 PM; registry confirmed). Nameservers: dns1-4.p02.nsone.net. Netlify zone has: site (NETLIFY records for apex + www), MX 1 smtp.google.com, SPF `v=spf1 include:_spf.google.com ~all`, google-site-verification TXT, cpanel + webmail A → 69.72.136.205 (old host, for the old mailbox).
+- [ ] Until Oct 15 (~48h): some resolvers still use the old nameservers, so keep the cPanel zone identical. Make any DNS change (e.g. DKIM) in BOTH Netlify and cPanel, and don't cancel the old hosting.
+- [ ] Renew the domain before Feb 18, 2027 (registered via hosting.com; registrar Netregistry). Consider transferring it to Netlify or another registrar later so the old account isn't needed at all.
