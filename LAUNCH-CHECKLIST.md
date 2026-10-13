@@ -20,7 +20,7 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] Forms: set email notifications to Dan and you (Netlify → Forms → Notifications). Lead-sync failure alerts arrive through the same notifications.
 - [ ] Forms: submit the quote and schedule forms from your phone on the preview site. All five forms were already tested by sending real submissions to the live site; they reached Netlify and Jobber.
 - [ ] Analytics: add GA4 `G-5BGJHY2MSM` to the page template (`page()` in build.js).
-- [ ] ⚠️ Test pages: delete /schedule-a/, /schedule-b/ and /schedule-c/? They are the A/B scheduler variants, and they're wired into Jobber now. Pick the winner first, then delete the other two and the matching forms.
+- [x] Test pages: keep /schedule-a/, /schedule-b/ and /schedule-c/ live for now. They are the A/B scheduler variants still being tested, and they're wired into Jobber. Revisit once a winner is picked.
 - [ ] Claims: text Dan to confirm the shop is in town, the financing, "answered within the hour," and "licensed." Remove anything he can't confirm.
 - [ ] Domain: in Netlify, add `www.dmakshvac.com` as the primary domain and `dmakshvac.com` as an alias. The live site doesn't change until DNS does.
 
