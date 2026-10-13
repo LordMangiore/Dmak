@@ -691,6 +691,27 @@ const schedulerVariantPage = v => `<!DOCTYPE html>
   .sc-card{width:100%;max-width:${v.maxw}px;display:flex;flex-direction:column;border-radius:20px;overflow:hidden;${v.card}}
   .sc-home{position:fixed;top:16px;left:18px;display:flex;align-items:center;gap:9px;text-decoration:none;font:800 13px 'Mulish';color:${v.link}}
   .sc-home:hover{color:${v.linkHover}} .sc-home img{width:26px;height:26px;object-fit:contain}
+  /* Phones: start near the top, compact header, smaller headline, full-width button (scheduler A markup) */
+  @media(max-width:560px){
+    body{padding:50px 10px 14px;justify-content:flex-start}
+    .sc-home{top:14px;left:14px}
+    .sc-card{min-height:0;border-radius:18px}
+    .a-head{padding:14px 16px 0 !important}
+    .a-brand{flex-direction:row !important;justify-content:center;gap:9px !important;margin-bottom:12px !important}
+    .a-badge{width:30px !important;height:30px !important;box-shadow:none !important}
+    .a-badge img{width:22px !important;height:22px !important}
+    .a-tab{font-size:10.5px !important;letter-spacing:.05em !important;padding-bottom:9px !important}
+    .a-body{padding:18px 16px 18px !important;justify-content:flex-start !important}
+    .a-back{position:static !important;align-self:flex-start;margin-bottom:10px}
+    .a-h1{font-size:25px !important;line-height:1.18 !important;margin-bottom:20px !important}
+    .a-body input,.a-body textarea{padding:14px 12px !important}
+    .a-cta{margin-top:20px !important;width:100%}
+    .a-cta .sc-cta{width:100%;padding:16px !important}
+    .a-grid{grid-template-columns:1fr 1fr !important;gap:8px !important}
+    .a-grid>button{padding:12px !important}
+    .a-grid>button>span>span:last-child{font-size:14px !important}
+    .a-grid>button>span:last-child{font-size:12px !important;padding-left:20px}
+  }
 </style>
 ${ga4()}
 </head><body>

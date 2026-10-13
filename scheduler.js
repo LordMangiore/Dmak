@@ -158,31 +158,31 @@
 
       var html = '';
       if (!done) {
-        html += '<div style="flex:none;padding:26px 24px 0;"><div style="display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:20px;">'
-          + '<div style="width:66px;height:66px;border-radius:50%;background:' + RED + ';display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 8px 22px rgba(206,63,38,.3);"><img src="/images/favicon.png" alt="Dan" style="width:48px;height:48px;object-fit:contain;"></div>'
-          + '<div style="font:800 10px Mulish;letter-spacing:.18em;color:#9b968c;">DAN · DMAK\'S HVAC</div></div>'
+        html += '<div class="a-head" style="flex:none;padding:26px 24px 0;"><div class="a-brand" style="display:flex;flex-direction:column;align-items:center;gap:5px;margin-bottom:20px;">'
+          + '<div class="a-badge" style="width:66px;height:66px;border-radius:50%;background:' + RED + ';display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:0 8px 22px rgba(206,63,38,.3);"><img src="/images/favicon.png" alt="" style="width:48px;height:48px;object-fit:contain;"></div>'
+          + '<div class="a-brandname" style="font:800 10px Mulish;letter-spacing:.18em;color:#9b968c;">DAN · DMAK\'S HVAC</div></div>'
           + '<div style="display:flex;border-bottom:1px solid #ece7df;">';
         tabLabels.forEach(function (l, i) {
           var active = i === cur, passed = i < cur;
           var color = (active || passed) ? '#1b1a18' : '#c2bcb2';
           var under = active ? RED : (passed ? '#f0c9c0' : 'transparent');
-          html += '<div style="flex:1;text-align:center;padding-bottom:11px;font:800 12px Mulish;letter-spacing:.1em;color:' + color + ';border-bottom:3px solid ' + under + ';margin-bottom:-1px;transition:all .3s;">' + l + '</div>';
+          html += '<div class="a-tab" style="flex:1;text-align:center;padding-bottom:11px;font:800 12px Mulish;letter-spacing:.1em;color:' + color + ';border-bottom:3px solid ' + under + ';margin-bottom:-1px;transition:all .3s;">' + l + '</div>';
         });
         html += '</div></div>';
       }
 
-      html += '<div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px 28px 24px;text-align:center;position:relative;">';
+      html += '<div class="a-body" style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px 28px 24px;text-align:center;position:relative;">';
       if (st.step > 0 && !done)
-        html += '<button type="button" data-act="back" style="position:absolute;left:28px;top:14px;cursor:pointer;border:none;background:none;color:#a7a29a;font:800 13px Mulish;padding:0;display:inline-flex;align-items:center;gap:5px;">← Back</button>';
+        html += '<button type="button" data-act="back" class="a-back" style="position:absolute;left:28px;top:14px;cursor:pointer;border:none;background:none;color:#a7a29a;font:800 13px Mulish;padding:0;display:inline-flex;align-items:center;gap:5px;">← Back</button>';
       if (!done)
-        html += '<h1' + scr + ' style="font:700 34px/1.18 Archivo,sans-serif;color:#2a2620;letter-spacing:-.01em;max-width:640px;margin:0 0 34px;">' + esc(headlines[Math.min(st.step, 4)]) + '</h1>';
+        html += '<h1' + scr.replace('class="', 'class="a-h1 ') + (scr ? '' : ' class="a-h1"') + ' style="font:700 34px/1.18 Archivo,sans-serif;color:#2a2620;letter-spacing:-.01em;max-width:640px;margin:0 0 34px;">' + esc(headlines[Math.min(st.step, 4)]) + '</h1>';
 
       if (st.step === 0)
         html += '<div' + scr + ' style="width:100%;max-width:560px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
           + '<input data-in="first" aria-label="First name" autocomplete="given-name" value="' + esc(st.first) + '" placeholder="FIRST NAME" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:17px 16px;font:600 16px Mulish;background:#fff;outline:none;text-align:center;">'
           + '<input data-in="last" aria-label="Last name" autocomplete="family-name" value="' + esc(st.last) + '" placeholder="LAST NAME" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:17px 16px;font:600 16px Mulish;background:#fff;outline:none;text-align:center;"></div>';
       if (st.step === 1)
-        html += '<div' + scr + ' style="width:100%;max-width:620px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">' + PROBLEMS.map(optProblem).join('') + '</div>';
+        html += '<div' + scr.replace('class="', 'class="a-grid ') + (scr ? '' : ' class="a-grid"') + ' style="width:100%;max-width:620px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">' + PROBLEMS.map(optProblem).join('') + '</div>';
       if (st.step === 2)
         html += '<div' + scr + ' style="width:100%;max-width:520px;display:flex;flex-direction:column;gap:11px;">' + URGENCIES.map(optUrg).join('') + '</div>';
       if (st.step === 3)
@@ -199,7 +199,7 @@
           + '</div>';
 
       if (isCta && !done)
-        html += '<div style="margin-top:34px;"><button type="button" data-act="next" class="sc-cta"' + (can ? '' : ' disabled') + ' style="' + (can ? A_ON : A_OFF) + '">' + ctaLabel + '</button></div>';
+        html += '<div class="a-cta" style="margin-top:34px;"><button type="button" data-act="next" class="sc-cta"' + (can ? '' : ' disabled') + ' style="' + (can ? A_ON : A_OFF) + '">' + ctaLabel + '</button></div>';
 
       if (done) {
         var sd = summaryData(st);
