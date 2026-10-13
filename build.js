@@ -221,6 +221,18 @@ const cityReviews = (c, seed) => {
 // Honest heading: only claim reviews are from the town when at least one actually is
 const revHeading = c => REVIEWS.some(r=>r.town.indexOf(c.name)===0) ? `What ${c.name} neighbors say` : 'What Metro East neighbors say';
 
+// Google Analytics 4. Visiting any page with ?test skips tracking for the rest of that browser
+// session, so setup/QA submissions don't count as real leads. Phone taps are tracked site-wide here.
+const GA4_ID = 'G-5BGJHY2MSM';
+const ga4 = () => `<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+(function(){var t;try{if(/[?&]test\\b/.test(location.search))sessionStorage.setItem('dmTest','1');t=sessionStorage.getItem('dmTest');}catch(e){}
+if(t)return;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=${GA4_ID}';document.head.appendChild(s);
+gtag('js',new Date());gtag('config','${GA4_ID}');
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a[href^="tel:"]');if(!a)return;
+gtag('event','phone_call',{link_location:a.closest('header')?'header':a.closest('footer')?'footer':a.closest('[data-scheduler]')?'scheduler':'page'});});})();
+</script>`;
+
 const page = ({title, desc, active, body, cta = true, schema, noindex = false}) => {
   desc = dash(desc); body = dash(body);
   const ld = (schema || [localBusinessSchema()]).map(s => `<script type="application/ld+json">${JSON.stringify(s)}</script>`).join('\n');
@@ -244,6 +256,7 @@ const page = ({title, desc, active, body, cta = true, schema, noindex = false}) 
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;500;600;700;800&family=Archivo:wght@800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 ${ld}
+${ga4()}
 </head><body>
 <a class="skip-link" href="#main">Skip to content</a>
 ${header(active)}
@@ -676,6 +689,7 @@ const schedulerVariantPage = v => `<!DOCTYPE html>
   .sc-home{position:fixed;top:16px;left:18px;display:flex;align-items:center;gap:9px;text-decoration:none;font:800 13px 'Mulish';color:${v.link}}
   .sc-home:hover{color:${v.linkHover}} .sc-home img{width:26px;height:26px;object-fit:contain}
 </style>
+${ga4()}
 </head><body>
 <a class="sc-home" href="/"><img src="/images/favicon.png" alt="">← DMAK'S HVAC</a>
 <div class="sc-card" data-scheduler="${v.id}"></div>

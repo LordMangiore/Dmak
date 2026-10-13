@@ -46,7 +46,12 @@
   var phoneOk = function (v) { return v.replace(/\D/g, '').length >= 10; }; // needs a real 10-digit number
   var digitsOnly = function (v) { return v.replace(/[^0-9]/g, '').slice(0, 5); };
 
+  // GA4 (gtag is set up in <head>; absent in ?test sessions). variant = "A" | "B" | "C"
+  function track(name, params) { try { if (window.gtag) window.gtag('event', name, params); } catch (e) {} }
+  function stepTo(variant, step) { track('scheduler_step', { variant: variant, step: step }); }
+
   function submitNetlify(formName, data) {
+    track('generate_lead', { form_name: formName, variant: formName.slice(-1).toUpperCase() });
     var params = new URLSearchParams();
     params.append('form-name', formName);
     Object.keys(data).forEach(function (k) { params.append(k, data[k] == null ? '' : data[k]); });
@@ -97,7 +102,7 @@
     var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '' };
     var autoT;
     function canNext() { if (st.step === 0) return !!st.first.trim(); if (st.step === 4) return zip5(st.zip) && phoneOk(st.phone); return false; }
-    function go(n) { st.step = Math.max(0, Math.min(n, 5)); render(true); }
+    function go(n) { var to = Math.max(0, Math.min(n, 5)); if (to > st.step) stepTo('A', to); st.step = to; render(true); }
     function auto() { clearTimeout(autoT); autoT = setTimeout(function () { go(st.step + 1); }, 340); }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canNext(); b.disabled = !can; b.style.cssText = can ? A_ON : A_OFF; }
 
@@ -279,7 +284,7 @@
       root.innerHTML = html;
     }
     root.addEventListener('click', function (e) {
-      var p = e.target.closest('[data-pickb]'); if (p) { st.problem = p.getAttribute('data-pickb'); st.step = 'book'; render(true); return; }
+      var p = e.target.closest('[data-pickb]'); if (p) { st.problem = p.getAttribute('data-pickb'); st.step = 'book'; stepTo('B', 1); render(true); return; }
       var s = e.target.closest('[data-pickslot]'); if (s) { st.slot = s.getAttribute('data-pickslot'); render(false); return; }
       var act = e.target.closest('[data-act]'); if (!act) return;
       var a = act.getAttribute('data-act');
@@ -424,7 +429,7 @@
     }
     root.addEventListener('click', function (e) {
       var pick = e.target.closest('[data-pick]');
-      if (pick) { st[pick.getAttribute('data-pick')] = pick.getAttribute('data-id'); st.stage++; reveal(); return; } // commit answer + advance, then reveal reply
+      if (pick) { st[pick.getAttribute('data-pick')] = pick.getAttribute('data-id'); st.stage++; stepTo('C', st.stage); reveal(); return; } // commit answer + advance, then reveal reply
       var act = e.target.closest('[data-act]'); if (!act) return;
       var a = act.getAttribute('data-act');
       if (a === 'back') { clearTimeout(revT); if (st.stage > 0) st.stage--; st.typing = false; st.shown = fullMsgs().length; render(st.shown, false); }
@@ -432,7 +437,7 @@
       else if (a === 'next') {
         if (!canNext()) return;
         if (st.stage === 4) { st._ref = refNum(); submitNetlify('schedule-c', payload('C (Chat)', st)); st.stage = 5; reveal(); }
-        else { st.stage++; reveal(); }
+        else { st.stage++; stepTo('C', st.stage); reveal(); }
       } else if (a === 'restart') { clearTimeout(revT); st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false, shown: 0, typing: false }; reveal(); }
     });
     root.addEventListener('input', function (e) {

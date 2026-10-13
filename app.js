@@ -56,6 +56,13 @@
       window.matchMedia('(min-width:861px)').addEventListener('change', function (m) { if (m.matches) setOpen(false); });
     }
 
+    // GA4: a quote/booking form that passed validation counts as a lead (gtag is set up in <head>)
+    document.querySelectorAll('form[name="quote"], form[name="schedule"]').forEach(function (f) {
+      f.addEventListener('submit', function () {
+        if (window.gtag) gtag('event', 'generate_lead', { form_name: f.getAttribute('name'), page_location: location.href });
+      });
+    });
+
     // Schedule page: preferred-day picker can't be in the past
     document.querySelectorAll('input[type=date][data-min-today]').forEach(function (i) {
       var d = new Date();
