@@ -64,6 +64,6 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] Color contrast fixes.
 - [ ] Image compression.
 - [ ] Facebook link.
-- [ ] 320px header: likely done by the mobile pass (hamburger menu, tighter header at ≤360px). Re-check on a real phone.
+- [x] 320px header: logo stays on one line and header keeps its padding down to 320px (verified at 320/360/375/390/412).
 - [x] Make the repo private (GitHub reports LordMangiore/Dmak is private).
 - [ ] Keep the old hosting for at least 2 weeks.

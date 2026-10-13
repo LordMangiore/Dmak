@@ -364,13 +364,23 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
   .sd-hero h1{font-size:34px}
   .contact-info .phone{font-size:30px}
 }
+@media(max-width:400px){
+  /* Keep the logo on one line next to Call + menu on small phones */
+  .brand b{white-space:nowrap}
+  .header-inner{gap:8px}
+  .brand{gap:8px}
+}
 @media(max-width:360px){
-  .wrap{padding:0 14px}
+  .wrap{padding-left:14px;padding-right:14px}
   .hero h1{font-size:36px}
   .brand b{font-size:15px}
   .brand img{width:30px;height:30px}
   .header-inner{gap:8px}
-  .nav-call{padding-left:14px;padding-right:14px}
+  .nav-call{padding-left:12px;padding-right:12px}
+}
+@media(max-width:340px){
+  .brand b{font-size:14px}
+  .brand span{font-size:8.5px;letter-spacing:.12em}
 }
 
 /* ---------- Mobile UX pass 2: quote forms + Problem Solver ---------- */
@@ -399,4 +409,7 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
   .sym::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:2px solid #8a8a90;border-bottom:2px solid #8a8a90;transform:translateY(-75%) rotate(45deg);transition:transform .2s}
   .sym.active::after{transform:translateY(-25%) rotate(-135deg);border-color:#fff}
   .sv-grid>.sv-result{margin:0 0 6px}
+  /* Answer buttons: stacked full-width so "See heating repair →" etc. stay on one line */
+  .sv-actions{flex-direction:column;gap:8px}
+  .sv-actions .btn{flex:none;width:100%;min-height:48px;padding:12px 16px;white-space:nowrap}
 }
