@@ -8,19 +8,21 @@
   var RED = '#CE3F26', BLUE = '#2E76AE', ORANGE = '#E0823F';
 
   // ---- shared data ----
+  // "Something else" (last in PROBLEMS) shows full width and adds a note box on the contact step of each flow
+  var OTHER = { id: 'other', accent: '#8a857c', label: 'Something else', sub: 'Tell us in your own words', bLabel: 'Something else', bSub: 'Describe it below', reply: "No problem. Add a quick note at the end and Dan will take it from there." };
   var PROBLEMS = [
-    { id: 'ac',     accent: BLUE,   label: "AC isn't cooling",      sub: "Warm air or won't kick on", bLabel: 'AC out',        bSub: "Warm air, won't cool",   reply: "Ugh, in this heat? I'll get you on the schedule fast." },
+    { id: 'ac',     accent: BLUE,   label: "AC isn't cooling",      sub: "Warm air or won't kick on", bLabel: 'AC out',        bSub: "Warm air, won't cool",   reply: "Ugh, in this heat? Let's get you on the schedule fast." },
     { id: 'heat',   accent: RED,    label: 'No heat',               sub: "Furnace won't fire up",     bLabel: 'No heat',       bSub: "Furnace won't fire",     reply: "Nobody should ride out a cold night. Let's move." },
     { id: 'noise',  accent: RED,    label: 'Strange noise or smell',sub: 'Banging, buzzing, burning', bLabel: 'Noise / smell', bSub: 'Banging or burning',     reply: "Good call flagging that, let's look before it grows." },
     { id: 'bills',  accent: ORANGE, label: 'High energy bills',     sub: 'It runs constantly',        bLabel: 'High bills',    bSub: 'Runs constantly',        reply: "Let's find where the money's going. Usually an easy fix." },
-    { id: 'install',accent: ORANGE, label: 'New system',            sub: 'Replace or install',        bLabel: 'New system',    bSub: 'Replace or install',     reply: "Happy to size one right for your place, no upsell, promise." },
+    { id: 'install',accent: ORANGE, label: 'New system',            sub: 'Replace or install',        bLabel: 'New system',    bSub: 'Replace or install',     reply: "Dan will size one right for your place, no upsell." },
     { id: 'tuneup', accent: BLUE,   label: 'Tune-up',               sub: 'Seasonal maintenance',      bLabel: 'Tune-up',       bSub: 'Seasonal service',       reply: "Smart. A tune-up now saves the breakdown later." }
   ];
   var URGENCIES = [
-    { id: 'now',   label: 'Emergency, right now', sub: 'No heat/AC, or something unsafe', tag: 'Priority', accent: RED,    tagBg: 'rgba(206,63,38,.1)',  reply: "On it. I'll call you within minutes." },
-    { id: 'today', label: 'Today if possible',    sub: 'As soon as you can get here',     tag: 'Same-day', accent: ORANGE, tagBg: 'rgba(224,130,63,.14)', reply: "Let me check what's open today." },
+    { id: 'now',   label: 'Emergency, right now', sub: 'No heat/AC, or something unsafe', tag: 'Priority', accent: RED,    tagBg: 'rgba(206,63,38,.1)',  reply: "Got it. Dan will call you right away." },
+    { id: 'today', label: 'Today if possible',    sub: 'As soon as you can get here',     tag: 'Same-day', accent: ORANGE, tagBg: 'rgba(224,130,63,.14)', reply: "Let's see what's open today." },
     { id: 'week',  label: 'This week',            sub: 'Soon, but not an emergency',      tag: 'Flexible', accent: BLUE,   tagBg: 'rgba(46,118,174,.12)', reply: "Easy, plenty of room this week." },
-    { id: 'flex',  label: "I'm flexible",         sub: 'Whenever works best for you',     tag: 'Anytime',  accent: BLUE,   tagBg: 'rgba(46,118,174,.12)', reply: "Great. I'll show the first opening and a few options." }
+    { id: 'flex',  label: "I'm flexible",         sub: 'Whenever works best for you',     tag: 'Anytime',  accent: BLUE,   tagBg: 'rgba(46,118,174,.12)', reply: "Great. Here are the first openings." }
   ];
   // Service-area towns — powers the keyless city autocomplete (datalist).
   var TOWNS = ['Edwardsville, IL','Glen Carbon, IL','Maryville, IL','Troy, IL','Collinsville, IL','Alton, IL','Godfrey, IL','Bethalto, IL','Wood River, IL','Granite City, IL','Highland, IL','St. Louis, MO'];
@@ -50,6 +52,12 @@
   function track(name, params) { try { if (window.gtag) window.gtag('event', name, params); } catch (e) {} }
   function stepTo(variant, step) { track('scheduler_step', { variant: variant, step: step }); }
 
+  PROBLEMS.push(OTHER);
+  var ALL_PROBLEMS = PROBLEMS;
+  var noteBox = function (st, style) {
+    return st.problem === 'other' ? '<textarea data-in="note" rows="2" aria-label="What\'s going on?" placeholder="What\'s going on? (a few words is fine)" style="' + style + 'resize:vertical;">' + esc(st.note || '') + '</textarea>' : '';
+  };
+
   function submitNetlify(formName, data) {
     track('generate_lead', { form_name: formName, variant: formName.slice(-1).toUpperCase() });
     var params = new URLSearchParams();
@@ -61,7 +69,7 @@
     } catch (e) {}
   }
   function summaryData(st) {
-    var prob = PROBLEMS.find(function (p) { return p.id === st.problem; });
+    var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
     var urg = URGENCIES.find(function (u) { return u.id === st.urgency; });
     var s = slots().find(function (x) { return x.id === st.slot; });
     var loc = (st.address ? st.address + ', ' : '') + (st.city || 'Your area') + (st.zip ? ' · ' + st.zip : '');
@@ -73,7 +81,7 @@
     ] };
   }
   function payload(variant, st) {
-    var prob = PROBLEMS.find(function (p) { return p.id === st.problem; });
+    var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
     var urg = URGENCIES.find(function (u) { return u.id === st.urgency; });
     var s = slots().find(function (x) { return x.id === st.slot; });
     return {
@@ -81,7 +89,7 @@
       name: st.name || ((st.first || '') + ' ' + (st.last || '')).trim(),
       phone: st.phone || '', email: st.email || '', zip: st.zip || '',
       address: st.address || '', city: st.city || '',
-      problem: prob ? prob.label : '', urgency: urg ? urg.label : '',
+      problem: (prob ? prob.label : '') + (st.note && st.note.trim() ? ': ' + st.note.trim() : ''), urgency: urg ? urg.label : '',
       when: s ? (s.day + ' ' + s.window) : ''
     };
   }
@@ -99,7 +107,7 @@
   var A_ON = 'cursor:pointer;border:none;background:' + RED + ';color:#fff;font:800 15px Mulish;letter-spacing:.04em;padding:17px 64px;border-radius:11px;box-shadow:0 12px 28px rgba(206,63,38,.32)';
   var A_OFF = 'border:none;background:#ece7df;color:#b8b2a8;font:800 15px Mulish;letter-spacing:.04em;padding:17px 64px;border-radius:11px;cursor:not-allowed';
   function initA(root) {
-    var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '' };
+    var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '', note: '' };
     var autoT;
     function canNext() { if (st.step === 0) return !!st.first.trim(); if (st.step === 4) return zip5(st.zip) && phoneOk(st.phone); return false; }
     function go(n) { var to = Math.max(0, Math.min(n, 5)); if (to > st.step) stepTo('A', to); st.step = to; render(true); }
@@ -108,7 +116,7 @@
 
     function optProblem(p) {
       var active = st.problem === p.id;
-      return '<button type="button" data-pick="problem" data-id="' + p.id + '" style="position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:14px;padding:16px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:3px;">'
+      return '<button type="button" data-pick="problem" data-id="' + p.id + '" style="' + (p.id === 'other' ? 'grid-column:1/-1;' : '') + 'position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:14px;padding:16px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:3px;">'
         + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:14px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '')
         + '<span style="display:flex;align-items:center;gap:9px;"><span style="width:11px;height:11px;border-radius:50%;background:' + p.accent + ';flex:none;"></span><span style="font:800 15px Mulish;color:#1b1a18;">' + esc(p.label) + '</span></span>'
         + '<span style="font:500 12.5px Mulish;color:#8a857c;padding-left:20px;">' + esc(p.sub) + '</span></button>';
@@ -183,6 +191,7 @@
           + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div>'
           + '<input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="PHONE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
           + '<input data-in="email" type="email" aria-label="Email (optional)" autocomplete="email" value="' + esc(st.email) + '" placeholder="EMAIL (OPTIONAL)" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;">'
+          + noteBox(st, 'width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;')
           + (zipOk ? '<div style="display:flex;align-items:center;justify-content:center;gap:8px;font:700 13px Mulish;color:#2f8a52;"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;"></span>You\'re in our service area.</div>' : '')
           + '</div>';
 
@@ -214,7 +223,7 @@
         if (!canNext()) return;
         if (st.step === 4) { st._ref = refNum(); submitNetlify('schedule-a', payload('A (Guided)', st)); go(5); }
         else go(st.step + 1);
-      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '' }; render(true); }
+      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '', note: '' }; render(true); }
     });
     root.addEventListener('input', function (e) {
       var inp = e.target.closest('[data-in]'); if (!inp) return;
@@ -233,12 +242,12 @@
   var B_OFF = 'width:100%;border:none;background:#3a2a28;color:#8a6a64;font:800 16px Mulish;padding:17px;border-radius:12px;cursor:not-allowed';
   var BD = 'width:100%;border:1px solid #34343a;border-radius:11px;padding:14px;font:600 15px Mulish;background:#1f1f23;color:#fff;outline:none;'; // dark input
   function initB(root) {
-    var st = { step: 'pick', problem: null, slot: null, name: '', phone: '', email: '', address: '', city: '', zip: '' };
+    var st = { step: 'pick', problem: null, slot: null, name: '', phone: '', email: '', address: '', city: '', zip: '', note: '' };
     function canBook() { return !!(st.slot && st.name.trim() && phoneOk(st.phone) && st.address.trim() && st.city.trim() && zip5(st.zip)); }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canBook(); b.disabled = !can; b.style.cssText = can ? B_ON : B_OFF; }
     function render(animate) {
       var scr = animate ? ' class="sc-screen"' : '';
-      var prob = PROBLEMS.find(function (p) { return p.id === st.problem; });
+      var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
       var zipOk = zip5(st.zip), can = canBook();
       var html = '<div style="position:absolute;right:-90px;top:-70px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(206,63,38,.22),transparent 70%);pointer-events:none;"></div>';
       html += '<div style="position:relative;flex:none;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:22px 26px;border-bottom:1px solid #26262b;">'
@@ -250,7 +259,7 @@
           + '<p style="font:400 15px Mulish;color:#9b9ba1;margin:12px 0 22px;">Tap it. I\'ll show you the soonest I can be there.</p>'
           + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px;">'
           + PROBLEMS.map(function (p) {
-            return '<button type="button" data-pickb="' + p.id + '" style="text-align:left;cursor:pointer;background:#1f1f23;border:1px solid #2e2e34;border-radius:14px;padding:17px 16px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:5px;transition:all .15s;"><span style="width:13px;height:13px;border-radius:50%;background:' + p.accent + ';"></span><span style="font:800 16px Mulish;color:#fff;margin-top:4px;">' + esc(p.bLabel) + '</span><span style="font:500 12.5px Mulish;color:#8a8a90;">' + esc(p.bSub) + '</span></button>';
+            return '<button type="button" data-pickb="' + p.id + '" style="' + (p.id === 'other' ? 'grid-column:1/-1;' : '') + 'text-align:left;cursor:pointer;background:#1f1f23;border:1px solid #2e2e34;border-radius:14px;padding:17px 16px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:5px;transition:all .15s;"><span style="width:13px;height:13px;border-radius:50%;background:' + p.accent + ';"></span><span style="font:800 16px Mulish;color:#fff;margin-top:4px;">' + esc(p.bLabel) + '</span><span style="font:500 12.5px Mulish;color:#8a8a90;">' + esc(p.bSub) + '</span></button>';
           }).join('') + '</div></div>';
       } else if (st.step === 'book') {
         html += '<div' + scr + '><button type="button" data-act="back" style="cursor:pointer;border:none;background:none;color:#8a8a90;font:800 13px Mulish;padding:0 0 12px;display:inline-flex;align-items:center;gap:5px;">← Change</button>'
@@ -264,6 +273,7 @@
           + '<div style="font:800 11px Mulish;letter-spacing:.14em;color:#6FB1DE;margin-bottom:10px;">YOUR DETAILS</div>'
           + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="name" aria-label="Full name" value="' + esc(st.name) + '" placeholder="Full name" autocomplete="name" style="' + BD + '"><input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" value="' + esc(st.phone) + '" placeholder="Phone" autocomplete="tel" style="' + BD + '"></div>'
           + '<input data-in="email" type="email" aria-label="Email (optional)" value="' + esc(st.email) + '" placeholder="Email (optional)" autocomplete="email" style="' + BD + 'margin-top:9px;">'
+          + noteBox(st, BD + 'margin-top:9px;')
           + '<input data-in="address" data-address aria-label="Street address" value="' + esc(st.address) + '" placeholder="Street address" autocomplete="street-address" style="' + BD + 'margin-top:9px;">'
           + '<div style="display:grid;grid-template-columns:1.4fr 1fr;gap:9px;margin-top:9px;"><input data-in="city" list="sc-towns" aria-label="City" value="' + esc(st.city) + '" placeholder="City" autocomplete="address-level2" style="' + BD + '"><div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP" style="' + BD + 'padding-right:42px;">' + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div></div>'
           + '<datalist id="sc-towns">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>'
@@ -290,7 +300,7 @@
       var a = act.getAttribute('data-act');
       if (a === 'back') { st.step = 'pick'; render(true); }
       else if (a === 'book') { if (!canBook()) return; st._ref = refNum(); submitNetlify('schedule-b', payload('B (Fast Track)', st)); st.step = 'done'; render(true); }
-      else if (a === 'restart') { st = { step: 'pick', problem: null, slot: null, name: '', phone: '', email: '', address: '', city: '', zip: '' }; render(true); }
+      else if (a === 'restart') { st = { step: 'pick', problem: null, slot: null, name: '', phone: '', email: '', address: '', city: '', zip: '', note: '' }; render(true); }
     });
     root.addEventListener('input', function (e) {
       var inp = e.target.closest('[data-in]'); if (!inp) return;
@@ -309,7 +319,7 @@
   var C_OFF = 'width:100%;border:none;background:#f0b7ac;color:#fff;font:800 15px Mulish;padding:14px;border-radius:12px;margin-top:13px;cursor:not-allowed';
   function initC(root) {
     // stage = which question we're on; shown = how many chat messages are revealed so far.
-    var st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false, shown: 0, typing: false };
+    var st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', note: '', textOk: false, shown: 0, typing: false };
     var revT, thread;
     function canNext() { if (st.stage === 2) return zip5(st.zip); if (st.stage === 4) return !!(st.name.trim() && phoneOk(st.phone)); return false; }
     function syncCta() { var b = root.querySelector('.sc-cta'); if (!b) return; var can = canNext(); b.disabled = !can; b.style.cssText = can ? C_ON : C_OFF; }
@@ -317,23 +327,23 @@
     // Full conversation for the current state. Questions show at stage>=N; an answer's
     // bubbles show once the user has committed it (stage moved past that input).
     function fullMsgs() {
-      var prob = PROBLEMS.find(function (p) { return p.id === st.problem; });
+      var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
       var urg = URGENCIES.find(function (u) { return u.id === st.urgency; });
       var s = slots().find(function (x) { return x.id === st.slot; });
       var first = (st.name.trim().split(' ')[0]) || '';
       var m = [];
-      m.push({ t: 'bot', text: "Hey, I'm Dan. Real person, not a call center. Let's get you booked in about a minute." });
+      m.push({ t: 'bot', text: "Hi! This is DMAK'S HVAC's booking assistant. Answer a few quick questions and Dan will confirm your visit himself." });
       m.push({ t: 'bot', text: "First up, what's going on?" });
       if (st.stage > 0 && prob) { m.push({ t: 'user', text: prob.label }); m.push({ t: 'bot', text: prob.reply }); }
       if (st.stage >= 1) m.push({ t: 'bot', text: 'How soon do you need us?' });
       if (st.stage > 1 && urg) { m.push({ t: 'user', text: urg.label }); m.push({ t: 'bot', text: urg.reply }); }
       if (st.stage >= 2) m.push({ t: 'bot', text: 'Where are you? A zip gets us started.' });
       if (st.stage > 2 && zip5(st.zip)) { m.push({ t: 'user', text: st.zip }); m.push({ t: 'bot', text: "Perfect, that's right in our area." }); }
-      if (st.stage >= 3) m.push({ t: 'bot', text: "Here's the soonest I can swing by." });
-      if (st.stage > 3 && s) { m.push({ t: 'user', text: s.short }); m.push({ t: 'bot', text: 'Locked in.' }); }
-      if (st.stage >= 4) m.push({ t: 'bot', text: 'Last thing, how do I reach you?' });
+      if (st.stage >= 3) m.push({ t: 'bot', text: "Here are the soonest openings." });
+      if (st.stage > 3 && s) { m.push({ t: 'user', text: s.short }); m.push({ t: 'bot', text: 'Got it.' }); }
+      if (st.stage >= 4) m.push({ t: 'bot', text: st.problem === 'other' ? "Last thing: how can Dan reach you, and what's going on?" : 'Last thing, how can Dan reach you?' });
       if (st.stage > 4 && st.name.trim() && st.phone.trim()) { m.push({ t: 'user', text: st.name }); m.push({ t: 'bot', text: 'Thanks, ' + first + '. Almost done.' }); }
-      if (st.stage >= 5) m.push({ t: 'bot', text: "You're all set. See you soon!" });
+      if (st.stage >= 5) m.push({ t: 'bot', text: "Request sent! Dan will call or text to confirm your time." });
       return m;
     }
     // Reveal messages one at a time: bot messages get a "typing" pause first, user
@@ -344,13 +354,14 @@
       var next = full[st.shown];
       if (next.t === 'user') {
         st.typing = false; st.shown++; render(st.shown - 1, false);
-        clearTimeout(revT); revT = setTimeout(reveal, 160);
+        clearTimeout(revT); revT = setTimeout(reveal, 90);
       } else {
+        var followUp = st.shown > 0 && full[st.shown - 1].t === 'bot'; // 2nd bot message in a row: brief pause only
         st.typing = true; render(st.shown, false); // typing dots
         clearTimeout(revT); revT = setTimeout(function () {
           st.typing = false; st.shown++; render(st.shown - 1, false);
-          clearTimeout(revT); revT = setTimeout(reveal, 90);
-        }, 480);
+          clearTimeout(revT); revT = setTimeout(reveal, 60);
+        }, followUp ? 160 : 300);
       }
     }
     function bubble(m, animate) {
@@ -369,7 +380,7 @@
       if (st.stage === 0)
         h += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:9px;">' + PROBLEMS.map(function (p, i) {
           var active = st.problem === p.id;
-          return '<button type="button" data-pick="problem" data-id="' + p.id + '" style="' + anim(0.05 + i * 0.05) + 'position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:13px;padding:13px 14px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:3px;">' + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:13px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '') + '<span style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:50%;background:' + p.accent + ';flex:none;"></span><span style="font:800 14.5px Mulish;color:#1b1a18;">' + esc(p.label) + '</span></span><span style="font:500 12px Mulish;color:#8a857c;padding-left:18px;">' + esc(p.sub) + '</span></button>';
+          return '<button type="button" data-pick="problem" data-id="' + p.id + '" style="' + anim(0.05 + i * 0.05) + (p.id === 'other' ? 'grid-column:1/-1;' : '') + 'position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:13px;padding:13px 14px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:3px;">' + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:13px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '') + '<span style="display:flex;align-items:center;gap:8px;"><span style="width:10px;height:10px;border-radius:50%;background:' + p.accent + ';flex:none;"></span><span style="font:800 14.5px Mulish;color:#1b1a18;">' + esc(p.label) + '</span></span><span style="font:500 12px Mulish;color:#8a857c;padding-left:18px;">' + esc(p.sub) + '</span></button>';
         }).join('') + '</div>';
       if (st.stage === 1)
         h += '<div style="display:flex;flex-direction:column;gap:9px;">' + URGENCIES.map(function (u, i) {
@@ -388,6 +399,7 @@
       if (st.stage === 4) {
         h += '<div style="' + anim(0.04) + 'display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="name" aria-label="Your name" autocomplete="name" value="' + esc(st.name) + '" placeholder="Your name" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;"><input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="Phone" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;"></div>'
           + '<input data-in="email" type="email" aria-label="Email (optional)" autocomplete="email" value="' + esc(st.email) + '" placeholder="Email (optional)" style="' + anim(0.1) + 'width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;margin-top:9px;">'
+          + noteBox(st, anim(0.13) + 'width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:13px 14px;font:500 16px Mulish;background:#fff;outline:none;margin-top:9px;')
           + '<label data-act="toggleText" style="' + anim(0.16) + 'display:flex;align-items:center;gap:10px;cursor:pointer;font:600 13.5px Mulish;color:#3a352e;margin-top:13px;"><span style="width:21px;height:21px;border-radius:6px;border:2px solid ' + (st.textOk ? RED : '#c9c3b8') + ';background:' + (st.textOk ? RED : '#fff') + ';display:flex;align-items:center;justify-content:center;color:#fff;font:900 11px Mulish;flex:none;">' + (st.textOk ? '✓' : '') + '</span>Text me appointment updates</label>';
       }
       if (st.stage === 2 || st.stage === 4) {
@@ -411,8 +423,8 @@
       var caught = st.shown >= full.length;
       var bars = [0, 1, 2, 3, 4].map(function (i) { return '<span style="flex:1;height:4px;border-radius:99px;background:' + (i <= st.stage ? RED : '#3a3a40') + ';transition:background .3s;"></span>'; }).join('');
       var html = '<div style="background:#141416;padding:16px 18px 0;flex:none;"><div style="display:flex;align-items:center;gap:12px;padding-bottom:14px;">'
-        + '<div style="position:relative;flex:none;"><div style="width:44px;height:44px;border-radius:50%;background:' + RED + ';display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="/images/favicon.png" alt="Dan" style="width:32px;height:32px;object-fit:contain;"></div><span style="position:absolute;right:-1px;bottom:-1px;width:12px;height:12px;border-radius:50%;background:#4ec97a;border:2.5px solid #141416;"></span></div>'
-        + '<div style="line-height:1.15;flex:1;min-width:0;"><div style="font:800 16px Archivo,sans-serif;color:#fff;">Dan · DMAK\'S HVAC</div><div style="font:700 11px Mulish;color:#4ec97a;margin-top:3px;">Online now · replies in seconds</div></div>'
+        + '<div style="position:relative;flex:none;"><div style="width:44px;height:44px;border-radius:50%;background:' + RED + ';display:flex;align-items:center;justify-content:center;overflow:hidden;"><img src="/images/favicon.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div></div>'
+        + '<div style="line-height:1.15;flex:1;min-width:0;"><div style="font:800 16px Archivo,sans-serif;color:#fff;">DMAK\'S HVAC booking</div><div style="font:700 11px Mulish;color:#9fd0ee;margin-top:3px;">Automated assistant · Dan confirms by phone</div></div>'
         + '<div style="text-align:right;flex:none;"><div style="font:900 15px Archivo;color:' + ORANGE + ';">5.0★</div><div style="font:700 9px Mulish;letter-spacing:.08em;color:#8a8a90;">95+ REVIEWS</div></div></div>'
         + (st.stage < 5 ? '<div style="display:flex;gap:5px;padding-bottom:14px;">' + bars + '</div>' : '') + '</div>';
 
@@ -438,7 +450,7 @@
         if (!canNext()) return;
         if (st.stage === 4) { st._ref = refNum(); submitNetlify('schedule-c', payload('C (Chat)', st)); st.stage = 5; reveal(); }
         else { st.stage++; stepTo('C', st.stage); reveal(); }
-      } else if (a === 'restart') { clearTimeout(revT); st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', textOk: false, shown: 0, typing: false }; reveal(); }
+      } else if (a === 'restart') { clearTimeout(revT); st = { stage: 0, problem: null, urgency: null, zip: '', address: '', city: '', slot: null, name: '', phone: '', email: '', note: '', textOk: false, shown: 0, typing: false }; reveal(); }
     });
     root.addEventListener('input', function (e) {
       var inp = e.target.closest('[data-in]'); if (!inp) return;

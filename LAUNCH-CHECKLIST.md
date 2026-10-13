@@ -21,6 +21,7 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] Forms: submit the quote and schedule forms from your phone on the preview site. All five forms were already tested by sending real submissions to the live site; they reached Netlify and Jobber.
 - [x] Analytics: GA4 `G-5BGJHY2MSM` on every page incl. scheduler A/B/C. Events: `generate_lead` (form_name, variant), `phone_call` (link_location), `scheduler_step` (variant, step). Add `?test` to any URL to keep that browser session out of GA4.
 - [x] Test pages: keep /schedule-a/, /schedule-b/ and /schedule-c/ live for now. They are the A/B scheduler variants still being tested, and they're wired into Jobber. Revisit once a winner is picked.
+- [x] Booking links: every "Schedule" / "Book online" / "Book a visit" link now goes to scheduler A (`BOOK_URL` in build.js). /schedule/ stays live for search and old links; B and C stay unlinked.
 - [ ] Claims: text Dan to confirm the shop is in town, the financing, "answered within the hour," and "licensed." Remove anything he can't confirm.
 - [ ] Domain: in Netlify, add `www.dmakshvac.com` as the primary domain and `dmakshvac.com` as an alias. The live site doesn't change until DNS does.
 

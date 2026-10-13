@@ -5,6 +5,9 @@ const ROOT = __dirname;
 const PHONE = '(314) 420-9851', TEL = 'tel:+13144209851';
 // Business hours (single source of truth): Mon–Sat 8am–8pm, closed Sunday
 const HOURS = 'Open daily 8a–8p';
+// Where every "Book online" / "Schedule" link goes. Scheduler A (Guided) won the review; /schedule/ stays
+// live for search and old links.
+const BOOK_URL = '/schedule-a/';
 const HOURS_FULL = 'Open daily 8:00a – 8:00p';
 // Dan's real Google Business Profile (resolved from the GBP share link). Rating/count are the live figures.
 const GBP = 'https://maps.google.com/?cid=7991446230126163755';
@@ -127,7 +130,7 @@ const header = active => {
   const links = `
       <a href="/services/"${a('services')}>Services</a>
       <a href="/service-area/"${a('area')}>Service Area</a>
-      <a href="/schedule/"${a('schedule')}>Schedule</a>
+      <a href="${BOOK_URL}"${a('schedule')}>Schedule</a>
       <a href="/reviews/"${a('reviews')}>Reviews</a>
       <a href="/about/"${a('about')}>About</a>`;
   return `<header class="site-header"><div class="wrap header-inner">
@@ -142,12 +145,12 @@ const header = active => {
 };
 const ctaBand = () => `<section class="band-dark"><div class="wrap cta">
     <div><h2>Ready when you are.</h2><p>Same-day repairs and free quotes across the Metro East &amp; St. Louis.</p><p class="cta-hours">${HOURS} · <b>Same-day repairs on most calls</b></p></div>
-    <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/schedule/">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
+    <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="${BOOK_URL}">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
   </div></section>`;
 const footer = () => `<footer class="footer"><div class="wrap grid">
     <div><div class="bname">DMAK'S HVAC LLC</div><div class="btag">HEATING &amp; COOLING</div><p class="blurb">Family-owned heating &amp; cooling, serving the Metro East &amp; St. Louis.</p></div>
     <div><div class="h4">SERVICES</div>${SERVICES.map(s=>`<a href="/services/${s.id}/">${amp(s.name)}</a>`).join('')}</div>
-    <div><div class="h4">COMPANY</div><a href="/about/">About</a><a href="/service-area/">Service Area</a><a href="/schedule/">Schedule Service</a><a href="/reviews/">Reviews</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a></div>
+    <div><div class="h4">COMPANY</div><a href="/about/">About</a><a href="/service-area/">Service Area</a><a href="${BOOK_URL}">Schedule Service</a><a href="/reviews/">Reviews</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a></div>
     <div><div class="h4">CONTACT</div><div class="cd"><a href="${TEL}">${PHONE}</a><br><a href="mailto:dan@dmakshvac.com">dan@dmakshvac.com</a><br>812 Sherman Ave,<br>Edwardsville, IL 62025<br>${HOURS}</div></div>
   </div></footer>`;
 const reviewCard = (r, town) => `<div class="review"><div class="stars">★★★★★</div><p>"${amp(r.text)}"</p><div class="nm">${r.name}</div>${town && r.town?`<div class="tw">${r.town}</div>`:''}</div>`;
@@ -205,7 +208,7 @@ const quoteFormCard = () => `<form class="form-card" name="quote" method="POST" 
       </select>
       <textarea name="message" rows="3" placeholder="Anything else we should know?" aria-label="Anything else we should know?"></textarea>
       <button class="btn btn-dark btn-block" type="submit">Send my request →</button>
-      <div class="form-fine">No obligation · usually answered within the hour · <a href="/schedule/" style="font-weight:800;color:inherit;text-decoration:underline">book a visit online</a> · <a href="/privacy/" style="color:inherit">privacy</a></div>
+      <div class="form-fine">No obligation · usually answered within the hour · <a href="${BOOK_URL}" style="font-weight:800;color:inherit;text-decoration:underline">book a visit online</a> · <a href="/privacy/" style="color:inherit">privacy</a></div>
     </form>`;
 // Stable string hash so each page deterministically rotates through the review pool.
 const hashStr = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
@@ -283,7 +286,7 @@ const solver = () => `<div class="solver">
           <span class="sv-tag" style="background:${BLUE}">Same-day priority</span>
           <p class="sv-diag">Most likely low refrigerant, a worn capacitor, or blocked airflow. We stock common parts on the truck and fix the majority of cooling calls the same day.</p>
           <div class="sv-actions"><a class="btn btn-red" href="${TEL}">Call now</a><a class="btn btn-outline sv-learn" href="/services/cooling/">See AC repair →</a></div>
-          <div class="sv-links"><a class="sv-quote" href="#quote">Get a free quote →</a><a class="sv-quote" href="/schedule/">Book a visit →</a></div>
+          <div class="sv-links"><a class="sv-quote" href="#quote">Get a free quote →</a><a class="sv-quote" href="${BOOK_URL}">Book a visit →</a></div>
         </div>
       </div>`;
 
@@ -300,7 +303,7 @@ const home = () => page({ active:'', cta:true,
         <h1>No heat?<br>No cool?<br><span class="accent-red">No problem.</span></h1>
         <p class="lead">Family-owned, fully licensed, and on the way. Same-day repairs and honest pricing across Edwardsville and beyond.</p>
         <div class="actions"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="#quote">Get a free quote</a></div>
-        <a class="hero-book" href="/schedule/">or book a visit online →</a>
+        <a class="hero-book" href="${BOOK_URL}">or book a visit online →</a>
       </div>
       ${solver()}
     </div>
@@ -343,7 +346,7 @@ const home = () => page({ active:'', cta:true,
     <div class="contact-info">
       <span class="eyebrow">FREE QUOTE</span>
       <h2 style="font:900 46px/1 'Archivo';text-transform:uppercase;margin:12px 0 0">Tell us what's<br>going on.</h2>
-      <p class="lead">Fill this out and a real person calls you back, usually within the hour. Prefer to pick a day and time yourself? <a href="/schedule/" style="color:#fff;font-weight:800;text-decoration:underline">Book a visit online</a>.</p>
+      <p class="lead">Fill this out and a real person calls you back, usually within the hour. Prefer to pick a day and time yourself? <a href="${BOOK_URL}" style="color:#fff;font-weight:800;text-decoration:underline">Book a visit online</a>.</p>
       <a class="phone" href="${TEL}">${PHONE}</a>
       <div class="cd">${HOURS_FULL}<br><b>Same-day repairs on most calls</b></div>
     </div>
@@ -383,7 +386,7 @@ const serviceDetail = svc => page({ active:'services', cta:true,
       <div class="crumb"><a href="/services/">Services</a> &nbsp;/&nbsp; ${amp(svc.name)}</div>
       <h1>${amp(svc.name)}</h1>
       <p class="tl">${amp(svc.tagline)}</p>
-      <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/schedule/">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
+      <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="${BOOK_URL}">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
     </div>
     <div class="sd-heroimg"><img src="${img(svc.hero)}" alt="${amp(svc.name)} — DMAK'S HVAC"></div>
   </div>
@@ -533,7 +536,7 @@ const comboPage = (svc, c, copy) => page({ active:'services', cta:true,
       <div class="crumb"><a href="/services/">Services</a> &nbsp;/&nbsp; <a href="/services/${svc.id}/">${amp(svc.name)}</a> &nbsp;/&nbsp; ${c.name}, ${c.st}</div>
       <h1>${amp(COMBO_NAME[svc.id])} in ${c.name}</h1>
       <p class="tl">${amp(svc.tagline)}</p>
-      <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/schedule/">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
+      <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="${BOOK_URL}">Book online</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
     </div>
     <div class="sd-heroimg"><img src="${img(svc.hero)}" alt="${amp(svc.name)} in ${c.name}, ${c.st} — DMAK'S HVAC"></div>
   </div>
