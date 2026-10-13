@@ -26,7 +26,11 @@ export default async (req: Request) => {
 
   // Most recent requests, to confirm website leads land with the right client + property
   try {
-    const { requests } = await gql(`{ requests(first: 6, sort: [{ key: CREATED_AT, direction: DESCENDING }]) { nodes {
+    const { __type: sk } = await gql(`{ __type(name: "RequestsSortKey") { enumValues { name } } }`)
+    const keys = sk.enumValues.map((v: any) => v.name)
+    const key = keys.find((k: string) => /CREATED/.test(k)) || keys.find((k: string) => /REQUESTED|DATE/.test(k)) || keys[0]
+    out.requestSortKeys = keys
+    const { requests } = await gql(`{ requests(first: 6, sort: [{ key: ${key}, direction: DESCENDING }]) { nodes {
       title createdAt client { name } property { address { street city province postalCode } } } } }`)
     out.recentRequests = requests.nodes.map((r: any) => ({
       at: r.createdAt, client: r.client?.name, title: r.title,
