@@ -28,7 +28,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] Claims: Dan confirmed the shop location, financing, "answered within the hour" and "licensed" are all fine (Oct 13).
 - [x] Service area: 50 miles (straight line) from Edwardsville per Dan, 236 ZIPs from the Census ZIP file. Outside ZIPs can still book. To change the radius: `node tools/area-zips.js <2025_Gaz_zcta_national.txt> <miles>`, then commit `service-area-zips.js`.
 - [x] Not serviced: East St. Louis area ZIPs 62201, 62203, 62204, 62205, 62206, 62207 get "Sorry, Dan doesn't service this ZIP code" and can't book (`EXCLUDED` in tools/area-zips.js). Still serviced, nearby: Brooklyn 62059, Venice 62090, Madison 62060. Confirm with Dan.
-- [ ] Service-area tiers: green = known ZIPs (`CORE` in tools/area-zips.js: the 11 Illinois site towns), yellow = within 25 mi ("Dan will confirm") or beyond ("outside our usual area"), red = not serviced. Ask Dan which St. Louis ZIPs/neighborhoods should be green, then add them to `CORE` and re-run the script.
+- [ ] Service area: ask Dan which St. Louis ZIPs/neighborhoods are "for sure" (green) and whether Brooklyn/Venice/Madison should be blocked like East St. Louis.
 - [x] Domain added in Netlify; `www.dmakshvac.com` is primary and `dmakshvac.com` redirects to it (Oct 13).
 
 ### GA4 property settings (property "Dmak", stream https://www.dmakshvac.com)
@@ -53,7 +53,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [ ] The tap-to-call links work.
 - [ ] Email (Google Workspace) still works both ways.
 - [ ] You show up in GA4 Realtime.
-- [ ] Submit the sitemap in Search Console and update the website link on Dan's Google Business Profile.
+- [x] Sitemap submitted in Search Console (Oct 13; showed "Couldn't fetch" at first, which is normal; recheck Oct 14). Search Console ownership kept: old site's HTML verification tag carried over to the new site, plus a backup method verified. [ ] Update the website link on Dan's Google Business Profile.
 - [ ] Google still shows the OLD site's title/description/sitelinks (Oct 13). Search Console: add Domain property dmakshvac.com (TXT record → Netlify DNS, plus cPanel until ~Oct 15), submit sitemap, "Request indexing" on home + key pages.
 - [ ] Duplicate site `dmaks-hvac.square.site` (Square Online) competes in search. Ask Dan: unpublish it (keep Square payments if used) or point it to dmakshvac.com.
 - [ ] Jobber: add `https://www.dmakshvac.com/jobber/callback` as a callback URL on the "DMAK Website Leads" app. No reconnect needed.
