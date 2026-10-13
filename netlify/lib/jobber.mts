@@ -64,12 +64,35 @@ export async function tokenStatus() {
   return t ? { connected: true, accessTokenExpires: new Date(t.expires_at).toISOString() } : { connected: false }
 }
 
+const readTokens = async () => (await store().get("tokens", { type: "json" })) as Tokens | null
+const fresh = (t: Tokens) => t.expires_at - Date.now() > 5 * 60e3
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
+
+// Refresh tokens rotate: using one invalidates it. If two submissions refreshed at once, the loser
+// would send a dead token, so only the holder of a short-lived lock refreshes; others wait and re-read.
 async function accessToken(): Promise<string> {
-  const t = (await store().get("tokens", { type: "json" })) as Tokens | null
-  if (!t) throw new Error("Jobber is not connected yet. Visit /jobber/connect?key=<JOBBER_SETUP_KEY>")
-  if (t.expires_at - Date.now() > 5 * 60e3) return t.access_token
-  const fresh = await saveTokens(await tokenRequest({ grant_type: "refresh_token", refresh_token: t.refresh_token }), t)
-  return fresh.access_token
+  for (let attempt = 0; attempt < 8; attempt++) {
+    const t = await readTokens()
+    if (!t) throw new Error("Jobber is not connected yet. Visit /jobber/connect?key=<JOBBER_SETUP_KEY>")
+    if (fresh(t)) return t.access_token
+
+    const lock = await store().set("refresh-lock", String(Date.now()), { onlyIfNew: true })
+    if (!lock.modified) {
+      const held = Number(await store().get("refresh-lock"))
+      if (Date.now() - held > 30e3) await store().delete("refresh-lock") // holder crashed; release it
+      else await sleep(1500)
+      continue
+    }
+    try {
+      const latest = (await readTokens())!
+      if (fresh(latest)) return latest.access_token // another process refreshed just before we locked
+      const json = await tokenRequest({ grant_type: "refresh_token", refresh_token: latest.refresh_token })
+      return (await saveTokens(json, latest)).access_token // saved before any other API call, per Jobber
+    } finally {
+      await store().delete("refresh-lock")
+    }
+  }
+  throw new Error("Timed out waiting for another Jobber token refresh")
 }
 
 export async function gql<T = any>(query: string, variables: Record<string, unknown> = {}): Promise<T> {
