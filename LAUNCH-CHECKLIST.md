@@ -7,10 +7,10 @@ Status as of 2026-10-13. `[x]` = done, `[ ]` = to do, ⚠️ = needs a decision.
 
 The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266 MB copy on the server; Dan says it wasn't working well. He's setting up Google Workspace on dmakshvac.com instead (new account; keep dmakshvac@gmail.com, it likely owns the Google Business Profile and other logins). DNS is still in the old host's cPanel (hosting.com, plan paid through Oct 15, 2027). Open cPanel via my.hosting.com, then cpanel.dmakshvac.com (port 2083 is blocked on the office network).
 
-- [ ] Lower TTL to 300 on `dmakshvac.com` A, `www` CNAME and the MX record (same values).
-- [ ] Dan creates Google Workspace for dmakshvac.com and the dan@dmakshvac.com user.
-- [ ] Add Google's verification TXT record in cPanel → Zone Editor.
-- [ ] Replace the MX record `0 dmakshvac.com` with Google's MX (`1 smtp.google.com`, or whatever Workspace shows). Remove the old MX so mail doesn't split.
+- [x] TTL 300 on the A, www and MX records.
+- [x] Dan created Google Workspace for dmakshvac.com (Oct 13).
+- [x] Google verification TXT added (Oct 13); domain verified.
+- [x] MX is now `1 smtp.google.com` (TTL 300), old MX removed (Oct 13). Confirmed on the authoritative DNS and Google DNS.
 - [ ] Replace SPF with `v=spf1 include:_spf.google.com ~all`, or whatever Workspace shows. Nothing else sends as the domain: Netlify form emails come from Netlify.
 - [ ] Turn on DKIM in the Workspace admin and add its TXT record. Optional: add a DMARC record (`_dmarc` TXT `v=DMARC1; p=none; rua=mailto:dan@dmakshvac.com`).
 - [ ] Test: email dan@dmakshvac.com from outside and reply from it.
@@ -29,7 +29,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] Service area: 50 miles (straight line) from Edwardsville per Dan, 236 ZIPs from the Census ZIP file. Outside ZIPs can still book. To change the radius: `node tools/area-zips.js <2025_Gaz_zcta_national.txt> <miles>`, then commit `service-area-zips.js`.
 - [x] Not serviced: East St. Louis area ZIPs 62201, 62203, 62204, 62205, 62206, 62207 get "Sorry, Dan doesn't service this ZIP code" and can't book (`EXCLUDED` in tools/area-zips.js). Still serviced, nearby: Brooklyn 62059, Venice 62090, Madison 62060. Confirm with Dan.
 - [ ] Service-area tiers: green = known ZIPs (`CORE` in tools/area-zips.js: the 11 Illinois site towns), yellow = within 25 mi ("Dan will confirm") or beyond ("outside our usual area"), red = not serviced. Ask Dan which St. Louis ZIPs/neighborhoods should be green, then add them to `CORE` and re-run the script.
-- [ ] Domain: in Netlify, add `www.dmakshvac.com` as the primary domain and `dmakshvac.com` as an alias. The live site doesn't change until DNS does.
+- [x] Domain added in Netlify (Oct 13). [ ] Make `www.dmakshvac.com` the primary once the certificate is issued (Netlify blocks the change while it's provisioning); right now the bare domain is primary and www redirects to it.
 
 ### GA4 property settings (property "Dmak", stream https://www.dmakshvac.com)
 - [x] Stream measurement ID confirmed as `G-5BGJHY2MSM`. It's the same property the old WordPress site uses, so history carries over.
@@ -42,7 +42,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 
 ## 3. Switch (independent of email; do whenever ready)
 
-- [ ] Point `www` at `dmakshvac-redesign.netlify.app` and the main domain at `75.2.60.5` (Netlify). Leave the MX/mail records alone.
+- [x] DNS switched (Oct 13): `dmakshvac.com` A → 75.2.60.5, `www` CNAME → dmakshvac-redesign.netlify.app, TTL 300. Old answers stay cached for up to 4h on some resolvers.
 - [ ] Wait for Netlify to issue the SSL certificate.
 
 ## 4. Check right after
