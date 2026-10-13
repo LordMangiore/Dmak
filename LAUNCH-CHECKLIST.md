@@ -3,18 +3,20 @@
 Moving dmakshvac.com from the old WordPress host to the new Netlify site.
 Status as of 2026-10-13. `[x]` = done, `[ ]` = to do, ⚠️ = needs a decision.
 
-## 1. Protect email (do this first)
+## 1. Email: moving to Google Workspace (dan@dmakshvac.com)
 
-DNS is managed in the old host's control panel, so these changes happen there.
+The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266 MB copy on the server; Dan says it wasn't working well. He's setting up Google Workspace on dmakshvac.com instead (new account; keep dmakshvac@gmail.com, it likely owns the Google Business Profile and other logins). DNS is still in the old host's cPanel (hosting.com, plan paid through Oct 15, 2027). Open cPanel via my.hosting.com, then cpanel.dmakshvac.com (port 2083 is blocked on the office network).
 
-- [ ] `mail.dmakshvac.com` is currently an alias that follows the main domain. Change it to a direct A record pointing to `69.72.136.205`.
-- [ ] Change the MX record to `0 mail.dmakshvac.com`.
-- [ ] In the SPF record, replace `+a` with `ip4:69.72.136.205`.
-- [ ] Lower the TTL to 300 on the main domain, www and mail records.
-- [ ] On Dan's phone and computer, set the incoming and outgoing mail server to `mail.dmakshvac.com` (skip if dan@ is just a forwarder to Gmail). If either uses plain `dmakshvac.com`, his mail stops at the switch.
-- [ ] Then wait at least 4 hours.
+- [ ] Lower TTL to 300 on `dmakshvac.com` A, `www` CNAME and the MX record (same values).
+- [ ] Dan creates Google Workspace for dmakshvac.com and the dan@dmakshvac.com user.
+- [ ] Add Google's verification TXT record in cPanel → Zone Editor.
+- [ ] Replace the MX record `0 dmakshvac.com` with Google's MX (`1 smtp.google.com`, or whatever Workspace shows). Remove the old MX so mail doesn't split.
+- [ ] Replace SPF with `v=spf1 include:_spf.google.com ~all`, or whatever Workspace shows. Nothing else sends as the domain: Netlify form emails come from Netlify.
+- [ ] Turn on DKIM in the Workspace admin and add its TXT record. Optional: add a DMARC record (`_dmarc` TXT `v=DMARC1; p=none; rua=mailto:dan@dmakshvac.com`).
+- [ ] Test: email dan@dmakshvac.com from outside and reply from it.
+- [ ] Later: add dan@dmakshvac.com as an owner of the Google Business Profile; point Netlify form notifications at it. Before the hosting ever lapses, download the old 266 MB mailbox if Dan wants it.
 
-## 2. Site fixes (during the wait)
+## 2. Site fixes
 
 - [x] Forms: form detection is on and redeployed. All 5 forms are registered (quote, schedule, schedule-a/b/c, plus the internal jobber-alerts form).
 - [ ] Forms: set email notifications to Dan and you (Netlify → Forms → Notifications). Lead-sync failure alerts arrive through the same notifications.
@@ -38,10 +40,9 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] Add Nick's home IP and Dan's IP as more rules (Dmak + BetterCram: stream → Configure tag settings → Define internal traffic). mangiore.com uses Plausible, so its IPs go under Plausible → Site settings → Shields → IP addresses.
 - Note: the preview site (dmakshvac-redesign.netlify.app) reports into the same property until launch. Filter by hostname if those visits get in the way.
 
-## 3. Switch (after the 4 hours)
+## 3. Switch (independent of email; do whenever ready)
 
-- [ ] Send a test email to dan@dmakshvac.com and reply from his account. Don't continue until both work.
-- [ ] Point `www` at `dmakshvac-redesign.netlify.app` and the main domain at `75.2.60.5` (Netlify). Leave the mail record alone.
+- [ ] Point `www` at `dmakshvac-redesign.netlify.app` and the main domain at `75.2.60.5` (Netlify). Leave the MX/mail records alone.
 - [ ] Wait for Netlify to issue the SSL certificate.
 
 ## 4. Check right after
@@ -50,7 +51,7 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] The 6 old city addresses plus /contact-us/ and /about-us/ redirect to the new pages.
 - [ ] A form sent from the live domain reaches Dan, by email and in Jobber.
 - [ ] The tap-to-call links work.
-- [ ] Email still works both ways.
+- [ ] Email (Google Workspace) still works both ways.
 - [ ] You show up in GA4 Realtime.
 - [ ] Submit the sitemap in Search Console and update the website link on Dan's Google Business Profile.
 - [ ] Jobber: add `https://www.dmakshvac.com/jobber/callback` as a callback URL on the "DMAK Website Leads" app. No reconnect needed.
