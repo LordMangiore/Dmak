@@ -12,7 +12,8 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] Google verification TXT added (Oct 13); domain verified.
 - [x] MX is now `1 smtp.google.com` (TTL 300), old MX removed (Oct 13). Confirmed on the authoritative DNS and Google DNS.
 - [x] SPF replaced with `v=spf1 include:_spf.google.com ~all` (live on all 4 nameservers, Oct 13). Was: replace SPF with `v=spf1 include:_spf.google.com ~all`, or whatever Workspace shows. Nothing else sends as the domain: Netlify form emails come from Netlify.
-- [ ] Turn on DKIM in the Workspace admin and add its TXT record (in Netlify DNS; also in cPanel if before Oct 15). Optional: add a DMARC record (`_dmarc` TXT `v=DMARC1; p=none; rua=mailto:dan@dmakshvac.com`).
+- [x] DMARC added (Oct 13): `_dmarc` TXT `v=DMARC1; p=none` (monitor only, no report emails), in Netlify DNS + cPanel.
+- [ ] DKIM: waiting on Dan (admin.google.com → Apps → Google Workspace → Gmail → Authenticate email → Generate new record → send the `v=DKIM1; k=rsa; p=…` value). Add as `google._domainkey` TXT in Netlify DNS (+ cPanel if before Oct 15), then Dan clicks Start authentication.
 - [ ] Test: email dan@dmakshvac.com from outside and reply from it.
 - [ ] Later: add dan@dmakshvac.com as an owner of the Google Business Profile; point Netlify form notifications at it. Before the hosting ever lapses, download the old 266 MB mailbox if Dan wants it.
 
