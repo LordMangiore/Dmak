@@ -77,7 +77,7 @@ async function findClient(lead: Lead): Promise<string | null> {
 }
 
 async function createClient(lead: Lead): Promise<string> {
-  const input: Record<string, unknown> = { firstName: lead.firstName }
+  const input: Record<string, unknown> = { firstName: lead.firstName, sourceAttribution: { sourceText: "Website" } }
   if (lead.lastName) input.lastName = lead.lastName
   if (lead.phone) input.phones = [{ number: lead.phone, primary: true, description: "MAIN" }]
   if (lead.email) input.emails = [{ address: lead.email, primary: true, description: "MAIN" }]
