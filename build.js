@@ -506,31 +506,62 @@ const contact = () => page({ active:'contact', cta:false,
   </div>
 </div></section>` });
 
-const cityPage = c => page({ active:'area', cta:true,
+// Long-form local copy for town pages (content/towns.json). Towns without an entry
+// render the short version. Optional per-town fields: blurb, desc, headline, paras,
+// note, calls, faqs, nearby.
+let TOWNS = [];
+try { TOWNS = JSON.parse(dash(fs.readFileSync(path.join(ROOT, 'content', 'towns.json'), 'utf8'))); }
+catch (e) { console.warn('content/towns.json missing, town pages use the short version'); }
+const townFor = slug => TOWNS.find(t => t.slug === slug) || null;
+const areaName = a => a.name + (a.st === 'MO' ? ', MO' : '');
+const townLocal = (c, t) => !t || !t.paras ? '' : `
+<section class="band band-cream"><div class="wrap sd-2col">
+  <div><h2>${amp(t.headline)}</h2>${t.paras.map((p,i)=>`<p class="intro"${i?' style="margin-top:14px"':''}>${amp(p)}</p>`).join('')}
+    ${t.note ? `<div class="local-note"><div class="k" style="color:${RED}">HOW WE SERVE ${c.name.toUpperCase()}</div><p>${amp(t.note)}</p></div>` : ''}
+  </div>
+  ${t.calls ? `<div class="incl"><div class="k" style="color:${RED}">COMMON CALLS IN ${c.name.toUpperCase()}</div>
+    <div class="list" style="grid-template-columns:1fr">${t.calls.map(i=>`<div class="c"><b style="color:${RED}">✓</b>${amp(i)}</div>`).join('')}</div>
+  </div>` : ''}
+</div></section>`;
+const townFaqs = (c, t) => !t || !t.faqs ? '' : `<section class="band-cream" style="padding:0 0 40px"><div class="wrap">
+  <h2 class="title" style="font-size:28px;margin-bottom:20px">Questions from ${c.name}</h2>
+  <div class="faqs">${t.faqs.map(f=>`<div class="faq"><div class="q">${amp(f.q)}</div><p>${amp(f.a)}</p></div>`).join('')}</div>
+</div></section>
+`;
+const townNearby = (c, t) => {
+  const near = (t && t.nearby || []).map(s => AREAS.find(a => a.slug === s)).filter(Boolean);
+  return !near.length ? '' : `
+<section class="band-ink2" style="padding:40px 0"><div class="wrap">
+  <div class="eyebrow" style="margin-bottom:14px">NEARBY TOWNS WE SERVE</div>
+  <div class="chips">${near.map(a=>`<a class="chip" href="/service-area/${a.slug}/">${areaName(a)}</a>`).join('')}<a class="chip" href="/service-area/">Full service area</a></div>
+</div></section>`;
+};
+
+const cityPage = c => { const t = townFor(c.slug); return page({ active:'area', cta:true,
   title:`HVAC in ${c.name}, ${c.st} — Heating & Cooling | DMAK'S HVAC`,
-  desc:`Fast, honest HVAC in ${c.name}, ${c.st}. Furnace & AC repair, installs, humidifiers, and tune-ups from family-owned DMAK'S HVAC. Call (314) 420-9851.`,
-  schema:[localBusinessSchema(), breadcrumbSchema([['Home','/'],['Service Area','/service-area/'],[c.name+', '+c.st,'/service-area/'+c.slug+'/']])],
+  desc:(t && t.desc) || `Fast, honest HVAC in ${c.name}, ${c.st}. Furnace & AC repair, installs, humidifiers, and tune-ups from family-owned DMAK'S HVAC. Call (314) 420-9851.`,
+  schema:[localBusinessSchema(), ...(t && t.faqs ? [faqSchema(t.faqs)] : []), breadcrumbSchema([['Home','/'],['Service Area','/service-area/'],[c.name+', '+c.st,'/service-area/'+c.slug+'/']])],
   body:`
 <section class="band band-dark pos sd-hero" style="padding:56px 0 60px"><div class="wrap">
   <div class="grid">
     <div>
       <div class="crumb"><a href="/service-area/">Service Area</a> &nbsp;/&nbsp; ${c.name}, ${c.st}</div>
       <h1>Heating &amp; cooling in ${c.name}</h1>
-      <p class="tl">${amp(c.blurb)}</p>
+      <p class="tl">${amp((t && t.blurb) || c.blurb)}</p>
       <div class="actions" style="display:flex;gap:14px;margin-top:28px;flex-wrap:wrap"><a class="btn btn-red" href="${TEL}">Call ${PHONE}</a><a class="btn btn-outline" href="/contact/">Get a free quote</a></div>
     </div>
     <div class="sd-heroimg"><img src="${img('DSC07649-scaled.jpeg')}" alt="DMAK'S HVAC serving ${c.name}, ${c.st}"></div>
   </div>
-</div></section>
-<section class="band band-cream"><div class="wrap">
+</div></section>${townLocal(c, t)}
+<section class="band band-cream"${t && t.paras ? ' style="padding-top:0"' : ''}><div class="wrap">
   <div class="sec-head"><h2 class="title">Services in ${c.name}</h2><a class="link-red" href="/services/">All services →</a></div>
   <div class="svc-cards">${SERVICES.map(s=>svcCard(s, COMBOS ? c.slug : null)).join('')}</div>
 </div></section>
-<section class="band-cream" style="padding:0 0 20px"><div class="wrap">
+${townFaqs(c, t)}<section class="band-cream" style="padding:0 0 20px"><div class="wrap">
   <div class="sec-head"><h2 class="title" style="font-size:26px">${revHeading(c)}</h2>${revScore()}</div>
   <div class="rev-grid">${cityReviews(c, c.slug).map(r=>reviewCard(r,true)).join('')}</div>
 </div></section>
-<section class="band-cream" style="padding:0 0 56px"><div class="wrap"><div class="map"><iframe loading="lazy" title="${c.name} service area map" src="https://www.google.com/maps?q=${encodeURIComponent(c.name+', '+c.st)}&z=12&output=embed"></iframe></div></div></section>` });
+<section class="band-cream" style="padding:0 0 56px"><div class="wrap"><div class="map"><iframe loading="lazy" title="${c.name} service area map" src="https://www.google.com/maps?q=${encodeURIComponent(c.name+', '+c.st)}&z=12&output=embed"></iframe></div></div></section>${townNearby(c, t)}` }); };
 
 const comboPage = (svc, c, copy) => page({ active:'services', cta:true,
   title:`${COMBO_NAME[svc.id].replace(/&/g,'and')} in ${c.name}, ${c.st} | DMAK'S HVAC`,

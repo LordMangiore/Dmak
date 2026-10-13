@@ -1,0 +1,136 @@
+[
+  {
+    "slug": "edwardsville",
+    "desc": "Edwardsville HVAC from a crew based right here in town. Furnace and AC repair, installs and tune-ups for historic homes and new builds. Call (314) 420-9851.",
+    "headline": "From St. Louis Street to the newest subdivisions",
+    "paras": [
+      "Edwardsville has been a city since 1818, and its houses show it. The St. Louis Street Historic District is lined with late-1800s Queen Anne and Italianate homes. LeClaire started in the 1890s as N.O. Nelson's planned village and became part of the city in 1934. Around them sit mid-century ranches, rentals near SIUE, and newer subdivisions on the edges of town.",
+      "Each of those asks something different of a heating and cooling system. Tall ceilings and plaster walls in the older homes make ductwork and airflow the main event. Newer houses are built tighter, so sizing, filtration and humidity control matter more than raw horsepower. We look at the house first, then the equipment, so the fix actually fits."
+    ],
+    "note": "Edwardsville is home base for us, so calls in town are usually the quickest we run. Most repairs get handled the same day, with common parts already on the truck.",
+    "calls": [
+      "Furnaces and ACs past their service life in older homes",
+      "Uneven rooms in houses with retrofitted ductwork",
+      "Builder-grade systems in newer subdivisions that were never tuned",
+      "Rentals near SIUE that skipped years of maintenance"
+    ],
+    "faqs": [
+      { "q": "How fast can you get to an Edwardsville home?", "a": "Edwardsville is home base for us, so in-town calls are usually the quickest ones we run. We're open daily 8am to 8pm, and most repairs are handled the same day. If your heat or AC is out, say so when you call so we can get to you as fast as possible." },
+      { "q": "Can an 1800s house near St. Louis Street heat and cool evenly?", "a": "Usually, yes. Uneven rooms in older homes almost always come down to airflow: duct runs added decades after the house was built, too few return vents, or one system trying to cover two or three floors. We start with the ductwork and returns, then recommend the smallest change that fixes it, whether that's balancing, added returns, or a properly sized system for the upper floor." },
+      { "q": "I own a rental near SIUE. What maintenance actually matters?", "a": "Three things: filters, a furnace check before winter, and an AC check before summer. Tenants rarely change filters, and a clogged one is behind a lot of no-heat and frozen-coil calls. A spring and fall tune-up catches weak parts and clogged drain lines before they turn into a weekend emergency." }
+    ],
+    "nearby": ["glen-carbon", "maryville", "troy", "collinsville"]
+  },
+  {
+    "slug": "glen-carbon",
+    "blurb": "Glen Carbon borders Edwardsville, so you're minutes from our home base. We service everything from older ranch homes to the newer subdivisions across the village.",
+    "desc": "Glen Carbon HVAC from a crew right next door in Edwardsville. Furnace and AC repair, installs and tune-ups, same-day on most calls. Call (314) 420-9851.",
+    "headline": "A coal town that grew into the suburbs",
+    "paras": [
+      "Glen Carbon was incorporated in 1892 and named for the coal mines that built it. The mines are long gone, and the village has grown steadily since, from about 7,700 residents in 1990 to nearly 14,000 at the 2020 census. That growth left a mix of older homes near Main Street, plenty of ranch houses, and subdivisions built in waves over the last few decades.",
+      "Homes built in the same wave tend to have equipment that ages out at the same time, so when one neighbor's furnace goes, others aren't far behind. Ranch homes have their own quirk: the rooms farthest from the furnace sit at the end of the longest duct runs, and they're the first to feel it when airflow drops."
+    ],
+    "note": "Glen Carbon sits right on Edwardsville's southern border, so it's one of the shortest drives we make. Most repair calls here get handled the same day.",
+    "calls": [
+      "Original furnaces and ACs reaching the end of their life",
+      "Back bedrooms in ranch homes that never get comfortable",
+      "Subdivision systems that haven't been tuned since move-in",
+      "Dry winter air that's hard on wood floors and trim"
+    ],
+    "faqs": [
+      { "q": "Is Glen Carbon in your same-day area?", "a": "Yes. Glen Carbon borders Edwardsville, where we're based, so it's one of the shortest trips we make. Most repairs here are handled the same day, and we're open daily 8am to 8pm." },
+      { "q": "Why are the back bedrooms in my ranch house always too hot or too cold?", "a": "In a ranch, those rooms usually sit at the far end of the duct system, so they get whatever air is left after the rest of the house. Leaky or crushed ducts, a dirty filter, closed dampers, or too few return vents make it worse. Most of the time it's fixable with balancing and duct repair, not a new system." },
+      { "q": "Should I replace my furnace and AC at the same time?", "a": "Not always. If both are around 15 years old or older, replacing them together usually saves on labor compared with two separate jobs, and gets you a matched system that runs more efficiently. If one is much newer and in good shape, we'll tell you, and you can replace only what's failing." }
+    ],
+    "nearby": ["edwardsville", "maryville", "troy", "collinsville"]
+  },
+  {
+    "slug": "alton",
+    "desc": "Alton HVAC for historic river-town homes and newer builds alike. Furnace and AC repair, installs, humidifiers and tune-ups. Call (314) 420-9851.",
+    "headline": "Built on the bluffs, built to last",
+    "paras": [
+      "Alton's original town plat dates to 1817, and a lot of its housing predates central heat and air by a century or more. Christian Hill sits on the bluff above the Mississippi with homes going back to the 1830s. The Middletown Historic District covers more than 600 buildings, many of them Federal, Italianate and Queen Anne houses from the 1800s. Further from downtown the housing runs newer, from postwar ranches to recent construction.",
+      "Old houses like these can be heated and cooled well, but the work is different. Ducts have to be routed through closets and attics that were never meant for them, outdoor units have to fit on steep or narrow lots, and river-valley humidity punishes any system that's oversized or short on airflow."
+    ],
+    "note": "We make the run to Alton for repairs, tune-ups and full replacements, not just big jobs. If your heat or AC is out, call and we'll tell you when we can be there.",
+    "calls": [
+      "Muggy rooms from an AC that short-cycles in river-valley humidity",
+      "Older furnaces working through their last winters",
+      "Hot and cold rooms in homes with retrofitted ductwork",
+      "Bone-dry winter air in drafty older houses"
+    ],
+    "faqs": [
+      { "q": "Do you come out to Alton for small repairs, or only installs?", "a": "Both. We handle repairs, tune-ups, humidifiers and full system replacements in Alton. Call or book online and we'll confirm a time with you. If your heat or AC is out, tell us so we can get there as fast as possible." },
+      { "q": "Can a 19th-century house on Christian Hill have central air?", "a": "In most cases, yes. The challenge is the routing, not the equipment: running ducts through closets, attics and old chases without tearing up plaster, and finding a spot for the outdoor unit on a sloped lot. The right plan depends on the house, so we look at it in person before recommending anything." },
+      { "q": "Why does my Alton house feel damp even with the AC running?", "a": "Summer air in the river valley carries a lot of moisture, and an AC only removes it while it runs long enough. An oversized unit cools the house fast, shuts off, and leaves the humidity behind. A thermostat fan set to ON instead of AUTO can also put moisture back into the air. Checking sizing, airflow and fan settings usually points to the fix." }
+    ],
+    "nearby": ["godfrey", "bethalto", "wood-river", "edwardsville"]
+  },
+  {
+    "slug": "troy",
+    "desc": "Troy, IL HVAC: furnace and AC repair, new systems and tune-ups for Troy's growing neighborhoods. Same-day on most calls. Call (314) 420-9851.",
+    "headline": "A town that nearly tripled in forty years",
+    "paras": [
+      "Troy was platted in 1819, but most of its homes are much newer. The city had about 3,800 residents in 1980 and nearly 11,000 at the 2020 census, as subdivision after subdivision filled in around town. That means a large share of Troy houses were built in the last few decades, and many are still running their original equipment. The older homes near the center of town round out the mix.",
+      "Original builder-grade systems tend to hit trouble around the 10 to 15 year mark: worn capacitors, failing igniters and flame sensors, clogged condensate drains, tired blower motors. Caught during a tune-up, most of those are small repairs. Caught on the first cold night of the year, they're a no-heat call."
+    ],
+    "note": "Troy borders Glen Carbon and sits right off I-55/70, so it's an easy run from our Edwardsville base. Most repair calls here are handled the same day.",
+    "calls": [
+      "Original builder-grade furnaces and ACs aging out together",
+      "Capacitor, igniter and flame sensor failures",
+      "Clogged condensate drains causing leaks or shutdowns",
+      "Filters left in far too long"
+    ],
+    "faqs": [
+      { "q": "How far is Troy from you?", "a": "Not far. Troy borders Glen Carbon and is a short drive from our base in Edwardsville, right off I-55/70. Most repairs here get done the same day, and we're open daily 8am to 8pm." },
+      { "q": "My house is about 15 years old. What usually fails first?", "a": "On the furnace side: igniters, flame sensors and inducer motors. On the AC side: capacitors and contactors, which wear out fastest after hot summers. Clogged condensate drains are common on both and can shut the system down or leak water. A tune-up checks all of these before they leave you without heat or AC." },
+      { "q": "Is a smart thermostat worth it in a newer Troy home?", "a": "Often, yes. Newer homes usually have the wiring a smart thermostat needs, and a good schedule cuts run time while you're at work. If you have a heat pump, it needs to be set up correctly so it doesn't lean on backup heat more than necessary. We can install and set one up during a service visit." }
+    ],
+    "nearby": ["glen-carbon", "maryville", "edwardsville", "highland"]
+  },
+  {
+    "slug": "collinsville",
+    "blurb": "From Uptown and Main Street to the neighborhoods on both sides of the county line, we keep Collinsville homes comfortable year round with honest repairs and clean installs.",
+    "desc": "Collinsville HVAC: furnace and AC repair, installs and tune-ups on both the Madison and St. Clair County sides. Same-day on most calls. Call (314) 420-9851.",
+    "headline": "Uptown character, newer neighborhoods all around",
+    "paras": [
+      "Collinsville is a city of about 24,000 that spans two counties, mostly Madison with parts in St. Clair. Uptown and the streets around Main hold many of the older homes, and newer neighborhoods fill in the rest of town. Plenty of houses here have also been added onto over the years, which matters more for heating and cooling than most people expect.",
+      "An addition is usually tapped into ductwork that was sized for the original house, so the new room ends up starved for air and the old rooms lose some of theirs too. Older systems that came with the house are often running well past their expected life. Both show up as hot and cold rooms and higher bills long before anything actually breaks."
+    ],
+    "note": "Route 159 runs from our Edwardsville base through Glen Carbon straight into Collinsville, so we're a quick trip away. Most repair calls here are handled the same day.",
+    "calls": [
+      "Additions and finished basements that never get comfortable",
+      "Original equipment running past its expected life",
+      "ACs low on refrigerant from slow leaks",
+      "Systems that haven't had a tune-up in years"
+    ],
+    "faqs": [
+      { "q": "Do you cover all of Collinsville, including the St. Clair County side?", "a": "Yes. If you have a Collinsville address, you're in our service area, whichever county you're in. Route 159 makes it a quick trip from our base in Edwardsville, and most repairs are handled the same day." },
+      { "q": "Why is the addition on my house always too hot or too cold?", "a": "Most additions are tied into ductwork that was sized for the original house, so there isn't enough air left over to keep the new room comfortable. Sometimes balancing plus a dedicated supply or return run fixes it. If the system is now undersized for the whole house, we'll tell you that too." },
+      { "q": "How do I know if my AC is low on refrigerant?", "a": "Common signs: the AC runs but blows cool instead of cold, ice forms on the copper line or indoor coil, or you hear a hiss near the unit. Refrigerant doesn't get used up, so if it's low there's a leak. Topping it off without finding the leak only buys a little time." }
+    ],
+    "nearby": ["maryville", "glen-carbon", "granite-city", "st-louis-mo"]
+  },
+  {
+    "slug": "st-louis-mo",
+    "desc": "St. Louis HVAC: furnace and AC repair, installs and tune-ups for older brick homes and the near suburbs, from a crew just across the river. (314) 420-9851.",
+    "headline": "Brick houses, hot summers, and ductwork that came later",
+    "paras": [
+      "St. Louis has some of the oldest housing in the region: brick single-family homes, two-family flats and bungalows built long before central heat and air. Some still heat with a boiler and radiators, and many had forced air and AC added decades later, with ducts squeezed into closets, attics and old chimney chases.",
+      "Then there's the weather: hot, humid summers and cold winters, with records running from more than 20 below zero to over 110. That range is hard on any system that's undersized, oversized or fighting restrictive ductwork, and it's why so many St. Louis comfort problems turn out to be airflow problems as much as equipment problems."
+    ],
+    "note": "We cross the river from our Edwardsville base to serve St. Louis and the near suburbs, for repairs, tune-ups and full replacements.",
+    "calls": [
+      "Second floors that never cool down",
+      "Aging condensers on retrofitted central air",
+      "Undersized or leaky duct runs in older homes",
+      "Dry winter air that's hard on plaster and old woodwork"
+    ],
+    "faqs": [
+      { "q": "Do you really come across the river for service calls?", "a": "Yes. We serve St. Louis and the near suburbs from our base in Edwardsville, for repairs, tune-ups and replacements. Call (314) 420-9851 or book online and we'll confirm a time with you." },
+      { "q": "My brick house has radiators. Can I still get central air?", "a": "Often, yes. A common approach is a separate cooling system, with an air handler in the attic feeding vents in the upstairs ceilings, while the boiler keeps handling the heat. Most of the work is routing the ducts cleanly, so the right plan depends on the house." },
+      { "q": "Why is my second floor always so much hotter?", "a": "Heat rises, the roof bakes the upstairs all afternoon, and in many older homes the ducts to the second floor were added later and are too small or too long to keep up. Fixes range from sealing and balancing ducts and adding return air upstairs to a properly sized second system. We'll find which one your house needs." }
+    ],
+    "nearby": ["granite-city", "collinsville", "edwardsville", "alton"]
+  }
+]

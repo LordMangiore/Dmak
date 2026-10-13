@@ -76,7 +76,8 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [ ] Jobber Payments: Dan finishes business verification; add a "Customer login: quotes & invoices" link to his Client Hub on the site.
 - [ ] Seasonal tune-up reminders to past Jobber clients; optional maintenance-plan page.
 - [x] Google Business Profile booking: preferred link set to the website and Jobber's Google connection disabled (Oct 13). [ ] By Oct 16, check "Book online" on the listing opens www.dmakshvac.com/schedule-a/ (Google can take up to 72h).
-- [ ] More copy on the town pages.
+- [x] Town pages, part 1 (Oct 13): unique local copy, common calls, 3 FAQs + FAQPage schema and nearby links for the 6 towns the old WordPress URLs redirect to (Edwardsville, Glen Carbon, Alton, Troy, Collinsville, St. Louis), ~630-650 words each, from patch 0002. History facts spot-checked; LeClaire annexation corrected to 1934.
+- [ ] Town pages, part 2: same treatment for Maryville, Godfrey, Bethalto, Wood River, Granite City, Highland (still ~230 words of shared template).
 - [ ] Color contrast fixes.
 - [ ] Image compression.
 - [x] Facebook + Instagram: footer icons and schema `sameAs` (facebook.com/DmaksHVACLLC, instagram.com/dmakshvac). [ ] Set both profiles' website link to https://www.dmakshvac.com.
