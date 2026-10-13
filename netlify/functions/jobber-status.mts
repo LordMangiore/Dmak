@@ -24,6 +24,15 @@ export default async (req: Request) => {
   out.lastLead = await store().get("last-lead", { type: "json" })
   if (!out.connected) return Response.json(out)
 
+  // ?request=<id>: look one request up directly
+  const reqId = new URL(req.url).searchParams.get("request")
+  if (reqId) {
+    try {
+      out.request = (await gql(`query($id: EncodedId!) { request(id: $id) { id title createdAt requestStatus
+        client { id name } property { id address { street city province postalCode } } } }`, { id: reqId })).request
+    } catch (e) { out.requestError = String((e as Error).message) }
+  }
+
   // Most recent requests, to confirm website leads land with the right client + property
   try {
     const { __type: sk } = await gql(`{ __type(name: "RequestsSortKey") { enumValues { name } } }`)
