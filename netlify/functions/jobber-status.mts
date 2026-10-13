@@ -42,6 +42,12 @@ export default async (req: Request) => {
     schema["Client fields (property)"] = c.fields.map((f: any) => f.name).filter((n: string) => /propert|billing/i.test(n))
     const { __type: cp } = await gql(`{ __type(name: "ClientCreatePayload") { fields { name } } }`)
     schema["ClientCreatePayload fields"] = cp?.fields.map((f: any) => f.name)
+    const fieldsOf = async (name: string) => {
+      const { __type: t } = await gql(`query($n: String!) { __type(name: $n) { fields { name type { name kind ofType { name kind ofType { name } } } } } }`, { n: name })
+      return t ? t.fields.map((f: any) => `${f.name}:${typeName(f.type)}`) : "not found"
+    }
+    for (const n of ["PropertyCreatePayload", "Property", "PropertyAddress", "PropertyConnection"]) schema[n + " fields"] = await fieldsOf(n)
+    schema["Client.clientProperties type"] = (await fieldsOf("Client") as string[]).find(f => f.startsWith("clientProperties"))
     out.schema = schema
   } catch (e) {
     out.error = String((e as Error).message)
