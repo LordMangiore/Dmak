@@ -39,6 +39,23 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    // Mobile menu: hamburger opens the full nav; Escape or a wider screen closes it
+    var toggle = document.querySelector('.nav-toggle');
+    var menu = document.getElementById('mobile-menu');
+    if (toggle && menu) {
+      var setOpen = function (open) {
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        menu.hidden = !open;
+        document.body.classList.toggle('menu-open', open);
+      };
+      toggle.addEventListener('click', function () { setOpen(menu.hidden); });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !menu.hidden) { setOpen(false); toggle.focus(); }
+      });
+      window.matchMedia('(min-width:861px)').addEventListener('change', function (m) { if (m.matches) setOpen(false); });
+    }
+
     // Schedule page: preferred-day picker can't be in the past
     document.querySelectorAll('input[type=date][data-min-today]').forEach(function (i) {
       var d = new Date();

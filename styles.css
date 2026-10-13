@@ -11,7 +11,8 @@
   --cardsh:0 8px 24px rgba(0,0,0,.05);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:88px}
+html{scroll-behavior:smooth;scroll-padding-top:88px;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,label{-webkit-tap-highlight-color:rgba(206,63,38,.18)}
 body{margin:0;font-family:'Mulish',system-ui,sans-serif;color:var(--ink2);background:var(--cream);-webkit-font-smoothing:antialiased}
 img{max-width:100%;display:block}
 a{color:inherit;text-decoration:none}
@@ -61,9 +62,19 @@ h1,h2,h3,h4{font-family:'Archivo',sans-serif;margin:0;letter-spacing:-.01em}
 .nav a:hover,.nav a.active{color:#fff}
 .nav-quote{margin-left:6px}
 .nav-call{display:none;margin-left:auto}
-.nav-chips{display:none;gap:16px;overflow-x:auto;padding-bottom:12px;font:700 12px 'Mulish';-webkit-overflow-scrolling:touch}
-.nav-chips a{color:var(--md2);white-space:nowrap}
-.nav-chips a.active{color:var(--lblue)}
+/* Mobile menu (hamburger + drop panel under the sticky header) */
+.nav-toggle{display:none;flex:none;width:46px;height:46px;border:1.5px solid #3a3a40;border-radius:9px;background:transparent;cursor:pointer;padding:0;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.nav-toggle span{display:block;width:20px;height:2px;border-radius:1px;background:#fff;transition:.2s}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{border-top:1px solid #26262c;max-height:calc(100vh - 70px);max-height:calc(100dvh - 70px);overflow-y:auto;overscroll-behavior:contain}
+.mobile-menu[hidden]{display:none}
+.mobile-menu .wrap{display:flex;flex-direction:column;padding-top:6px;padding-bottom:18px}
+.mobile-menu a:not(.btn){display:block;padding:15px 2px;font:800 17px 'Mulish';color:var(--md2);border-bottom:1px solid #26262c}
+.mobile-menu a.active{color:#fff;box-shadow:inset 3px 0 0 var(--red);padding-left:14px}
+.mobile-menu .btn{margin-top:18px;box-shadow:none}
+body.menu-open{overflow:hidden}
 
 /* Hero */
 .hero .grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative}
@@ -298,8 +309,30 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
   .header-inner{gap:12px;min-height:auto;padding-top:12px;padding-bottom:10px}
   .brand img{width:34px;height:34px}
   .brand b{font-size:16px}
-  .brand span{font-size:8px;letter-spacing:.18em;margin-top:2px}
-  .nav-chips{display:flex;gap:14px;font-size:12px;padding-bottom:14px}
+  .brand span{font-size:9.5px;letter-spacing:.16em;margin-top:3px}
+  .nav-call{min-height:46px}
+  .nav-toggle{display:flex}
+  .mobile-menu{display:block}
+  html{scroll-padding-top:80px}
+  #quote{scroll-margin-top:80px}
+  /* 16px+ form text stops iOS Safari from zooming in when a field is tapped */
+  .form-card input,.form-card select,.form-card textarea{font-size:16px}
+  /* Phone-sized tap targets for inline text links */
+  .hero-book,.sv-quote,.link-red,.rev-score,.trust-link,.crumb a{display:inline-flex;align-items:center;min-height:44px}
+  .hero-book{margin-top:6px}
+  .sv-links{gap:8px 20px;flex-wrap:wrap}
+  .hero .actions{flex-direction:column;gap:12px}
+  .hero .actions .btn{width:100%}
+  .sym{min-height:64px}
+  .sym .sub{font-size:12px}
+  .svc-cards>.svc-card:last-child:nth-child(odd){grid-column:1/-1}
+  .svc-cards>.svc-card:last-child:nth-child(odd) .img{aspect-ratio:2/1}
+  .why .btn,.about-2col .btn{align-self:stretch;width:100%}
+  .radio-pill{padding:12px 16px;font-size:14px}
+  .form-fine a{display:inline-block;padding:8px 2px}
+  .map{aspect-ratio:1/1}
+  .footer a{line-height:1.2;padding:10px 0}
+  .footer .cd a{display:inline-block;line-height:1;padding:8px 0}
   .hero .grid,.split,.about-hero,.about-2col,.sd-hero .grid,.sd-2col,.contact-grid,.area-2col{grid-template-columns:1fr;gap:26px}
   .hero .blob-red,.hero .blob-blue{width:200px;height:200px}
   .hero h1{font-size:44px}
@@ -323,6 +356,19 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
 }
 @media(max-width:480px){
   .svc-cards{grid-template-columns:1fr 1fr}
-  .footer .grid{grid-template-columns:1fr;gap:24px}
+  .footer .grid{grid-template-columns:1fr 1fr;gap:24px 18px}
+  .footer .grid>div:first-child,.footer .grid>div:last-child{grid-column:1/-1}
   .footer .blurb{max-width:none}
+  .hero h1{font-size:40px}
+  .page-h1,.about-hero h1,.contact-info h1{font-size:30px}
+  .sd-hero h1{font-size:34px}
+  .contact-info .phone{font-size:30px}
+}
+@media(max-width:360px){
+  .wrap{padding:0 14px}
+  .hero h1{font-size:36px}
+  .brand b{font-size:15px}
+  .brand img{width:30px;height:30px}
+  .header-inner{gap:8px}
+  .nav-call{padding-left:14px;padding-right:14px}
 }
