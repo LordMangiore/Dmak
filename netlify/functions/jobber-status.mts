@@ -24,6 +24,18 @@ export default async (req: Request) => {
   out.lastLead = await store().get("last-lead", { type: "json" })
   if (!out.connected) return Response.json(out)
 
+  // Most recent requests, to confirm website leads land with the right client + property
+  try {
+    const { requests } = await gql(`{ requests(first: 6, sort: [{ key: CREATED_AT, direction: DESCENDING }]) { nodes {
+      title createdAt client { name } property { address { street city province postalCode } } } } }`)
+    out.recentRequests = requests.nodes.map((r: any) => ({
+      at: r.createdAt, client: r.client?.name, title: r.title,
+      property: r.property ? [r.property.address.street, r.property.address.city, r.property.address.province, r.property.address.postalCode].filter(Boolean).join(", ") : null,
+    }))
+  } catch (e) {
+    out.recentRequestsError = String((e as Error).message)
+  }
+
   try {
     const schema: Record<string, unknown> = {}
     for (const name of TYPES) {
