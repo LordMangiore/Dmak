@@ -11,7 +11,7 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] Change the MX record to `0 mail.dmakshvac.com`.
 - [ ] In the SPF record, replace `+a` with `ip4:69.72.136.205`.
 - [ ] Lower the TTL to 300 on the main domain, www and mail records.
-- [ ] On Dan's phone and computer, set the incoming and outgoing mail server to `mail.dmakshvac.com`. If either uses plain `dmakshvac.com`, his mail stops at the switch.
+- [ ] On Dan's phone and computer, set the incoming and outgoing mail server to `mail.dmakshvac.com` (skip if dan@ is just a forwarder to Gmail). If either uses plain `dmakshvac.com`, his mail stops at the switch.
 - [ ] Then wait at least 4 hours.
 
 ## 2. Site fixes (during the wait)
@@ -71,4 +71,4 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] Facebook link.
 - [x] 320px header: logo stays on one line and header keeps its padding down to 320px (verified at 320/360/375/390/412).
 - [x] Make the repo private (GitHub reports LordMangiore/Dmak is private).
-- [ ] Keep the old hosting for at least 2 weeks.
+- [ ] Keep the old hosting for at least 2 weeks. dan@dmakshvac.com is probably a cPanel forwarder to Dan's Gmail (check cPanel → Email → Forwarders / Email Accounts). The forwarding runs on the old host, so BEFORE cancelling: move it to a free forwarder (ImprovMX, or Cloudflare Email Routing) and change the MX to theirs. If it's a real mailbox, save its mail first.
