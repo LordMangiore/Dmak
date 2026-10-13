@@ -25,6 +25,7 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [ ] Claims: text Dan to confirm the shop is in town, the financing, "answered within the hour," and "licensed." Remove anything he can't confirm.
 - [x] Service area: 25 miles (straight line) from Edwardsville, 99 ZIPs from the Census ZIP file. Includes all 12 site towns, most of St. Louis city, north county, O'Fallon/Belleville IL. Just outside: Webster Groves, south city (63123/63125), Creve Coeur. Outside ZIPs can still book. To change the radius: `node tools/area-zips.js <2025_Gaz_zcta_national.txt> <miles>`, then commit `service-area-zips.js`.
 - [x] Not serviced: East St. Louis area ZIPs 62201, 62203, 62204, 62205, 62206, 62207 get "Sorry, Dan doesn't service this ZIP code" and can't book (`EXCLUDED` in tools/area-zips.js). Still serviced, nearby: Brooklyn 62059, Venice 62090, Madison 62060. Confirm with Dan.
+- [ ] Service-area tiers: green = known ZIPs (`CORE` in tools/area-zips.js: the 11 Illinois site towns), yellow = within 25 mi ("Dan will confirm") or beyond ("outside our usual area"), red = not serviced. Ask Dan which St. Louis ZIPs/neighborhoods should be green, then add them to `CORE` and re-run the script.
 - [ ] Domain: in Netlify, add `www.dmakshvac.com` as the primary domain and `dmakshvac.com` as an alias. The live site doesn't change until DNS does.
 
 ### GA4 property settings (property "Dmak", stream https://www.dmakshvac.com)
