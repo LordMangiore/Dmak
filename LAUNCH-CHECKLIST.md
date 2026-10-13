@@ -19,7 +19,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 ## 2. Site fixes
 
 - [x] Forms: form detection is on and redeployed. All 5 forms are registered (quote, schedule, schedule-a/b/c, plus the internal jobber-alerts form).
-- [ ] Forms: set email notifications to Dan and you (Netlify → Forms → Notifications). Lead-sync failure alerts arrive through the same notifications.
+- [x] Forms: email notifications set up in Netlify (Oct 13).
 - [ ] Forms: submit the quote and schedule forms from your phone on the preview site. All five forms were already tested by sending real submissions to the live site; they reached Netlify and Jobber.
 - [x] Analytics: GA4 `G-5BGJHY2MSM` on every page incl. scheduler A/B/C. Events: `generate_lead` (form_name, variant), `phone_call` (link_location), `scheduler_step` (variant, step). Add `?test` to any URL to keep that browser session out of GA4.
 - [x] Test pages: keep /schedule-a/, /schedule-b/ and /schedule-c/ live for now. They are the A/B scheduler variants still being tested, and they're wired into Jobber. Revisit once a winner is picked.
@@ -73,3 +73,4 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] 320px header: logo stays on one line and header keeps its padding down to 320px (verified at 320/360/375/390/412).
 - [x] Make the repo private (GitHub reports LordMangiore/Dmak is private).
 - [ ] Keep the old hosting for at least 2 weeks. dan@dmakshvac.com is probably a cPanel forwarder to Dan's Gmail (check cPanel → Email → Forwarders / Email Accounts). The forwarding runs on the old host, so BEFORE cancelling: move it to a free forwarder (ImprovMX, or Cloudflare Email Routing) and change the MX to theirs. If it's a real mailbox, save its mail first.
+- [ ] Move DNS off the old host to Netlify DNS (after DKIM + email test). Today the nameservers are hosting.com's (ns1-4.mysecurecloudhost.com), so cancelling or lapsing the old hosting (paid to Oct 15, 2027) would take down the site AND email. Steps: add dmakshvac.com to Netlify DNS, recreate site/MX/SPF/DKIM/google-site-verification records, then switch nameservers at the registrar (domain appears to be in Dan's hosting.com account).
