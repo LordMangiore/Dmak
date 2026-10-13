@@ -138,7 +138,7 @@
   var A_ON = 'cursor:pointer;border:none;background:' + RED + ';color:#fff;font:800 15px Mulish;letter-spacing:.04em;padding:17px 64px;border-radius:11px;box-shadow:0 12px 28px rgba(206,63,38,.32)';
   var A_OFF = 'border:none;background:#ece7df;color:#b8b2a8;font:800 15px Mulish;letter-spacing:.04em;padding:17px 64px;border-radius:11px;cursor:not-allowed';
   function initA(root) {
-    var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '', note: '' };
+    var st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', city: '', zip: '', phone: '', email: '', note: '' };
     var autoT;
     function canNext() { if (st.step === 0) return !!st.first.trim(); if (st.step === 4) return zip5(st.zip) && !notServiced(st.zip) && phoneOk(st.phone); return false; }
     function go(n) { var to = Math.max(0, Math.min(n, 5)); if (to > st.step) stepTo('A', to); st.step = to; render(true); }
@@ -220,10 +220,12 @@
         html += '<div' + scr + ' style="width:100%;max-width:520px;"><div style="display:flex;align-items:center;justify-content:center;gap:7px;font:700 12px Mulish;color:#8a857c;margin-bottom:14px;"><span style="width:14px;height:14px;border-radius:50%;background:#6FB1DE;display:inline-block;"></span>Central time (' + nowTime() + ')</div><div style="display:flex;flex-direction:column;gap:11px;">' + slots().map(optSlot).join('') + '</div></div>';
       if (st.step === 4)
         html += '<div' + scr + ' style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px;">'
-          + '<div style="position:relative;"><span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:' + RED + ';font-size:18px;">📍</span><input data-in="address" data-address aria-label="Street address and city" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="STREET ADDRESS, CITY" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 16px 16px 44px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
-          + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;"><div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP CODE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 40px 16px 16px;font:600 16px Mulish;background:#fff;outline:none;">'
-          + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div>'
-          + '<input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="PHONE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
+          + '<div style="position:relative;"><span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:' + RED + ';font-size:18px;">📍</span><input data-in="address" data-address aria-label="Street address" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="STREET ADDRESS" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 16px 16px 44px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
+          + '<div style="display:grid;grid-template-columns:1.3fr 1fr;gap:12px;"><input data-in="city" list="sc-towns-a" aria-label="City" autocomplete="address-level2" value="' + esc(st.city) + '" placeholder="CITY" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;">'
+          + '<datalist id="sc-towns-a">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>'
+          + '<div style="position:relative;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP CODE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 40px 16px 16px;font:600 16px Mulish;background:#fff;outline:none;">'
+          + (zipOk ? '<span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 12px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div></div>'
+          + '<input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="PHONE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;">'
           + '<input data-in="email" type="email" aria-label="Email (optional)" autocomplete="email" value="' + esc(st.email) + '" placeholder="EMAIL (OPTIONAL)" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;">'
           + noteBox(st, 'width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;')
           + areaLine(st.zip, 'center')
@@ -257,7 +259,7 @@
         if (!canNext()) return;
         if (st.step === 4) { st._ref = refNum(); submitNetlify('schedule-a', payload('A (Guided)', st)); go(5); }
         else go(st.step + 1);
-      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', zip: '', phone: '', email: '', note: '' }; render(true); }
+      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', city: '', zip: '', phone: '', email: '', note: '' }; render(true); }
     });
     root.addEventListener('input', function (e) {
       var inp = e.target.closest('[data-in]'); if (!inp) return;
