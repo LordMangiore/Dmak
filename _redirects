@@ -20,3 +20,5 @@
 /node_modules/*  /404.html  404!
 /package.json  /404.html  404!
 /package-lock.json  /404.html  404!
+/README.md  /404.html  404!
+/LAUNCH-CHECKLIST.md  /404.html  404!
