@@ -54,6 +54,8 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [ ] Email (Google Workspace) still works both ways.
 - [ ] You show up in GA4 Realtime.
 - [ ] Submit the sitemap in Search Console and update the website link on Dan's Google Business Profile.
+- [ ] Google still shows the OLD site's title/description/sitelinks (Oct 13). Search Console: add Domain property dmakshvac.com (TXT record → Netlify DNS, plus cPanel until ~Oct 15), submit sitemap, "Request indexing" on home + key pages.
+- [ ] Duplicate site `dmaks-hvac.square.site` (Square Online) competes in search. Ask Dan: unpublish it (keep Square payments if used) or point it to dmakshvac.com.
 - [ ] Jobber: add `https://www.dmakshvac.com/jobber/callback` as a callback URL on the "DMAK Website Leads" app. No reconnect needed.
 
 ## Jobber integration
@@ -76,7 +78,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [ ] More copy on the town pages.
 - [ ] Color contrast fixes.
 - [ ] Image compression.
-- [ ] Facebook link.
+- [ ] Facebook link: get the page URL ("Dmak's HVAC | Edwardsville IL", 370+ followers) → add to site footer + schema `sameAs`; set the Facebook page's website to https://www.dmakshvac.com.
 - [x] 320px header: logo stays on one line and header keeps its padding down to 320px (verified at 320/360/375/390/412).
 - [x] Make the repo private (GitHub reports LordMangiore/Dmak is private).
 - [ ] Keep the old hosting for at least 2 weeks. dan@dmakshvac.com is probably a cPanel forwarder to Dan's Gmail (check cPanel → Email → Forwarders / Email Accounts). The forwarding runs on the old host, so BEFORE cancelling: move it to a free forwarder (ImprovMX, or Cloudflare Email Routing) and change the MX to theirs. If it's a real mailbox, save its mail first.
