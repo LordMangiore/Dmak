@@ -694,7 +694,7 @@ const schedulerVariantPage = v => `<!DOCTYPE html>
   /* Phones: start near the top, compact header, smaller headline, full-width button (scheduler A markup) */
   @media(max-width:560px){
     body{padding:50px 10px 14px;justify-content:flex-start}
-    .sc-home{top:14px;left:14px}
+    .sc-home{position:absolute;top:14px;left:14px} /* scrolls away instead of floating over the card */
     .sc-card{min-height:0;border-radius:18px}
     .a-head{padding:14px 16px 0 !important}
     .a-brand{flex-direction:row !important;justify-content:center;gap:9px !important;margin-bottom:12px !important}
