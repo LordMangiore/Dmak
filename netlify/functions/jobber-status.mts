@@ -89,6 +89,7 @@ export default async (req: Request) => {
     }
     schema["RequestDetailsInput (tree)"] = await walk("RequestDetailsInput", 0, new Set())
     schema["RequestCreateNoteInput (tree)"] = await walk("RequestCreateNoteInput", 0, new Set())
+    schema["FormSectionInput (tree)"] = await walk("FormSectionInput", 0, new Set())
     schema["Client.clientProperties type"] = (await fieldsOf("Client") as string[]).find(f => f.startsWith("clientProperties"))
     out.schema = schema
   } catch (e) {
