@@ -72,6 +72,23 @@ export default async (req: Request) => {
       return t ? t.fields.map((f: any) => `${f.name}:${typeName(f.type)}`) : "not found"
     }
     for (const n of ["PropertyCreatePayload", "Property", "PropertyAddress", "PropertyConnection"]) schema[n + " fields"] = await fieldsOf(n)
+    // Request "Service details" (the form section Jobber's own request form fills in)
+    const walk = async (name: string, depth: number, seen: Set<string>): Promise<any> => {
+      if (depth > 4 || seen.has(name)) return name
+      seen.add(name)
+      const { __type: t } = await gql(`query($n: String!) { __type(name: $n) { kind enumValues { name } inputFields { name type { name kind ofType { name kind ofType { name kind ofType { name } } } } } } }`, { n: name })
+      if (!t) return "not found"
+      if (t.enumValues) return t.enumValues.map((v: any) => v.name)
+      if (!t.inputFields) return t.kind
+      const out: Record<string, unknown> = {}
+      for (const f of t.inputFields) {
+        let ty = f.type; while (ty.ofType) ty = ty.ofType
+        out[f.name + ":" + typeName(f.type)] = ty.kind === "INPUT_OBJECT" || ty.kind === "ENUM" ? await walk(ty.name, depth + 1, seen) : ty.name
+      }
+      return out
+    }
+    schema["RequestDetailsInput (tree)"] = await walk("RequestDetailsInput", 0, new Set())
+    schema["RequestCreateNoteInput (tree)"] = await walk("RequestCreateNoteInput", 0, new Set())
     schema["Client.clientProperties type"] = (await fieldsOf("Client") as string[]).find(f => f.startsWith("clientProperties"))
     out.schema = schema
   } catch (e) {
