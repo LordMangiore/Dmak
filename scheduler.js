@@ -116,6 +116,9 @@
 
     function optProblem(p) {
       var active = st.problem === p.id;
+      if (p.id === 'other')
+        return '<button type="button" data-pick="problem" data-id="other" style="grid-column:1/-1;position:relative;cursor:pointer;background:' + (active ? 'rgba(206,63,38,.05)' : 'transparent') + ';border:1.5px dashed ' + (active ? RED : '#d8d2c8') + ';border-radius:14px;padding:13px 16px;font-family:Mulish,sans-serif;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px;text-align:center;">'
+          + '<span style="font:800 15px Mulish;color:#1b1a18;">' + esc(p.label) + '?</span><span style="font:500 13px Mulish;color:#8a857c;">' + esc(p.sub) + ' →</span></button>';
       return '<button type="button" data-pick="problem" data-id="' + p.id + '" style="' + (p.id === 'other' ? 'grid-column:1/-1;' : '') + 'position:relative;text-align:left;cursor:pointer;background:#fff;border:1.5px solid ' + (active ? RED : '#e6e1d8') + ';border-radius:14px;padding:16px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:3px;">'
         + (active ? '<span style="position:absolute;inset:0;border:2px solid ' + RED + ';border-radius:14px;background:rgba(206,63,38,.05);pointer-events:none;"></span>' : '')
         + '<span style="display:flex;align-items:center;gap:9px;"><span style="width:11px;height:11px;border-radius:50%;background:' + p.accent + ';flex:none;"></span><span style="font:800 15px Mulish;color:#1b1a18;">' + esc(p.label) + '</span></span>'
@@ -259,7 +262,9 @@
           + '<p style="font:400 15px Mulish;color:#9b9ba1;margin:12px 0 22px;">Tap it. I\'ll show you the soonest I can be there.</p>'
           + '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px;">'
           + PROBLEMS.map(function (p) {
-            return '<button type="button" data-pickb="' + p.id + '" style="' + (p.id === 'other' ? 'grid-column:1/-1;' : '') + 'text-align:left;cursor:pointer;background:#1f1f23;border:1px solid #2e2e34;border-radius:14px;padding:17px 16px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:5px;transition:all .15s;"><span style="width:13px;height:13px;border-radius:50%;background:' + p.accent + ';"></span><span style="font:800 16px Mulish;color:#fff;margin-top:4px;">' + esc(p.bLabel) + '</span><span style="font:500 12.5px Mulish;color:#8a8a90;">' + esc(p.bSub) + '</span></button>';
+            if (p.id === 'other')
+              return '<button type="button" data-pickb="other" style="grid-column:1/-1;cursor:pointer;background:transparent;border:1px dashed #3a3a40;border-radius:14px;padding:14px 16px;font-family:Mulish,sans-serif;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 10px;text-align:center;transition:all .15s;"><span style="font:800 15px Mulish;color:#fff;">' + esc(p.bLabel) + '?</span><span style="font:500 13px Mulish;color:#8a8a90;">' + esc(p.sub) + ' →</span></button>';
+            return '<button type="button" data-pickb="' + p.id + '" style="text-align:left;cursor:pointer;background:#1f1f23;border:1px solid #2e2e34;border-radius:14px;padding:17px 16px;font-family:Mulish,sans-serif;display:flex;flex-direction:column;gap:5px;transition:all .15s;"><span style="width:13px;height:13px;border-radius:50%;background:' + p.accent + ';"></span><span style="font:800 16px Mulish;color:#fff;margin-top:4px;">' + esc(p.bLabel) + '</span><span style="font:500 12.5px Mulish;color:#8a8a90;">' + esc(p.bSub) + '</span></button>';
           }).join('') + '</div></div>';
       } else if (st.step === 'book') {
         html += '<div' + scr + '><button type="button" data-act="back" style="cursor:pointer;border:none;background:none;color:#8a8a90;font:800 13px Mulish;padding:0 0 12px;display:inline-flex;align-items:center;gap:5px;">← Change</button>'
