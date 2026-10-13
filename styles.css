@@ -372,3 +372,31 @@ h2.title{font:900 40px 'Archivo';text-transform:uppercase;letter-spacing:-.01em;
   .header-inner{gap:8px}
   .nav-call{padding-left:14px;padding-right:14px}
 }
+
+/* ---------- Mobile UX pass 2: quote forms + Problem Solver ---------- */
+/* html already has scroll-padding-top for the sticky header; a scroll-margin on #quote doubled the offset */
+#quote{scroll-margin-top:0}
+@media(max-width:860px){
+  #quote{scroll-margin-top:0}
+  /* Quote / contact / schedule sections: heading, then the form, then phone + hours */
+  section.band-red:has(> .wrap > .contact-grid){padding:26px 0 40px !important}
+  .contact-grid{display:flex;flex-direction:column;align-items:stretch !important;gap:0}
+  .contact-info{display:contents}
+  .contact-info .eyebrow{order:1}
+  .contact-info h1,.contact-info h2{order:2;font-size:30px !important;line-height:1.02 !important;margin:8px 0 18px !important}
+  .contact-grid>.form-card{order:3;padding:22px 18px}
+  .contact-info .lead{display:none}
+  .contact-info .phone{order:4;margin:28px 0 6px;padding-top:24px;border-top:1px solid rgba(255,255,255,.25)}
+  .contact-info .cd{order:5}
+  .contact-info .hours{order:6}
+  /* Problem Solver: one tappable row per symptom, answer opens under the row you tapped */
+  .solver{padding:20px 16px 16px}
+  .solver .sv-title{font-size:22px;margin:4px 0 12px}
+  .sv-grid{grid-template-columns:1fr;gap:8px}
+  .sym{min-height:60px;padding:12px 46px 12px 14px;justify-content:center}
+  .sym .lb{font-size:16px}
+  .sym .sub{font-size:13px}
+  .sym::after{content:"";position:absolute;right:20px;top:50%;width:8px;height:8px;border-right:2px solid #8a8a90;border-bottom:2px solid #8a8a90;transform:translateY(-75%) rotate(45deg);transition:transform .2s}
+  .sym.active::after{transform:translateY(-25%) rotate(-135deg);border-color:#fff}
+  .sv-grid>.sv-result{margin:0 0 6px}
+}
