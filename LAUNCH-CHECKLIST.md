@@ -23,6 +23,7 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [x] Test pages: keep /schedule-a/, /schedule-b/ and /schedule-c/ live for now. They are the A/B scheduler variants still being tested, and they're wired into Jobber. Revisit once a winner is picked.
 - [x] Booking links: every "Schedule" / "Book online" / "Book a visit" link now goes to scheduler A (`BOOK_URL` in build.js). /schedule/ stays live for search and old links; B and C stay unlinked.
 - [ ] Claims: text Dan to confirm the shop is in town, the financing, "answered within the hour," and "licensed." Remove anything he can't confirm.
+- [ ] Service-area ZIPs: confirm with Dan (`AREA_ZIPS` in scheduler.js). Currently: the 12 site towns, East Alton, Roxana, South Roxana, Hartford, Madison, Venice, Worden, Hamel, Marine, St. Jacob, Caseyville, Moro, Alhambra, Dorsey, Cottage Hills, and St. Louis 631xx. Other ZIPs can still book; they see "a bit outside our usual area, Dan will let you know."
 - [ ] Domain: in Netlify, add `www.dmakshvac.com` as the primary domain and `dmakshvac.com` as an alias. The live site doesn't change until DNS does.
 
 ### GA4 property settings (property "Dmak", stream https://www.dmakshvac.com)

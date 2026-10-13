@@ -704,7 +704,8 @@ const schedulerVariantPage = v => `<!DOCTYPE html>
     .a-body{padding:18px 16px 18px !important;justify-content:flex-start !important}
     .a-back{position:static !important;align-self:flex-start;margin-bottom:10px}
     .a-h1{font-size:25px !important;line-height:1.18 !important;margin-bottom:20px !important}
-    .a-body input,.a-body textarea{padding:14px 12px !important}
+    .a-body input:not([data-address]),.a-body textarea{padding:14px 12px !important}
+    .a-body input[data-address]{padding:14px 12px 14px 40px !important} /* room for the 📍 */
     .a-cta{margin-top:20px !important;width:100%}
     .a-cta .sc-cta{width:100%;padding:16px !important}
     .a-grid{grid-template-columns:1fr 1fr !important;gap:8px !important}

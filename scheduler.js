@@ -45,6 +45,17 @@
   function refNum() { return 'DMAK-' + (1000 + Math.floor(Math.random() * 9000)); }
   var esc = function (s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); };
   var zip5 = function (v) { return /^\d{5}$/.test(v); };
+  // Dan's service area by ZIP: the 12 towns on the site plus the small towns between them, and
+  // St. Louis (631xx). CONFIRM WITH DAN. Outside ZIPs can still book; they just aren't told "you're in our area".
+  var AREA_ZIPS = ['62025','62026','62034','62062','62294','62234','62002','62035','62010','62095','62040','62249', // the 12 site towns (excl. St. Louis)
+    '62024','62084','62087','62048','62060','62090','62097','62046','62061','62281','62232','62067','62001','62021','62018']; // nearby: East Alton, Roxana, S. Roxana, Hartford, Madison, Venice, Worden, Hamel, Marine, St. Jacob, Caseyville, Moro, Alhambra, Dorsey, Cottage Hills
+  var inArea = function (z) { return zip5(z) && (AREA_ZIPS.indexOf(z) !== -1 || /^631\d\d$/.test(z)); };
+  var areaLine = function (z, align, extra) {
+    if (!zip5(z)) return '';
+    return inArea(z)
+      ? '<div style="display:flex;align-items:center;justify-content:' + align + ';gap:8px;font:700 13px Mulish;color:#2f8a52;' + (extra || '') + '"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;flex:none;"></span>You\'re in our service area.</div>'
+      : '<div style="display:flex;align-items:flex-start;justify-content:' + align + ';gap:8px;font:600 13px/1.45 Mulish;color:#8a6a2f;text-align:left;' + (extra || '') + '"><span style="width:8px;height:8px;border-radius:50%;background:#E0823F;flex:none;margin-top:5px;"></span>That\'s a bit outside our usual area. Book anyway, and Dan will let you know if he can make it.</div>';
+  };
   var phoneOk = function (v) { return v.replace(/\D/g, '').length >= 10; }; // needs a real 10-digit number
   var digitsOnly = function (v) { return v.replace(/[^0-9]/g, '').slice(0, 5); };
 
@@ -195,7 +206,7 @@
           + '<input data-in="phone" type="tel" inputmode="tel" aria-label="Phone number" autocomplete="tel" value="' + esc(st.phone) + '" placeholder="PHONE" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
           + '<input data-in="email" type="email" aria-label="Email (optional)" autocomplete="email" value="' + esc(st.email) + '" placeholder="EMAIL (OPTIONAL)" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;">'
           + noteBox(st, 'width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px;font:600 16px Mulish;background:#fff;outline:none;')
-          + (zipOk ? '<div style="display:flex;align-items:center;justify-content:center;gap:8px;font:700 13px Mulish;color:#2f8a52;"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;"></span>You\'re in our service area.</div>' : '')
+          + areaLine(st.zip, 'center')
           + '</div>';
 
       if (isCta && !done)
@@ -343,7 +354,7 @@
       if (st.stage >= 1) m.push({ t: 'bot', text: 'How soon do you need us?' });
       if (st.stage > 1 && urg) { m.push({ t: 'user', text: urg.label }); m.push({ t: 'bot', text: urg.reply }); }
       if (st.stage >= 2) m.push({ t: 'bot', text: 'Where are you? A zip gets us started.' });
-      if (st.stage > 2 && zip5(st.zip)) { m.push({ t: 'user', text: st.zip }); m.push({ t: 'bot', text: "Perfect, that's right in our area." }); }
+      if (st.stage > 2 && zip5(st.zip)) { m.push({ t: 'user', text: st.zip }); m.push({ t: 'bot', text: inArea(st.zip) ? "Perfect, that's right in our area." : "That's a little outside our usual area, but go ahead and book. Dan will let you know if he can make it." }); }
       if (st.stage >= 3) m.push({ t: 'bot', text: "Here are the soonest openings." });
       if (st.stage > 3 && s) { m.push({ t: 'user', text: s.short }); m.push({ t: 'bot', text: 'Got it.' }); }
       if (st.stage >= 4) m.push({ t: 'bot', text: st.problem === 'other' ? "Last thing: how can Dan reach you, and what's going on?" : 'Last thing, how can Dan reach you?' });
@@ -394,7 +405,7 @@
         }).join('') + '</div>';
       if (st.stage === 2) {
         h += '<div style="' + anim(0.04) + 'position:relative;margin-bottom:9px;"><input data-in="zip" inputmode="numeric" maxlength="5" aria-label="ZIP code" value="' + esc(st.zip) + '" placeholder="ZIP code" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:14px 44px 14px 15px;font:600 16px Mulish;background:#fff;outline:none;">' + (zipOk ? '<span style="position:absolute;right:13px;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:#4ec97a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 13px Mulish;animation:scPop .3s ease;">✓</span>' : '') + '</div>';
-        if (zipOk) h += '<div style="display:flex;align-items:center;gap:8px;font:700 13px Mulish;color:#2f8a52;margin-bottom:11px;"><span style="width:8px;height:8px;border-radius:50%;background:#4ec97a;"></span>You\'re in our service area.</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="address" data-address aria-label="Street address" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="Street address" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"><input data-in="city" list="sc-towns" aria-label="City" autocomplete="address-level2" value="' + esc(st.city) + '" placeholder="City" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"></div><datalist id="sc-towns">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>';
+        if (zipOk) h += areaLine(st.zip, 'flex-start', 'margin-bottom:11px;') + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;"><input data-in="address" data-address aria-label="Street address" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="Street address" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"><input data-in="city" list="sc-towns" aria-label="City" autocomplete="address-level2" value="' + esc(st.city) + '" placeholder="City" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:12px 14px;font:500 16px Mulish;background:#fff;outline:none;"></div><datalist id="sc-towns">' + TOWNS.map(function (t) { return '<option value="' + t + '"></option>'; }).join('') + '</datalist>';
       }
       if (st.stage === 3)
         h += '<div style="' + anim(0.02) + 'display:flex;align-items:center;gap:7px;font:700 11.5px Mulish;color:#8a857c;margin-bottom:9px;"><span style="width:14px;height:14px;border-radius:50%;background:#6FB1DE;display:inline-block;"></span>Central time (' + nowTime() + ')</div><div style="display:flex;flex-direction:column;gap:9px;">' + slots().map(function (s, i) {
