@@ -75,7 +75,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [ ] Google review requests after completed jobs (Jobber's review feature → Dan's Google listing).
 - [ ] Jobber Payments: Dan finishes business verification; add a "Customer login: quotes & invoices" link to his Client Hub on the site.
 - [ ] Seasonal tune-up reminders to past Jobber clients; optional maintenance-plan page.
-- [ ] Google Business Profile booking button: Dan set the preferred link to the website (Oct 13), but Jobber's connected request form overrides it. In Jobber: Settings → Requests & Booking → (form connected to Google) ⋯ Edit → Settings → Google Business Profile → Disable. Google can take up to 72h; check by Oct 16 that "Book online" opens www.dmakshvac.com/schedule-a/.
+- [x] Google Business Profile booking: preferred link set to the website and Jobber's Google connection disabled (Oct 13). [ ] By Oct 16, check "Book online" on the listing opens www.dmakshvac.com/schedule-a/ (Google can take up to 72h).
 - [ ] More copy on the town pages.
 - [ ] Color contrast fixes.
 - [ ] Image compression.
