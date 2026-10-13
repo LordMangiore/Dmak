@@ -247,7 +247,8 @@ const page = ({title, desc, active, body, cta = true, schema, noindex = false}) 
 <link rel="icon" href="/images/favicon.png">
 <link rel="apple-touch-icon" href="/images/favicon.png">
 <link rel="canonical" href="__CANONICAL__">
-<meta name="theme-color" content="#141416">${noindex ? '\n<meta name="robots" content="noindex">' : ''}
+<meta name="theme-color" content="#141416">
+<meta name="google-site-verification" content="p5uUSRDIdBMbQbFqjGguzp8snmTnznc9RMVBL6eq9W8">${noindex ? '\n<meta name="robots" content="noindex">' : ''}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DMAK'S HVAC LLC">
 <meta property="og:title" content="${title}">
