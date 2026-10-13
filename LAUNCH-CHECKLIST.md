@@ -29,7 +29,8 @@ DNS is managed in the old host's control panel, so these changes happen there.
 - [x] Custom dimensions: Scheduler variant (`variant`), Lead form (`form_name`), Scheduler step (`step`), Call link location (`link_location`).
 - [x] Event data retention raised from 2 to 14 months.
 - [ ] Mark `generate_lead` and `phone_call` as key events (Admin → Events → star them). This is only possible after GA4 has seen each event once, up to 24h after the first real one.
-- [ ] Internal traffic filter for your and Dan's IPs (Admin → Data streams → Configure tag settings → Define internal traffic, then activate the filter under Data filters).
+- [x] Internal traffic: rule "Nick work" (71.91.229.8) added and the Internal Traffic filter set to Active, on both Dmak and BetterCram.
+- [ ] Add Nick's home IP and Dan's IP as more rules (Dmak + BetterCram: stream → Configure tag settings → Define internal traffic). mangiore.com uses Plausible, so its IPs go under Plausible → Site settings → Shields → IP addresses.
 - Note: the preview site (dmakshvac-redesign.netlify.app) reports into the same property until launch. Filter by hostname if those visits get in the way.
 
 ## 3. Switch (after the 4 hours)
