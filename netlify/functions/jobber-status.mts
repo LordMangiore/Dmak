@@ -3,7 +3,7 @@
 import type { Config } from "@netlify/functions"
 import { API_VERSION, checkSetupKey, gql, store, tokenStatus } from "../lib/jobber.mts"
 
-const TYPES = ["ClientCreateInput", "RequestCreateInput", "AssessmentCreateInput", "RequestDetailsInput",
+const TYPES = ["PropertyCreateInput", "PropertyCreateAttributes", "ClientCreateInput", "RequestCreateInput", "AssessmentCreateInput", "RequestDetailsInput",
   "PhoneNumberCreateAttributes", "PhoneNumberDescription", "EmailCreateAttributes", "EmailDescription",
   "AddressAttributes", "PropertyAttributes", "SourceAttributionAttributes"]
 
@@ -34,6 +34,14 @@ export default async (req: Request) => {
     }
     const { __type: q } = await gql(`{ __type(name: "Query") { fields { name args { name } } } }`)
     schema["Query.clients args"] = q.fields.find((f: any) => f.name === "clients")?.args.map((a: any) => a.name)
+    // Property handling: which mutations exist and what a Client exposes
+    const { __type: m } = await gql(`{ __type(name: "Mutation") { fields { name args { name type { name kind ofType { name } } } } } }`)
+    schema["Mutation (property/request)"] = m.fields.filter((f: any) => /propert|request/i.test(f.name))
+      .map((f: any) => f.name + "(" + f.args.map((a: any) => a.name + ":" + (a.type.name || a.type.ofType?.name)).join(", ") + ")")
+    const { __type: c } = await gql(`{ __type(name: "Client") { fields { name } } }`)
+    schema["Client fields (property)"] = c.fields.map((f: any) => f.name).filter((n: string) => /propert|billing/i.test(n))
+    const { __type: cp } = await gql(`{ __type(name: "ClientCreatePayload") { fields { name } } }`)
+    schema["ClientCreatePayload fields"] = cp?.fields.map((f: any) => f.name)
     out.schema = schema
   } catch (e) {
     out.error = String((e as Error).message)
