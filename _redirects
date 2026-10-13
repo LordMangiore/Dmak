@@ -18,6 +18,9 @@
 # Not part of the site
 /netlify/*  /404.html  404!
 /node_modules/*  /404.html  404!
+/tools/*  /404.html  404!
+/content/*  /404.html  404!
+/build.js  /404.html  404!
 /package.json  /404.html  404!
 /package-lock.json  /404.html  404!
 /README.md  /404.html  404!
