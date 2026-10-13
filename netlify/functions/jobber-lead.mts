@@ -76,7 +76,7 @@ export function toLead(d: Record<string, string>): Lead {
       ["How soon do you need us?", clean(d.urgency)],
       ["Preferred time", when],
       ["Please provide as much information as you can", clean(d.message) || clean(d.notes)],
-      ["How did you hear about us?", `Website (dmakshvac.com, ${isBooking ? "online booking" : "quote form"} "${form}")`],
+      ["How did you hear about us?", `Website (${isBooking ? "online booking" : "quote form"})`],
     ] as [string, string][]).filter(([, v]) => v),
   }
 }
