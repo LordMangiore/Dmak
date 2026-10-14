@@ -54,7 +54,7 @@ The old host's dan@dmakshvac.com forwarded to dmakshvac@gmail.com and kept a 266
 - [x] The tap-to-call links work (tested on phone, Oct 13).
 - [ ] Email (Google Workspace) still works both ways.
 - [ ] You show up in GA4 Realtime.
-- [x] Sitemap submitted in Search Console (Oct 13; showed "Couldn't fetch" at first, which is normal; recheck Oct 14). Search Console ownership kept: old site's HTML verification tag carried over to the new site, plus a backup method verified. [ ] Update the website link on Dan's Google Business Profile.
+- [x] Sitemap submitted in Search Console (Oct 13) and processed successfully Oct 14: 85 pages discovered; Breadcrumbs enhancement detected. Watch Indexing → Pages grow from the old site's 9 over the next few weeks. Search Console ownership kept: old site's HTML verification tag carried over to the new site, plus a backup method verified. [ ] Update the website link on Dan's Google Business Profile.
 - [x] Google still shows the OLD site's title/description/sitelinks (Oct 13). Search Console: add Domain property dmakshvac.com (TXT record → Netlify DNS, plus cPanel until ~Oct 15), submit sitemap, "Request indexing" on home + key pages. Indexing requested for home + key pages (Oct 13); recheck the search listing in a few days.
 - [ ] Duplicate site `dmaks-hvac.square.site` (Square Online) competes in search. Ask Dan: unpublish it (keep Square payments if used) or point it to dmakshvac.com.
 - [ ] Jobber: add `https://www.dmakshvac.com/jobber/callback` as a callback URL on the "DMAK Website Leads" app. No reconnect needed.
