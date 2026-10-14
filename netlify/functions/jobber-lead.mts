@@ -161,6 +161,14 @@ export default {
   async formSubmitted(event: FormSubmittedEvent) {
     // Our own failure alerts are form submissions too; never push those to Jobber
     if (event.data.alert || event.data["form-name"] === ALERT_FORM) return
+    // Second line of defense behind Netlify's spam filter: bots post straight to the form endpoint,
+    // so they skip the required "problem" field and usually paste links. Keep those out of Jobber
+    // (the submission is still in Netlify Forms for review).
+    const text = `${event.data.message || ""} ${event.data.notes || ""}`
+    if (!(event.data.problem || event.data.service) || /https?:\/\/|<a\s|\[url=/i.test(text)) {
+      console.warn(`Skipped likely spam (${event.data["form-name"] || "form"}): ${event.data.name || "?"} <${event.data.email || ""}>`)
+      return
+    }
     const lead = toLead(event.data)
     try {
       const existing = await findClient(lead)
