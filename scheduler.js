@@ -37,6 +37,40 @@
       { id: 's4', day: third,      window: '8:00 – 10:00 AM', wShort: '8 – 10 AM',  short: third + ', 8–10 AM' }
     ];
   }
+  // "Pick another day": the next 14 days (no Sundays) with 2-hour windows; Saturday is mornings only.
+  // Custom slot ids look like "c:2026-10-21:0" (date : window index) and resolve through slotById().
+  var WINDOWS = [
+    { start: 8,  window: '8:00 – 10:00 AM',  wShort: '8 – 10 AM' },
+    { start: 10, window: '10:00 AM – 12:00 PM', wShort: '10 AM – 12 PM' },
+    { start: 12, window: '12:00 – 2:00 PM',  wShort: '12 – 2 PM' },
+    { start: 14, window: '2:00 – 4:00 PM',   wShort: '2 – 4 PM' },
+    { start: 16, window: '4:00 – 6:00 PM',   wShort: '4 – 6 PM' }
+  ];
+  var DOW = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function isoDay(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function windowsFor(d) {
+    var now = new Date(), today = isoDay(d) === isoDay(now);
+    return WINDOWS.map(function (w, i) { return { i: i, w: w }; }).filter(function (x) {
+      if (d.getDay() === 6 && x.w.start >= 12) return false;
+      return !today || x.w.start > now.getHours() + 1; // today: only windows starting 1h+ out
+    });
+  }
+  function pickDays() {
+    var out = [], d = new Date();
+    for (var n = 0; n < 15 && out.length < 14; n++) {
+      var x = new Date(d.getFullYear(), d.getMonth(), d.getDate() + n);
+      if (x.getDay() !== 0 && windowsFor(x).length) out.push(x);
+    }
+    return out;
+  }
+  function dayLabel(d) { return DOW[d.getDay()] + ', ' + MON[d.getMonth()] + ' ' + d.getDate(); }
+  function slotById(id) {
+    var m = /^c:(\d{4})-(\d{2})-(\d{2}):(\d)$/.exec(id || '');
+    if (!m) return slots().find(function (x) { return x.id === id; });
+    var d = new Date(+m[1], +m[2] - 1, +m[3]), w = WINDOWS[+m[4]];
+    return w && { id: id, day: dayLabel(d), window: w.window, wShort: w.wShort, short: dayLabel(d) + ', ' + w.wShort };
+  }
   function nowTime() {
     var d = new Date(), h = d.getHours(), m = d.getMinutes();
     var ap = h >= 12 ? 'PM' : 'AM'; h = h % 12; if (h === 0) h = 12;
@@ -101,7 +135,7 @@
   function summaryData(st) {
     var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
     var urg = URGENCIES.find(function (u) { return u.id === st.urgency; });
-    var s = slots().find(function (x) { return x.id === st.slot; });
+    var s = slotById(st.slot);
     // Only what the visitor actually entered: "1 Main St, Edwardsville · 62025" (no placeholder text)
     var loc = [st.address, st.city].map(function (x) { return (x || '').trim(); }).filter(Boolean).join(', ') + (st.zip ? ' · ' + st.zip : '');
     return { prob: prob, urg: urg, slot: s, rows: [
@@ -114,7 +148,7 @@
   function payload(variant, st) {
     var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
     var urg = URGENCIES.find(function (u) { return u.id === st.urgency; });
-    var s = slots().find(function (x) { return x.id === st.slot; });
+    var s = slotById(st.slot);
     return {
       variant: variant,
       name: st.name || ((st.first || '') + ' ' + (st.last || '')).trim(),
@@ -184,6 +218,7 @@
         "Here's the soonest I can swing by.",
         'Where are we headed' + (first ? ', ' + first : '') + '?'
       ];
+      var headline = st.step === 3 && st.pick ? 'When works for you' + (first ? ', ' + first : '') + '?' : headlines[Math.min(st.step, 4)];
       var isCta = st.step === 0 || st.step === 4, can = canNext();
       var ctaLabel = st.step === 0 ? "LET'S GO" : 'BOOK IT →';
 
@@ -206,7 +241,7 @@
       if (st.step > 0 && !done)
         html += '<button type="button" data-act="back" class="a-back" style="position:absolute;left:28px;top:14px;cursor:pointer;border:none;background:none;color:#a7a29a;font:800 13px Mulish;padding:0;display:inline-flex;align-items:center;gap:5px;">← Back</button>';
       if (!done)
-        html += '<h1' + scr.replace('class="', 'class="a-h1 ') + (scr ? '' : ' class="a-h1"') + ' style="font:700 34px/1.18 Archivo,sans-serif;color:#2a2620;letter-spacing:-.01em;max-width:640px;margin:0 0 34px;">' + esc(headlines[Math.min(st.step, 4)]) + '</h1>';
+        html += '<h1' + scr.replace('class="', 'class="a-h1 ') + (scr ? '' : ' class="a-h1"') + ' style="font:700 34px/1.18 Archivo,sans-serif;color:#2a2620;letter-spacing:-.01em;max-width:640px;margin:0 0 34px;">' + esc(headline) + '</h1>';
 
       if (st.step === 0)
         html += '<div' + scr + ' style="width:100%;max-width:560px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">'
@@ -216,8 +251,26 @@
         html += '<div' + scr.replace('class="', 'class="a-grid ') + (scr ? '' : ' class="a-grid"') + ' style="width:100%;max-width:620px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;">' + PROBLEMS.map(optProblem).join('') + '</div>';
       if (st.step === 2)
         html += '<div' + scr + ' style="width:100%;max-width:520px;display:flex;flex-direction:column;gap:11px;">' + URGENCIES.map(optUrg).join('') + '</div>';
-      if (st.step === 3)
-        html += '<div' + scr + ' style="width:100%;max-width:520px;"><div style="display:flex;align-items:center;justify-content:center;gap:7px;font:700 12px Mulish;color:#8a857c;margin-bottom:14px;"><span style="width:14px;height:14px;border-radius:50%;background:#6FB1DE;display:inline-block;"></span>Central time (' + nowTime() + ')</div><div style="display:flex;flex-direction:column;gap:11px;">' + slots().map(optSlot).join('') + '</div></div>';
+      var tz = '<div style="display:flex;align-items:center;justify-content:center;gap:7px;font:700 12px Mulish;color:#8a857c;margin-bottom:14px;"><span style="width:14px;height:14px;border-radius:50%;background:#6FB1DE;display:inline-block;"></span>Central time (' + nowTime() + ')</div>';
+      if (st.step === 3 && !st.pick)
+        html += '<div' + scr + ' style="width:100%;max-width:520px;">' + tz + '<div style="display:flex;flex-direction:column;gap:11px;">' + slots().map(optSlot).join('') + '</div>'
+          + '<button type="button" data-act="pickday" style="margin-top:18px;cursor:pointer;border:none;background:none;padding:6px;font:700 14px Mulish;color:#6a655d;">None of these work? <span style="color:' + RED + ';font-weight:800;">Pick another day →</span></button></div>';
+      if (st.step === 3 && st.pick) {
+        var days = pickDays();
+        if (!days.some(function (d) { return isoDay(d) === st.pickDay; })) st.pickDay = isoDay(days[0]);
+        var sel = days.find(function (d) { return isoDay(d) === st.pickDay; });
+        html += '<div' + scr + ' style="width:100%;max-width:520px;">' + tz
+          + '<div class="a-days" style="display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;margin-bottom:8px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;">'
+          + days.map(function (d) {
+              var on = isoDay(d) === st.pickDay;
+              return '<button type="button" data-day="' + isoDay(d) + '" aria-pressed="' + on + '" style="flex:none;scroll-snap-align:start;width:62px;cursor:pointer;border:1.5px solid ' + (on ? RED : '#e6e1d8') + ';background:' + (on ? RED : '#fff') + ';color:' + (on ? '#fff' : '#1b1a18') + ';border-radius:12px;padding:9px 0;font-family:Mulish,sans-serif;display:flex;flex-direction:column;align-items:center;gap:1px;">'
+                + '<span style="font:800 10.5px Mulish;letter-spacing:.08em;opacity:' + (on ? 1 : .6) + ';">' + DOW[d.getDay()].slice(0, 3).toUpperCase() + '</span>'
+                + '<span style="font:800 20px Archivo,sans-serif;">' + d.getDate() + '</span>'
+                + '<span style="font:700 10.5px Mulish;opacity:' + (on ? 1 : .6) + ';">' + MON[d.getMonth()] + '</span></button>';
+            }).join('') + '</div>'
+          + '<div style="display:flex;flex-direction:column;gap:11px;">' + windowsFor(sel).map(function (x) { return optSlot({ id: 'c:' + st.pickDay + ':' + x.i, day: x.w.window, window: x.w.start < 12 ? 'Morning' : x.w.start < 14 ? 'Midday' : 'Afternoon' }); }).join('') + '</div>'
+          + '<a href="' + TEL + '" style="display:inline-block;margin-top:18px;text-decoration:none;font:700 14px Mulish;color:#6a655d;">Still nothing? <span style="color:' + RED + ';font-weight:800;">Call Dan and he\'ll find a time</span></a></div>';
+      }
       if (st.step === 4)
         html += '<div' + scr + ' style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px;">'
           + '<div style="position:relative;"><span style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:' + RED + ';font-size:18px;">📍</span><input data-in="address" data-address aria-label="Street address" autocomplete="street-address" value="' + esc(st.address) + '" placeholder="STREET ADDRESS" style="width:100%;border:1.5px solid #e2ddd5;border-radius:11px;padding:16px 16px 16px 44px;font:600 16px Mulish;background:#fff;outline:none;"></div>'
@@ -247,19 +300,23 @@
       if (!done)
         html += '<a href="' + TEL + '" style="flex:none;text-decoration:none;border-top:1px solid #ece7df;padding:13px;display:flex;align-items:center;justify-content:center;gap:8px;font:800 13px Mulish;color:' + RED + ';">📞 Emergency? Call ' + PHONE + '</a>';
 
+      var strip = root.querySelector('.a-days'), sx = strip ? strip.scrollLeft : 0; // keep the day strip where it was
       root.innerHTML = html;
+      if (strip && (strip = root.querySelector('.a-days'))) strip.scrollLeft = sx;
     }
 
     root.addEventListener('click', function (e) {
+      var day = e.target.closest('[data-day]'); if (day) { st.pickDay = day.getAttribute('data-day'); render(false); return; }
       var pick = e.target.closest('[data-pick]'); if (pick) { st[pick.getAttribute('data-pick')] = pick.getAttribute('data-id'); render(false); auto(); return; }
       var act = e.target.closest('[data-act]'); if (!act) return;
       var a = act.getAttribute('data-act');
-      if (a === 'back') { clearTimeout(autoT); go(st.step - 1); }
+      if (a === 'back') { clearTimeout(autoT); if (st.step === 3 && st.pick) { st.pick = false; render(true); } else go(st.step - 1); }
+      else if (a === 'pickday') { st.pick = true; track('scheduler_pick_day', { variant: 'A' }); render(true); }
       else if (a === 'next') {
         if (!canNext()) return;
         if (st.step === 4) { st._ref = refNum(); submitNetlify('schedule-a', payload('A (Guided)', st)); go(5); }
         else go(st.step + 1);
-      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', city: '', zip: '', phone: '', email: '', note: '' }; render(true); }
+      } else if (a === 'restart') { clearTimeout(autoT); st = { step: 0, first: '', last: '', problem: null, urgency: null, slot: null, address: '', city: '', zip: '', phone: '', email: '', note: '', pick: false, pickDay: null }; render(true); }
     });
     root.addEventListener('input', function (e) {
       var inp = e.target.closest('[data-in]'); if (!inp) return;
@@ -368,7 +425,7 @@
     function fullMsgs() {
       var prob = ALL_PROBLEMS.find(function (p) { return p.id === st.problem; });
       var urg = URGENCIES.find(function (u) { return u.id === st.urgency; });
-      var s = slots().find(function (x) { return x.id === st.slot; });
+      var s = slotById(st.slot);
       var first = (st.name.trim().split(' ')[0]) || '';
       var m = [];
       m.push({ t: 'bot', text: "Hi! This is DMAK'S HVAC's booking assistant. Answer a few quick questions and Dan will confirm your visit himself." });
